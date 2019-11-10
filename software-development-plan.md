@@ -2,7 +2,7 @@
 ### For **Heich-aR-eM**
 
 #### Founder, Caleb Leung - 10.11.19
-![Logo](./logo.png)
+![logo](./logo.png)
 
 ## **Statement of Purpose and Scope**
 
