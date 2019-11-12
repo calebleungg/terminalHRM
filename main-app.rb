@@ -20,6 +20,7 @@ class UserInterface
     @@industry = ""
     @@total_employees = 0
 
+    # method for creating company when initialising application
     def self.create_company()
         print "Company Name: "
         @@company = "Coder Academy"#gets.chomp.to_s
@@ -31,6 +32,7 @@ class UserInterface
         @@user = "Caleb"#gets.chomp.to_s
     end
 
+    # method for displaying company information as the header display 
     def self.header()
         system("clear")
         puts "------ Heich-aR-eM -------\n\n"
@@ -40,10 +42,6 @@ class UserInterface
         puts "Employee count:   #{@@total_employees}" 
     end
 
-
-    def self.control_panel()
-        puts "Job list [1] Job Management [2] Back [3] Exit [x]"
-    end
 end
 
 # class specific to Jobs Listing functionality used to store job listings features
@@ -53,6 +51,7 @@ class JobsOverview < UserInterface
     @@open_job_count = 4
     @@table_info = []
 
+    # class method for displaying tabular job listing information
     def self.display()
         @@table_info = []
         puts "\nJob Opportunities Overview (Open Positions)\n\n"
@@ -63,18 +62,22 @@ class JobsOverview < UserInterface
         print_table(@@table_info)
     end
 
+    # class method for displaying control panel 
     def self.control_panel()
         puts "\nCreate Job [1], Edit Job Details [2], Manage Job [3], Exit [x]"
     end
 
+    # method for accessing job list 
     def self.joblist()
         @@joblist
     end
 
+    # method for accessing job_count 
     def self.open_job_count()
         @@open_job_count
     end
 
+    # method for creating a job opportunity
     def self.create()
         job = {}
         UserInterface.header()
@@ -96,6 +99,7 @@ class JobsOverview < UserInterface
         @@open_job_count += 1 
     end
 
+    # method for editing a job opportunity information
     def self.edit()
         UserInterface.header()
         self.display()
@@ -125,7 +129,7 @@ end
 
 # class for Managing selected job
 class JobManager < JobsOverview
-    attr_accessor :title, :type, :salary, :openings, :start_date, :manager, :applications, :cumulative
+    attr_accessor :title, :type, :salary, :openings, :start_date, :manager, :applications, :cumulative, :column_count
     attr_accessor :candidate_pool, :applied_pool, :contacted_pool, :screened_pool, :shortlisted_pool, :interview_pool, :offer_pool, :accepted_pool
 
     def initialize(id, title, type, salary, openings, start_date, manager)
@@ -139,6 +143,8 @@ class JobManager < JobsOverview
         @offer_pool = []
         @accepted_pool = []
 
+        @column_count = [@applied_pool.length, @contacted_pool.length, @screened_pool.length, @shortlisted_pool.length, @interview_pool.length, @offer_pool.length, @accepted_pool.length]
+
         @id = id
         @title = title
         @type = type
@@ -150,13 +156,25 @@ class JobManager < JobsOverview
 
         @cumulative = []
 
+        @interview = {}
+
     end
 
+    # method for pushing new candidate name into the applied candidate pool
     def self.add_applied(name)
         @applied_pool.push(name)
     end
 
+    # method for updating column statistics 
+    def self.update_columns(job)
+        job.column_count = [
+            job.applied_pool.length, job.contacted_pool.length, 
+            job.screened_pool.length, job.shortlisted_pool.length, 
+            job.interview_pool.length, job.offer_pool.length, job.accepted_pool.length
+        ]
+    end
 
+    # method for displaying job information in the header UI
     def self.header_ui(id, job)
         system("clear")
         puts "------ Heich-aR-eM -------\n\n"
@@ -169,38 +187,49 @@ class JobManager < JobsOverview
         puts "Reporting to:     #{job.manager}\n\n"
     end
 
-    def self.progress_bar(job) 
-        job.cumulative = []
-        if job.candidate_pool.length == 0
-            x = 0
-        else
-            x = job.candidate_pool.length
+    # method for adding candidates in each pool to the tabular display
+    def self.add_to_column(job, pool, column, cumulative)
+        counter = 0
+        for i in pool
+            cumulative[counter][column] = i
+            counter += 1
         end
+    end
+
+    # method for displaying candidate progression stages in tabular form
+    def self.progress_bar(job) 
+        JobManager.update_columns(job)
+        job.cumulative = []
+
+        x = job.column_count.max
+        counter = 0 
+
         until x == 0
-            x.times { job.cumulative.push(["", "", "", "", "", "", ""]) }
-            for i in job.applied_pool
-                job.cumulative[x-1][0] = i
-                x -= 1
-            end
+            job.cumulative.push(["", "", "", "", "", "", ""])
+            x -= 1 
         end
 
+        JobManager.add_to_column(job, job.applied_pool, 0, job.cumulative)
+        JobManager.add_to_column(job, job.contacted_pool, 1, job.cumulative)
+        JobManager.add_to_column(job, job.screened_pool, 2, job.cumulative)
+        JobManager.add_to_column(job, job.shortlisted_pool, 3, job.cumulative)
+        JobManager.add_to_column(job, job.interview_pool, 4, job.cumulative)
+        JobManager.add_to_column(job, job.offer_pool, 5, job.cumulative)
+        JobManager.add_to_column(job, job.accepted_pool, 6, job.cumulative)
+
         table = Terminal::Table.new :headings => [
-            "Applied [a] - (#{job.applied_pool.length})", "Contacted [c]", 
-            "Screened [s]", "Shortlisted [sl]", 
-            "Interview [i]", "Offer [o]", 
-            "Accepted [a]" 
+            "Applied [a] - (#{job.applied_pool.length})", "Contacted [c] - (#{job.contacted_pool.length})", 
+            "Screened [s] - (#{job.screened_pool.length})", "Shortlisted [sl] - (#{job.shortlisted_pool.length})", 
+            "Interview [i] - (#{job.interview_pool.length})", "Offer [o] - (#{job.offer_pool.length})", 
+            "Accepted [y] - (#{job.accepted_pool.length})" 
             ], :rows => job.cumulative 
         puts table
     
     end
 
+    # method for displaying job management controls
     def self.control_panel()
         puts "\nCreate Candidate [1], View Candidate [2], Progress Candidate [3], Schedule Interview [4], Offer Candidate [5], Back [b]"
-    end
-
-    def self.option()
-        option = gets.chomp.to_s
-        return option
     end
 
 end
@@ -219,6 +248,7 @@ class Candidate
         @status = "Applied"
     end
 
+    # method for creating a candidate
     def self.create(job)
         puts "Enter candidate details,"
         print "Name: "
@@ -237,6 +267,7 @@ class Candidate
         job.applications += 1
     end
 
+    # method for viewing candidate details
     def self.view(job)
         puts "- View Candidate -"
         print "Enter name: "
@@ -257,22 +288,56 @@ class Candidate
             end
         end
         puts "Couldnt find candidate..."
-        sleep 2
+        puts "\nPress Enter to return"
+        gets
+    end
+
+    # method for moving candidates between pools
+    def self.move(candidate, current_stage, new_stage)
+        current_stage.delete(candidate)
+        new_stage.push(candidate)
+    end
+
+    # method for progressing candidate into next stage of recruitment
+    def self.progress(job)
+        puts "- Select candidate to be progressed -"
+        print "Enter Name: "
+        name = gets.chomp.to_s
+        for i in job.candidate_pool
+            if i.name == name
+                status = i.status
+                case status 
+                when "Applied"
+                    i.status = "Contacted"
+                    Candidate.move(i.name, job.applied_pool, job.contacted_pool)
+                    return
+                when "Contacted"
+                    i.status = "Screened"
+                    Candidate.move(i.name, job.contacted_pool, job.screened_pool)
+                    return
+                when "Screened"
+                    i.status = "Shortlisted"
+                    Candidate.move(i.name, job.screened_pool, job.shortlisted_pool)
+                    return
+                when "Shortlisted"
+                    i.status = "Interview"
+                    Candidate.move(i.name, job.shortlisted_pool, job.interview_pool)
+                    return
+                when "Interviewed"
+                    i.status = "Offered"
+                    Candidate.move(i.name, job.interview_pool, job.offer_pool)
+                    return
+                when "Interviewed"
+                    i.status = "Accepted"
+                    Candidate.move(i.name, job.offer_pool, job.accepted_pool)
+                    return
+                end
+            end
+        end
     end
 
 end
 
-
-# entering dummy jobs for testing
-job1 = JobManager.new("1000", "Store Manager", "Permanent - Full Time", "70,000", 1, "30/11/19", "Jody Foster")
-job2 = JobManager.new("1001", "Stock Filler", "Casual - Part Time", "24.50/hour", 3, "15/12/19", "Andy Lee")   
-job3 = JobManager.new("1002", "Floor Assistant", "Casual - Part Time", "24.50/hour", 2, "15/12/19", "Charles Dickens")   
-job4 = JobManager.new("1003", "Senior Butcher", "Permanent - Full Time", "65,000", 1, "27/11/19", "Shingo Nakamura")  
-
-JobsOverview.joblist.store("1000", job1)
-JobsOverview.joblist.store("1001", job2)
-JobsOverview.joblist.store("1002", job3)
-JobsOverview.joblist.store("1003", job4)
 
 
 # main script
@@ -312,6 +377,8 @@ while app_on
                 Candidate.create(JobsOverview.joblist[id])
             when "2"
                 Candidate.view(JobsOverview.joblist[id])
+            when "3"
+                Candidate.progress(JobsOverview.joblist[id])
             when "b"
                 manage = false
             end
