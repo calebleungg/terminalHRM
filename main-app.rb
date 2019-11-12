@@ -143,7 +143,11 @@ class JobManager < JobsOverview
         @offer_pool = []
         @accepted_pool = []
 
-        @column_count = [@applied_pool.length, @contacted_pool.length, @screened_pool.length, @shortlisted_pool.length, @interview_pool.length, @offer_pool.length, @accepted_pool.length]
+        @column_count = [
+            @applied_pool.length, @contacted_pool.length, 
+            @screened_pool.length, @shortlisted_pool.length, 
+            @interview_pool.length, @offer_pool.length, @accepted_pool.length
+        ]
 
         @id = id
         @title = title
@@ -188,7 +192,7 @@ class JobManager < JobsOverview
     end
 
     # method for adding candidates in each pool to the tabular display
-    def self.add_to_column(job, pool, column, cumulative)
+    def self.add_to_column(pool, column, cumulative)
         counter = 0
         for i in pool
             cumulative[counter][column] = i
@@ -209,35 +213,39 @@ class JobManager < JobsOverview
             x -= 1 
         end
 
-        JobManager.add_to_column(job, job.applied_pool, 0, job.cumulative)
-        JobManager.add_to_column(job, job.contacted_pool, 1, job.cumulative)
-        JobManager.add_to_column(job, job.screened_pool, 2, job.cumulative)
-        JobManager.add_to_column(job, job.shortlisted_pool, 3, job.cumulative)
-        JobManager.add_to_column(job, job.interview_pool, 4, job.cumulative)
-        JobManager.add_to_column(job, job.offer_pool, 5, job.cumulative)
-        JobManager.add_to_column(job, job.accepted_pool, 6, job.cumulative)
+        JobManager.add_to_column(job.applied_pool, 0, job.cumulative)
+        JobManager.add_to_column(job.contacted_pool, 1, job.cumulative)
+        JobManager.add_to_column(job.screened_pool, 2, job.cumulative)
+        JobManager.add_to_column(job.shortlisted_pool, 3, job.cumulative)
+        JobManager.add_to_column(job.interview_pool, 4, job.cumulative)
+        JobManager.add_to_column(job.offer_pool, 5, job.cumulative)
+        JobManager.add_to_column(job.accepted_pool, 6, job.cumulative)
 
         table = Terminal::Table.new :headings => [
             "Applied [a] - (#{job.applied_pool.length})", "Contacted [c] - (#{job.contacted_pool.length})", 
             "Screened [s] - (#{job.screened_pool.length})", "Shortlisted [sl] - (#{job.shortlisted_pool.length})", 
             "Interview [i] - (#{job.interview_pool.length})", "Offer [o] - (#{job.offer_pool.length})", 
-            "Accepted [y] - (#{job.accepted_pool.length})" 
+            "Accepted [y] - (#{job.accepted_pool.length})"
             ], :rows => job.cumulative 
         puts table
     
     end
 
+    def self.schedule_interview(job)
+
     # method for displaying job management controls
     def self.control_panel()
-        puts "\nCreate Candidate [1], View Candidate [2], Progress Candidate [3], Schedule Interview [4], Offer Candidate [5], Back [b]"
+        puts "\nCreate Candidate [1], View Candidate [2], Progress Candidate [3], Schedule Interview [4]"
+        puts "Email Candidate [5], Make Note [6], Back [b]"
     end
 
 end
 
+
 # class for Candidate creation and management
 class Candidate
     attr_reader :name, :occupation, :email, :number, :address
-    attr_accessor :status    
+    attr_accessor :status, :notes
 
     def initialize(name, occupation, email, number, address) 
         @name = name
@@ -246,6 +254,7 @@ class Candidate
         @number = number
         @address = address
         @status = "Applied"
+        @notes = {}
     end
 
     # method for creating a candidate
@@ -271,9 +280,9 @@ class Candidate
     def self.view(job)
         puts "- View Candidate -"
         print "Enter name: "
-        name = gets.chomp.to_s
+        name = gets.chomp.to_s.downcase
         for i in job.candidate_pool
-            if i.name == name
+            if i.name.downcase == name
                 puts "=============================="
                 puts "Details"
                 puts "=============================="
@@ -282,8 +291,35 @@ class Candidate
                 puts "Email:        #{i.email}"
                 puts "Number:       #{i.number}"
                 puts "Address:      #{i.address}"
+                puts "------------------------------"
+                puts "Notes: "
+                puts "------------------------------"
+                for key, value in i.notes
+                    puts "Date: #{key}"
+                    puts value
+                    puts "------------------------------"
+                end
                 puts "\nPress Enter to return."
                 gets
+                return
+            end
+        end
+        puts "Couldnt find candidate..."
+        puts "\nPress Enter to return"
+        gets
+    end
+
+    def self.make_note(job)
+        puts "- Make Note - "
+        print "For (Enter Name): "
+        name = gets.chomp.to_s.downcase
+        for i in job.candidate_pool
+            if i.name.downcase == name
+                print "Enter Date: "
+                date = gets.chomp.to_s
+                puts "Type Note Below, (Press Enter to save)"
+                note = gets.chomp.to_s
+                i.notes.store(date, note)
                 return
             end
         end
@@ -302,9 +338,9 @@ class Candidate
     def self.progress(job)
         puts "- Select candidate to be progressed -"
         print "Enter Name: "
-        name = gets.chomp.to_s
+        name = gets.chomp.to_s.downcase
         for i in job.candidate_pool
-            if i.name == name
+            if i.name.downcase == name
                 status = i.status
                 case status 
                 when "Applied"
@@ -323,21 +359,77 @@ class Candidate
                     i.status = "Interview"
                     Candidate.move(i.name, job.shortlisted_pool, job.interview_pool)
                     return
-                when "Interviewed"
+                when "Interview"
                     i.status = "Offered"
                     Candidate.move(i.name, job.interview_pool, job.offer_pool)
                     return
-                when "Interviewed"
+                when "Offered"
                     i.status = "Accepted"
                     Candidate.move(i.name, job.offer_pool, job.accepted_pool)
                     return
                 end
             end
         end
+        puts "Invalid Candidate, please enter name correctly. "
+        puts "\nPress Enter to return."
+        gets
+        return
     end
 
 end
 
+
+
+# entering dummy jobs for testing
+job1 = JobManager.new("1000", "Store Manager", "Permanent - Full Time", "70,000", 1, "30/11/19", "Jody Foster")
+job2 = JobManager.new("1001", "Stock Filler", "Casual - Part Time", "24.50/hour", 3, "15/12/19", "Andy Lee")   
+job3 = JobManager.new("1002", "Floor Assistant", "Casual - Part Time", "24.50/hour", 2, "15/12/19", "Charles Dickens")   
+job4 = JobManager.new("1003", "Senior Butcher", "Permanent - Full Time", "65,000", 1, "27/11/19", "Shingo Nakamura")  
+
+JobsOverview.joblist.store("1000", job1)
+JobsOverview.joblist.store("1001", job2)
+JobsOverview.joblist.store("1002", job3)
+JobsOverview.joblist.store("1003", job4)
+
+list1 =[]
+list2 =[]
+list3 =[]
+
+candidate1 = Candidate.new("James Mackavoy", "Actor", "jmackavoy@gmail.com", "0400 000 111", "81 cresent round India Valley")
+candidate2 = Candidate.new("Andrew Simon", "Professional Cricket Player", "ilovecricket@hotmail.com", "0400 000 222", "1/232 complex 3 James Street")
+candidate3 = Candidate.new("Steve Jobs", "Apple CEO", "apple@apple.io", "0400 000 333", "100 Edward Street Brisbane City")
+candidate4 = Candidate.new("Daniel Napalm", "Student", "daniel.napalm@gmail.com", "0400 000 444", "223 Adelaide Avenue Tasmania")
+candidate5 = Candidate.new("Elizabeth Warren", "Politician", "voteforme1@usa.com", "0400 000 555", "8 Court House Road West End")
+candidate6 = Candidate.new("Glen Kumar", "Educator at Coder Academy", "gkumar@coderacademy.com", "0400 000 666", "97 Eagle Farm Terrace, Gold Coast")
+candidate7 = Candidate.new("Naveen Johnson", "Educator at Coder Academy", "njohnson@coderacademy.com", "0400 000 777", "Homeless")
+candidate8 = Candidate.new("Amy Whinehouse", "Singer", "private", "0400 000 888", "91210 Beverly Road California")
+candidate9 = Candidate.new("Pepsi Max", "A Soft Drink", "pepsi@co", "04000 000 999", "Everywhere")
+
+list1 << candidate1
+list1 << candidate2
+list1 << candidate3
+list1 << candidate4
+list2 << candidate5
+list2 << candidate6
+list3 << candidate7
+list3 << candidate8
+list3 << candidate9
+
+for i in list1 
+    job1.candidate_pool.push(i)
+    job1.applied_pool.push(i.name)
+    job1.applications += 1
+end
+for i in list2
+    job2.candidate_pool.push(i)
+    job2.applied_pool.push(i.name)
+    job2.applications += 1
+end
+for i in list3
+    job3.candidate_pool.push(i)
+    job3.applied_pool.push(i.name)
+    job3.applications += 1
+end
 
 
 # main script
@@ -365,7 +457,16 @@ while app_on
         JobsOverview.edit()
     when "3"
         print "Enter Job ID: "
-        id = gets.chomp.to_s
+        check = true
+        while check
+            id = gets.chomp.to_s
+            if JobsOverview.joblist.has_key?(id) == false
+                puts "Invalid ID, please enter correct ID."
+                print "Enter Job ID:"
+            else
+                check = false
+            end
+        end
         manage = true
         while manage
             JobManager.header_ui(id, JobsOverview.joblist[id])
@@ -379,6 +480,8 @@ while app_on
                 Candidate.view(JobsOverview.joblist[id])
             when "3"
                 Candidate.progress(JobsOverview.joblist[id])
+            when "6"
+                Candidate.make_note(JobsOverview.joblist[id])
             when "b"
                 manage = false
             end

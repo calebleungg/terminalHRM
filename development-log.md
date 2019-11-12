@@ -19,6 +19,19 @@
 * Test to see if the current interation method for correctly displaying progress information will work when integrating the other progression pools
 * If not, find a better way to display the information
 
+### 12.11.19 || Entry 2
+* Probably the most challenge aspect of development was figuring out a way to display a candidates progression through the stages correctly in tabular form yet keep the table dynamic depending on the number of candidates in each stage
+* The solution was to create class variable counting the number of candidates in each stage stored in a separate array- and use the maximum value from that array to determine how many rows the table would dispaly 
+* Next difficulties again were had in trying to understand how to get the candidate names stored in each separate progress pool, to display correctly in the corresponding column of progression
+* A method was chosen to iterate through the cumulative array, using a counter to determine the index through each column, and to set the index correct for each row that corresponded to the candidate pool 
+* After much efforts a correct way to display the progression was found
+* From here a method for progressing/moving candidates to the next stage of the recruitment process was formed (relatively straight forward) using the candidate.status instance variable as a case variable for the corresponding options
+
+<br> 
+
+#### Next Steps
+* Will be to tie in the rest of the features such as scheduling interview, adding notes to candidate profiles with the rest of the application.
+
 
 
 
