@@ -129,7 +129,7 @@ end
 
 # class for Managing selected job
 class JobManager < JobsOverview
-    attr_accessor :title, :type, :salary, :openings, :start_date, :manager, :applications, :cumulative, :column_count
+    attr_accessor :title, :type, :salary, :openings, :start_date, :manager, :applications, :cumulative, :column_count, :interview_log
     attr_accessor :candidate_pool, :applied_pool, :contacted_pool, :screened_pool, :shortlisted_pool, :interview_pool, :offer_pool, :accepted_pool
 
     def initialize(id, title, type, salary, openings, start_date, manager)
@@ -160,7 +160,7 @@ class JobManager < JobsOverview
 
         @cumulative = []
 
-        @interview = {}
+        @interview_log = {}
 
     end
 
@@ -232,11 +232,76 @@ class JobManager < JobsOverview
     end
 
     def self.schedule_interview(job)
+        puts "- Schedule interview - "
+        print "Enter Candidate (with correct capitalisation): "
+        name = gets.chomp.to_s
+        for i in job.candidate_pool
+            if i.name == name
+                candidate = i
+            end
+        end
+        if job.shortlisted_pool.include?(name) == true 
+            print "Enter Interview Date: "
+            date = gets.chomp.to_s
+            print "Enter Interviewer(s): "
+            interviewers = gets.chomp.to_s
+            print "Enter Duration: "
+            duration = gets.chomp.to_s
+            print "Location: "
+            location = gets.chomp.to_s
+            job.interview_log.store(name, {date: date, interviewers: interviewers, duration: duration, location: location, status: "Booked", notes: "", rating: 0})
+            candidate.status = "Interview"
+            Candidate.move(name, job.shortlisted_pool, job.interview_pool)
+            return
+        end
+        puts "Candidates need to be shortlisted to be interviewed."
+        puts "\nPress Enter to return"
+        gets
+    end
+
+    def self.display_interview_list(job)
+        puts "- Interview Log - "
+        puts "------------------------------"
+        for key, value in job.interview_log
+            puts "Candidate:    #{key}"
+            puts "Date:         #{value[:date]}"
+            puts "Interviewers: #{value[:interviewers]}"
+            puts "Duration:     #{value[:duration]}"
+            puts "Location:     #{value[:location]}\n\n"
+            puts "Status:       #{value[:status]}"
+            puts "Notes:        #{value[:notes]}"
+            puts "Rating:       #{value[:rating]}"
+            puts "------------------------------"
+        end
+        puts "\nPress Enter to return"
+        gets
+    end
+
+    def self.complete_interview(job)
+        puts "- Complete Interview - "
+        puts "------------------------------"
+        puts "Completed interview for,"
+        print "Enter Name (with correct capitalisation): "
+        name = gets.chomp.to_s
+        for key, value in job.interview_log
+            if name == key 
+                value[:status] = "Completed"
+                print "Enter Rating /5: "
+                value[:rating] = gets.chomp.to_i
+                puts "Additional comments, type below: "
+                value[:notes] = gets.chomp.to_s
+                return
+            end
+        end
+        puts "Invalid Candidate, please enter name correctly."
+        puts "\nPress Enter to return"
+        gets
+    end
 
     # method for displaying job management controls
     def self.control_panel()
-        puts "\nCreate Candidate [1], View Candidate [2], Progress Candidate [3], Schedule Interview [4]"
-        puts "Email Candidate [5], Make Note [6], Back [b]"
+        puts "\nCreate Candidate [1], View Candidate [2], Progress Candidate [3], Email Candidate [4], Make Note [5]"
+        puts "Schedule Interview [6], View Interview Log [7], Complete Interview [8] Back [b]"
     end
 
 end
@@ -304,7 +369,7 @@ class Candidate
                 return
             end
         end
-        puts "Couldnt find candidate..."
+        puts "Invalid Candidate, please enter name correctly."
         puts "\nPress Enter to return"
         gets
     end
@@ -323,7 +388,7 @@ class Candidate
                 return
             end
         end
-        puts "Couldnt find candidate..."
+        puts "Invalid Candidate, please enter name correctly."
         puts "\nPress Enter to return"
         gets
     end
@@ -338,9 +403,10 @@ class Candidate
     def self.progress(job)
         puts "- Select candidate to be progressed -"
         print "Enter Name: "
-        name = gets.chomp.to_s.downcase
+        name = gets.chomp.to_s
+        name_down = name.downcase
         for i in job.candidate_pool
-            if i.name.downcase == name
+            if i.name.downcase == name_down
                 status = i.status
                 case status 
                 when "Applied"
@@ -356,10 +422,17 @@ class Candidate
                     Candidate.move(i.name, job.screened_pool, job.shortlisted_pool)
                     return
                 when "Shortlisted"
-                    i.status = "Interview"
-                    Candidate.move(i.name, job.shortlisted_pool, job.interview_pool)
+                    puts "Candidate must be booked in for interview before progressing"
+                    puts "\nPress Enter to return"
+                    gets
                     return
                 when "Interview"
+                    if job.interview_log[name][:status] != "Completed"
+                        puts "Interview must be completed before sending offer"
+                        puts "\nPress Enter to return"
+                        gets
+                        return
+                    end
                     i.status = "Offered"
                     Candidate.move(i.name, job.interview_pool, job.offer_pool)
                     return
@@ -480,8 +553,14 @@ while app_on
                 Candidate.view(JobsOverview.joblist[id])
             when "3"
                 Candidate.progress(JobsOverview.joblist[id])
-            when "6"
+            when "5"
                 Candidate.make_note(JobsOverview.joblist[id])
+            when "6"
+                JobManager.schedule_interview(JobsOverview.joblist[id])
+            when "7"
+                JobManager.display_interview_list(JobsOverview.joblist[id])
+            when "8"
+                JobManager.complete_interview(JobsOverview.joblist[id])
             when "b"
                 manage = false
             end
