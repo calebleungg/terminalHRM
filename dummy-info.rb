@@ -1,19 +1,18 @@
 require "./main-app"
 
 # entering dummy jobs for testing
+
+
 job1 = JobManager.new("1000", "Store Manager", "Permanent - Full Time", "70,000", 1, "30/11/19", "Jody Foster")
 job2 = JobManager.new("1001", "Stock Filler", "Casual - Part Time", "24.50/hour", 3, "15/12/19", "Andy Lee")   
 job3 = JobManager.new("1002", "Floor Assistant", "Casual - Part Time", "24.50/hour", 2, "15/12/19", "Charles Dickens")   
 job4 = JobManager.new("1003", "Senior Butcher", "Permanent - Full Time", "65,000", 1, "27/11/19", "Shingo Nakamura")  
 
-JobsOverview.joblist.store("1000", job1)
-JobsOverview.joblist.store("1001", job2)
-JobsOverview.joblist.store("1002", job3)
-JobsOverview.joblist.store("1003", job4)
 
 list1 =[]
 list2 =[]
 list3 =[]
+
 candidate1 = Candidate.new("James Mackavoy", "Actor", "jmackavoy@gmail.com", "0400 000 111", "81 cresent round India Valley")
 candidate2 = Candidate.new("Andrew Simon", "Professional Cricket Player", "ilovecricket@hotmail.com", "0400 000 222", "1/232 complex 3 James Street")
 candidate3 = Candidate.new("Steve Jobs", "Apple CEO", "apple@apple.io", "0400 000 333", "100 Edward Street Brisbane City")

@@ -1,16 +1,6 @@
 require "colorize"
 require "terminal-table"
 
-# method for displaying tabular information in jobs overview ui
-def print_table(rows)
-    table = Terminal::Table.new :headings => [
-        "Job ID", "Job Title", 
-        "Type", "Salary", 
-        "# of Openings", "Target Start Date", 
-        "Hiring Manager", "Total Applications", "Status" 
-        ], :rows => rows
-    puts table
-end
 
 # class for User Inferface used to store methods for displaying application features
 class UserInterface 
@@ -27,7 +17,7 @@ class UserInterface
         print "Industry: "
         @@industry = "Education" #gets.chomp.to_s
         print "No. of Employees: "
-        @@total_employees = 15#gets.chomp.to_i
+        @@total_employees += 15#gets.chomp.to_i
         print "Your Name: "
         @@user = "Caleb"#gets.chomp.to_s
     end
@@ -54,12 +44,21 @@ class JobsOverview < UserInterface
     # class method for displaying tabular job listing information
     def self.display()
         @@table_info = []
+        
         puts "\nJob Opportunities Overview (Open Positions)\n\n"
         puts "Total Listings: #{@@joblist.length}"
         for key, value in @@joblist
             @@table_info.push([key, value.title, value.type, value.salary, value.openings, value.start_date, value.manager, value.applications, value.status])
         end
-        print_table(@@table_info)
+
+        table = Terminal::Table.new :headings => [
+            "Job ID", "Job Title", 
+            "Type", "Salary $(AUD)", 
+            "# of Openings", "Target Start Date", 
+            "Hiring Manager", "Total Applications", "Status" 
+        ], :rows => @@table_info
+
+        puts table
     end
 
     # class method for displaying control panel 
@@ -107,6 +106,11 @@ class JobsOverview < UserInterface
         self.display()
         print "Enter Job ID: "
         id = gets.chomp.to_s
+        if JobsOverview.joblist.has_key?(id) == false
+            puts "Invalid ID..."
+            sleep 1.5
+            return
+        end
         puts "Select field to edit:"
         puts "[1] Job Title     [2] Employment Type     [3] Salary,"
         puts "[4] # of Openings [5] Target Start Date   [6] Hiring Manager  [7] Status"
@@ -156,7 +160,7 @@ class JobsOverview < UserInterface
         print "Enter Job ID: "
         id = gets.chomp.to_s
         if JobsOverview.joblist.has_key?(id) == false
-            puts "Non-existent Job ID..."
+            puts "Invalid ID..."
             sleep 1.5
             return
         end
@@ -174,8 +178,8 @@ end
 
 # class for Managing selected job
 class JobManager < JobsOverview
-    attr_accessor :title, :type, :salary, :openings, :start_date, :manager, :applications, :cumulative, :column_count, :interview_log, :status
-    attr_accessor :candidate_pool, :applied_pool, :contacted_pool, :screened_pool, :shortlisted_pool, :interview_pool, :offer_pool, :accepted_pool
+    attr_accessor :title, :type, :salary, :openings, :start_date, :manager, :applications, :cumulative, :column_count, :interview_log, :status, :all_pools
+    attr_accessor :candidate_pool, :applied_pool, :contacted_pool, :screened_pool, :shortlisted_pool, :interview_pool, :offer_pool, :accepted_pool, :disqualified_pool
 
     def initialize(id, title, type, salary, openings, start_date, manager)
         @candidate_pool = []
@@ -187,12 +191,15 @@ class JobManager < JobsOverview
         @interview_pool = []
         @offer_pool = []
         @accepted_pool = []
+        @disqualified_pool = []
 
         @column_count = [
             @applied_pool.length, @contacted_pool.length, 
             @screened_pool.length, @shortlisted_pool.length, 
             @interview_pool.length, @offer_pool.length, @accepted_pool.length
         ]
+
+        @all_pools = [@applied_pool, @contacted_pool, @screened_pool, @shortlisted_pool, @interview_pool, @offer_pool, @accepted_pool]
 
         @id = id
         @title = title
@@ -255,7 +262,7 @@ class JobManager < JobsOverview
         counter = 0 
 
         until x == 0
-            job.cumulative.push(["", "", "", "", "", "", ""])
+            job.cumulative.push(["", "", "", "", "", "", "", ""])
             x -= 1 
         end
 
@@ -266,12 +273,13 @@ class JobManager < JobsOverview
         JobManager.add_to_column(job.interview_pool, 4, job.cumulative)
         JobManager.add_to_column(job.offer_pool, 5, job.cumulative)
         JobManager.add_to_column(job.accepted_pool, 6, job.cumulative)
+        JobManager.add_to_column(job.disqualified_pool, 7, job.cumulative)
 
         table = Terminal::Table.new :headings => [
             "Applied [a] - (#{job.applied_pool.length})", "Contacted [c] - (#{job.contacted_pool.length})", 
             "Screened [s] - (#{job.screened_pool.length})", "Shortlisted [sl] - (#{job.shortlisted_pool.length})", 
             "Interview [i] - (#{job.interview_pool.length})", "Offer [o] - (#{job.offer_pool.length})", 
-            "Accepted [y] - (#{job.accepted_pool.length})"
+            "Accepted [y] - (#{job.accepted_pool.length})", "Disqualified [d] - (#{job.disqualified_pool.length})"
             ], :rows => job.cumulative 
         puts table
     
@@ -344,11 +352,30 @@ class JobManager < JobsOverview
         gets
     end
 
+    def self.details_report(job)
+        rows = []
+
+        for i in job.candidate_pool
+            rows << [i.name, i.status, i.occupation, i.email, i.number, i.address, i.notes.values.last]
+        end
+
+        table = Terminal::Table.new :headings => [
+            "Candidate Name", "Status", 
+            "Occupation", "Email", 
+            "Number", "Address", 
+            "Latest Note"
+            ], :rows => rows
+
+        puts table
+        puts "\n Press Enter to return"
+        gets
+    end
+
     # method for displaying job management controls
     def self.control_panel()
-        puts "\n[1] Create Candidate   [2] View Candidate     [3] Progress Candidate  [4] Make Note "
-        puts "[5] Schedule Interview [6] View Interview Log [7] Complete Interview " 
-        puts "[8] Edit Candidate Details    "
+        puts "\n[1] Create Candidate          [2] View Candidate      [3] Progress Candidate   [4] Make Note "
+        puts "[5] Schedule Interview        [6] View Interview Log  [7] Complete Interview   [8] Edit Candidate Details" 
+        puts "[9] Disqualify Candidate      [10] View Details Report"
         puts "[b] Back "
     end
 
@@ -534,6 +561,36 @@ class Candidate
         end
     end
 
+    def self.determine_pool(job, name)
+        for i in job.all_pools
+            if i.include?(name)
+                return i
+            end
+        end
+    end
+
+    def self.disqualify(job)
+        puts "- Disqualify Candidates -"
+        print "Enter name: "
+        name = gets.chomp.to_s.downcase
+        for i in job.candidate_pool
+            if i.name.downcase == name
+                print "Enter Date: "
+                date = gets.chomp.to_s
+                puts "Reason for disqualification: "
+                reason = gets.chomp.to_s
+                i.notes.store(date, "Not Suitable: " + reason)
+                i.status = "Disqualified"
+                Candidate.move(i.name, Candidate.determine_pool(job, i.name), job.disqualified_pool)
+                return
+            end
+        end
+        puts "Invalid Candidate, please enter name correctly. "
+        puts "\nPress Enter to return."
+        gets
+        return
+    end
+
 end
 
 
@@ -619,8 +676,9 @@ while app_on
         while check
             id = gets.chomp.to_s
             if JobsOverview.joblist.has_key?(id) == false
-                puts "Invalid ID, please enter correct ID."
-                print "Enter Job ID: "
+                puts "Invalid ID..."
+                sleep 1.5
+                return
             else
                 check = false
             end
@@ -648,6 +706,10 @@ while app_on
                 JobManager.complete_interview(JobsOverview.joblist[id])
             when "8"
                 Candidate.edit(JobsOverview.joblist[id])
+            when "9"
+                Candidate.disqualify(JobsOverview.joblist[id])
+            when "10"
+                JobManager.details_report(JobsOverview.joblist[id])
             when "b"
                 manage = false
             end
