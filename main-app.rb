@@ -7,7 +7,7 @@ def print_table(rows)
         "Job ID", "Job Title", 
         "Type", "Salary", 
         "# of Openings", "Target Start Date", 
-        "Hiring Manager", "Total Applications" 
+        "Hiring Manager", "Total Applications", "Status" 
         ], :rows => rows
     puts table
 end
@@ -57,14 +57,16 @@ class JobsOverview < UserInterface
         puts "\nJob Opportunities Overview (Open Positions)\n\n"
         puts "Total Listings: #{@@joblist.length}"
         for key, value in @@joblist
-            @@table_info.push([key, value.title, value.type, value.salary, value.openings, value.start_date, value.manager, value.applications])
+            @@table_info.push([key, value.title, value.type, value.salary, value.openings, value.start_date, value.manager, value.applications, value.status])
         end
         print_table(@@table_info)
     end
 
     # class method for displaying control panel 
     def self.control_panel()
-        puts "\nCreate Job [1], Edit Job Details [2], Manage Job [3], Exit [x]"
+        puts "\n[1] Create Job    [2] Edit Job Details"
+        puts "[3] Manager Job   [4] Delete Job "
+        puts "[x] Exit"
     end
 
     # method for accessing job list 
@@ -106,7 +108,8 @@ class JobsOverview < UserInterface
         print "Enter Job ID: "
         id = gets.chomp.to_s
         puts "Select field to edit:"
-        puts "Job Title [1], Employment Type [2], Salary [3], # of Openings [4], Target Start Date [5], Hiring Manager [6]"
+        puts "[1] Job Title     [2] Employment Type     [3] Salary,"
+        puts "[4] # of Openings [5] Target Start Date   [6] Hiring Manager  [7] Status"
         option = gets.chomp.to_s
         print "Change to: "
         case option
@@ -122,14 +125,56 @@ class JobsOverview < UserInterface
             @@joblist[id].start_date = gets.chomp.to_s
         when "6"
             @@joblist[id].manager = gets.chomp.to_s
+        when "7"
+            puts "Change status to:
+
+            [1] Open
+            [2] Pending
+            [3] Closed
+            "
+            print "Select: "
+            answer = gets.chomp.to_s
+            case answer 
+            when "1"
+                @@joblist[id].status = "Open"
+                return
+            when "2"
+                @@joblist[id].status = "Pending"
+                return
+            when "3"
+                @@joblist[id].status = "Closed"
+                return
+            end
+            puts "Invalid input. Press Enter to return"
+            gets
         end
+    end
+
+    def self.delete()
+        UserInterface.header()
+        self.display()
+        print "Enter Job ID: "
+        id = gets.chomp.to_s
+        if JobsOverview.joblist.has_key?(id) == false
+            puts "Non-existent Job ID..."
+            sleep 1.5
+            return
+        end
+        puts "Are you sure you want to delete jobs? Type 'confirm' to confirm. "
+        puts "Press Enter to go back"
+        answer = gets.chomp.to_s
+        if answer == "confirm"
+            @@joblist.delete(id)
+            return
+        end
+        return
     end
 
 end
 
 # class for Managing selected job
 class JobManager < JobsOverview
-    attr_accessor :title, :type, :salary, :openings, :start_date, :manager, :applications, :cumulative, :column_count, :interview_log
+    attr_accessor :title, :type, :salary, :openings, :start_date, :manager, :applications, :cumulative, :column_count, :interview_log, :status
     attr_accessor :candidate_pool, :applied_pool, :contacted_pool, :screened_pool, :shortlisted_pool, :interview_pool, :offer_pool, :accepted_pool
 
     def initialize(id, title, type, salary, openings, start_date, manager)
@@ -156,6 +201,7 @@ class JobManager < JobsOverview
         @openings = openings
         @start_date = start_date
         @manager = manager
+        @status = "Open"
         @applications = 0
 
         @cumulative = []
@@ -300,8 +346,10 @@ class JobManager < JobsOverview
 
     # method for displaying job management controls
     def self.control_panel()
-        puts "\nCreate Candidate [1], View Candidate [2], Progress Candidate [3], Email Candidate [4], Make Note [5]"
-        puts "Schedule Interview [6], View Interview Log [7], Complete Interview [8] Back [b]"
+        puts "\n[1] Create Candidate   [2] View Candidate     [3] Progress Candidate  [4] Make Note "
+        puts "[5] Schedule Interview [6] View Interview Log [7] Complete Interview " 
+        puts "[8] Edit Candidate Details    "
+        puts "[b] Back "
     end
 
 end
@@ -309,7 +357,7 @@ end
 
 # class for Candidate creation and management
 class Candidate
-    attr_reader :name, :occupation, :email, :number, :address
+    attr_accessor :name, :occupation, :email, :number, :address
     attr_accessor :status, :notes
 
     def initialize(name, occupation, email, number, address) 
@@ -349,7 +397,7 @@ class Candidate
         for i in job.candidate_pool
             if i.name.downcase == name
                 puts "=============================="
-                puts "Details"
+                puts "Details for: #{i.name}"
                 puts "=============================="
                 puts "Status:       #{i.status}"
                 puts "Occupation:   #{i.occupation}"
@@ -357,7 +405,7 @@ class Candidate
                 puts "Number:       #{i.number}"
                 puts "Address:      #{i.address}"
                 puts "------------------------------"
-                puts "Notes: "
+                puts "          Notes: "
                 puts "------------------------------"
                 for key, value in i.notes
                     puts "Date: #{key}"
@@ -449,6 +497,43 @@ class Candidate
         return
     end
 
+    def self.edit(job)
+        puts "- Edit Candidate Details -"
+        print "Enter name: "
+        name = gets.chomp.to_s.downcase
+        puts "Field to Change? Name [1] Occupation [2], Email [3], Number [4], Address [5]"
+        option = gets.chomp.to_s
+        for i in job.candidate_pool
+            if i.name.downcase == name
+                case option
+                when "1"
+                    puts "Enter new name: "
+                    change = gets.chomp.to_s
+                    position = job.applied_pool.index(i.name)
+                    job.applied_pool[position] = change
+                    i.name = change
+                    return
+                when "2"
+                    puts "Enter new occupation: "
+                    i.occupation = gets.chomp.to_s
+                    return
+                when "3"
+                    puts "Enter new email: "
+                    i.email = gets.chomp.to_s
+                    return
+                when "4"
+                    puts "Enter new number: "
+                    i.number = gets.chomp.to_s
+                    return
+                when "5"
+                    puts "Enter new address: "
+                    i.address = gets.chomp.to_s
+                    return
+                end
+            end
+        end
+    end
+
 end
 
 
@@ -535,7 +620,7 @@ while app_on
             id = gets.chomp.to_s
             if JobsOverview.joblist.has_key?(id) == false
                 puts "Invalid ID, please enter correct ID."
-                print "Enter Job ID:"
+                print "Enter Job ID: "
             else
                 check = false
             end
@@ -553,18 +638,22 @@ while app_on
                 Candidate.view(JobsOverview.joblist[id])
             when "3"
                 Candidate.progress(JobsOverview.joblist[id])
-            when "5"
+            when "4"
                 Candidate.make_note(JobsOverview.joblist[id])
-            when "6"
+            when "5"
                 JobManager.schedule_interview(JobsOverview.joblist[id])
-            when "7"
+            when "6"
                 JobManager.display_interview_list(JobsOverview.joblist[id])
-            when "8"
+            when "7"
                 JobManager.complete_interview(JobsOverview.joblist[id])
+            when "8"
+                Candidate.edit(JobsOverview.joblist[id])
             when "b"
                 manage = false
             end
         end
+    when "4"
+        JobsOverview.delete()
     when "x"
         system("clear")
         app_on = false
