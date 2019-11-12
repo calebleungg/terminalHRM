@@ -57,7 +57,6 @@ class JobsOverview < UserInterface
         @@table_info = []
         puts "\nJob Opportunities Overview (Open Positions)\n\n"
         puts "Total Listings: #{@@joblist.length}"
-        p @@open_job_count
         for key, value in @@joblist
             @@table_info.push([key, value.title, value.type, value.salary, value.openings, value.start_date, value.manager, value.applications])
         end
@@ -124,6 +123,7 @@ class JobsOverview < UserInterface
 
 end
 
+# class for Managing selected job
 class JobManager < JobsOverview
     attr_accessor :title, :type, :salary, :openings, :start_date, :manager, :applications, :cumulative
     attr_accessor :candidate_pool, :applied_pool, :contacted_pool, :screened_pool, :shortlisted_pool, :interview_pool, :offer_pool, :accepted_pool
@@ -169,16 +169,18 @@ class JobManager < JobsOverview
         puts "Reporting to:     #{job.manager}\n\n"
     end
 
-    def self.progress_bar(id, job) 
-        # job.cumulative = []
+    def self.progress_bar(job) 
+        job.cumulative = []
         if job.candidate_pool.length == 0
-            job.cumulative = []
+            x = 0
         else
-            x = 1
+            x = job.candidate_pool.length
+        end
+        until x == 0
             x.times { job.cumulative.push(["", "", "", "", "", "", ""]) }
             for i in job.applied_pool
                 job.cumulative[x-1][0] = i
-                x += 1
+                x -= 1
             end
         end
 
@@ -193,7 +195,7 @@ class JobManager < JobsOverview
     end
 
     def self.control_panel()
-        puts "\nCreate Candidate [1], View Candidate [2], Contact Candidate [3], Schedule Interview [4], Offer Candidate [5], Back [b]"
+        puts "\nCreate Candidate [1], View Candidate [2], Progress Candidate [3], Schedule Interview [4], Offer Candidate [5], Back [b]"
     end
 
     def self.option()
@@ -203,6 +205,7 @@ class JobManager < JobsOverview
 
 end
 
+# class for Candidate creation and management
 class Candidate
     attr_reader :name, :occupation, :email, :number, :address
     attr_accessor :status    
@@ -216,7 +219,7 @@ class Candidate
         @status = "Applied"
     end
 
-    def self.create(id, job)
+    def self.create(job)
         puts "Enter candidate details,"
         print "Name: "
         name = gets.chomp.to_s
@@ -231,11 +234,36 @@ class Candidate
         candidate = Candidate.new(name, occupation, email, number, address)
         job.candidate_pool.push(candidate)
         job.applied_pool.push(candidate.name)
+        job.applications += 1
     end
+
+    def self.view(job)
+        puts "- View Candidate -"
+        print "Enter name: "
+        name = gets.chomp.to_s
+        for i in job.candidate_pool
+            if i.name == name
+                puts "=============================="
+                puts "Details"
+                puts "=============================="
+                puts "Status:       #{i.status}"
+                puts "Occupation:   #{i.occupation}"
+                puts "Email:        #{i.email}"
+                puts "Number:       #{i.number}"
+                puts "Address:      #{i.address}"
+                puts "\nPress Enter to return."
+                gets
+                return
+            end
+        end
+        puts "Couldnt find candidate..."
+        sleep 2
+    end
+
 end
 
 
-
+# entering dummy jobs for testing
 job1 = JobManager.new("1000", "Store Manager", "Permanent - Full Time", "70,000", 1, "30/11/19", "Jody Foster")
 job2 = JobManager.new("1001", "Stock Filler", "Casual - Part Time", "24.50/hour", 3, "15/12/19", "Andy Lee")   
 job3 = JobManager.new("1002", "Floor Assistant", "Casual - Part Time", "24.50/hour", 2, "15/12/19", "Charles Dickens")   
@@ -276,12 +304,14 @@ while app_on
         manage = true
         while manage
             JobManager.header_ui(id, JobsOverview.joblist[id])
-            JobManager.progress_bar(id, JobsOverview.joblist[id])
+            JobManager.progress_bar(JobsOverview.joblist[id])
             JobManager.control_panel()
             x = gets.chomp.to_s
             case x
             when "1"
-                Candidate.create(id, JobsOverview.joblist[id])
+                Candidate.create(JobsOverview.joblist[id])
+            when "2"
+                Candidate.view(JobsOverview.joblist[id])
             when "b"
                 manage = false
             end
