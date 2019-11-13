@@ -261,7 +261,7 @@ class JobManager < JobsOverview
     def self.add_to_column(pool, column, cumulative)
         counter = 0
         for i in pool
-            cumulative[counter][column] = i
+            cumulative[counter][column] = i.name
             counter += 1
         end
     end
@@ -300,28 +300,25 @@ class JobManager < JobsOverview
 
     def self.schedule_interview(job)
         puts "- Schedule interview - "
-        print "Enter Candidate (with correct capitalisation): "
-        name = gets.chomp.to_s
+        print "Enter Candidate: "
+        name = gets.chomp.to_s.downcase
         for i in job.candidate_pool
-            if i.name == name
-                candidate = i
+            if i.name.downcase == name && job.shortlisted_pool.include?(i) == true
+                print "Enter Interview Date: "
+                date = gets.chomp.to_s
+                print "Enter Interviewer(s): "
+                interviewers = gets.chomp.to_s
+                print "Enter Duration: "
+                duration = gets.chomp.to_s
+                print "Location: "
+                location = gets.chomp.to_s
+                job.interview_log.store(i.name, {date: date, interviewers: interviewers, duration: duration, location: location, status: "Booked", notes: "", rating: 0})
+                i.status = "Interview"
+                Candidate.move(i, job.shortlisted_pool, job.interview_pool)
+                return
             end
         end
-        if job.shortlisted_pool.include?(name) == true 
-            print "Enter Interview Date: "
-            date = gets.chomp.to_s
-            print "Enter Interviewer(s): "
-            interviewers = gets.chomp.to_s
-            print "Enter Duration: "
-            duration = gets.chomp.to_s
-            print "Location: "
-            location = gets.chomp.to_s
-            job.interview_log.store(name, {date: date, interviewers: interviewers, duration: duration, location: location, status: "Booked", notes: "", rating: 0})
-            candidate.status = "Interview"
-            Candidate.move(name, job.shortlisted_pool, job.interview_pool)
-            return
-        end
-        puts "Candidates need to be shortlisted to be interviewed."
+        puts "Invalid Candidate, please enter name correctly."
         puts "\nPress Enter to return"
         gets
     end
@@ -348,10 +345,10 @@ class JobManager < JobsOverview
         puts "- Complete Interview - "
         puts "------------------------------"
         puts "Completed interview for,"
-        print "Enter Name (with correct capitalisation): "
-        name = gets.chomp.to_s
+        print "Enter Name: "
+        name = gets.chomp.to_s.downcase
         for key, value in job.interview_log
-            if name == key 
+            if name == key.downcase 
                 value[:status] = "Completed"
                 print "Enter Rating /5: "
                 value[:rating] = gets.chomp.to_i
@@ -360,7 +357,7 @@ class JobManager < JobsOverview
                 return
             end
         end
-        puts "Invalid Candidate, please enter name correctly."
+        puts "Candidate needs to be shortlisted to schedule an interview."
         puts "\nPress Enter to return"
         gets
     end
@@ -425,7 +422,7 @@ class Candidate
         address = gets.chomp.to_s
         candidate = Candidate.new(name, occupation, email, number, address)
         job.candidate_pool.push(candidate)
-        job.applied_pool.push(candidate.name)
+        job.applied_pool.push(candidate)
         job.applications += 1
     end
 
@@ -499,15 +496,15 @@ class Candidate
                 case status 
                 when "Applied"
                     i.status = "Contacted"
-                    Candidate.move(i.name, job.applied_pool, job.contacted_pool)
+                    Candidate.move(i, job.applied_pool, job.contacted_pool)
                     return
                 when "Contacted"
                     i.status = "Screened"
-                    Candidate.move(i.name, job.contacted_pool, job.screened_pool)
+                    Candidate.move(i, job.contacted_pool, job.screened_pool)
                     return
                 when "Screened"
                     i.status = "Shortlisted"
-                    Candidate.move(i.name, job.screened_pool, job.shortlisted_pool)
+                    Candidate.move(i, job.screened_pool, job.shortlisted_pool)
                     return
                 when "Shortlisted"
                     puts "Candidate must be booked in for interview before progressing"
@@ -515,18 +512,18 @@ class Candidate
                     gets
                     return
                 when "Interview"
-                    if job.interview_log[name][:status] != "Completed"
+                    if job.interview_log[i.name][:status] != "Completed"
                         puts "Interview must be completed before sending offer"
                         puts "\nPress Enter to return"
                         gets
                         return
                     end
                     i.status = "Offered"
-                    Candidate.move(i.name, job.interview_pool, job.offer_pool)
+                    Candidate.move(i, job.interview_pool, job.offer_pool)
                     return
                 when "Offered"
                     i.status = "Accepted"
-                    Candidate.move(i.name, job.offer_pool, job.accepted_pool)
+                    Candidate.move(i, job.offer_pool, job.accepted_pool)
                     return
                 end
             end
@@ -548,10 +545,7 @@ class Candidate
                 case option
                 when "1"
                     puts "Enter new name: "
-                    change = gets.chomp.to_s
-                    position = job.applied_pool.index(i.name)
-                    job.applied_pool[position] = change
-                    i.name = change
+                    i.name = gets.chomp.to_s
                     return
                 when "2"
                     puts "Enter new occupation: "
@@ -574,10 +568,10 @@ class Candidate
         end
     end
 
-    def self.determine_pool(job, name)
+    def self.delete_from(job, candidate)
         for i in job.all_pools
-            if i.include?(name)
-                return i
+            if i.include?(candidate)
+                i.delete(candidate)
             end
         end
     end
@@ -594,7 +588,7 @@ class Candidate
                 reason = gets.chomp.to_s
                 i.notes.store(date, "Not Suitable: " + reason)
                 i.status = "Disqualified"
-                Candidate.move(i.name, Candidate.determine_pool(job, i.name), job.disqualified_pool)
+                Candidate.move(i, Candidate.delete_from(job, i), job.disqualified_pool)
                 return
             end
         end
@@ -645,17 +639,17 @@ list3 << candidate9
 
 for i in list1 
     job1.candidate_pool.push(i)
-    job1.applied_pool.push(i.name)
+    job1.applied_pool.push(i)
     job1.applications += 1
 end
 for i in list2
     job2.candidate_pool.push(i)
-    job2.applied_pool.push(i.name)
+    job2.applied_pool.push(i)
     job2.applications += 1
 end
 for i in list3
     job3.candidate_pool.push(i)
-    job3.applied_pool.push(i.name)
+    job3.applied_pool.push(i)
     job3.applications += 1
 end
 

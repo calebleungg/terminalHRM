@@ -1,28 +1,28 @@
 # Software Development Plan
-### For **Heich-aR-eM**
+### For **terminalHRM**
 
 #### Founder, Caleb Leung - 10.11.19
 ![logo](./terminalHRM-logo.png)
 
 ## **Statement of Purpose and Scope**
 
-Heich-aR-Em is a terminal application software that provides a Human Resource Management solution for businesses of all sizes. Heich-aR-eM will be all open source for the market (our class) to contribute and use freely. 
+terminalHRM is a terminal application software that provides a Human Resource Management solution for businesses of all sizes. terminalHRM will be all open source for the market (our class) to contribute and use freely. 
 
 The application will aim to have the ability to open a job request, receive incoming applications, sort and manage candidates throughout the recruitment process, and have useful user tools at each step. 
 
 Human resource management is essential for any business attempting to scale and grow, and is integrated in everything the business does. People make up the business, and well managed people allow for a well run business. Businesses that have little to no human resource management, or ones that choose to ignore it may find it coupable in early stage scaling, however when employee numbers grow, payroll accountabilities grow, workflow scope changes, without a well integrated system that keeps all these aspects interconnected, the business will suffer short term inefficiencies, and long term sustainability is very unlikely. 
 
-Heich-aR-Em has three clearly defined goals for development.
+terminalHRM has three clearly defined goals for development.
 
 1. To make HRM easy and understandable for all levels of employees in the company
 2. To simplify the end to end recruitment process into clearly defined stages
 3. To provide meaningful information that the business can leverage to find opportunities for improvement across all areas. 
 
-Heich-aR-Em’s target audience include businesses of all sizes, in all industries, who are looking to grow their workforce with an easy, free, user-friendly solution to manage the process. 
+terminalHRM’s target audience include businesses of all sizes, in all industries, who are looking to grow their workforce with an easy, free, user-friendly solution to manage the process. 
 
-Businesses without a current HRM solution will be a key target audience. Heich-aR-Em provides a very introductory solution that they can try out and use indefinitely, that also is competitive and complete with all the features of large enterprise HRMs however who can provide on the fly, tailored features for clients due to being open source.  
+Businesses without a current HRM solution will be a key target audience. terminalHRM provides a very introductory solution that they can try out and use indefinitely, that also is competitive and complete with all the features of large enterprise HRMs however who can provide on the fly, tailored features for clients due to being open source.  
 
-Ones that have a current solution still show large opportunities for targeting, as Heich-aR-Em will provide a financially better alternative and a software that is easier to utilise and simpler to understand with less complexities when compared to solutions that are hard to understand, higher barriers to learn, and causes user paralysis with too many unnecessary features. 
+Ones that have a current solution still show large opportunities for targeting, as terminalHRM will provide a financially better alternative and a software that is easier to utilise and simpler to understand with less complexities when compared to solutions that are hard to understand, higher barriers to learn, and causes user paralysis with too many unnecessary features. 
 
 <br>
 
