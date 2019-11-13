@@ -1,6 +1,18 @@
 require "colorize"
 require "terminal-table"
 
+def monetize(number)
+    number = number.to_s
+    length = number.length
+    counter = [4,8,12,16]
+    for i in counter
+        if i <= length
+            number.insert(-i,",")
+            length += 1
+        end
+    end
+    return "$#{number}"
+end
 
 # class for User Inferface used to store methods for displaying application features
 class UserInterface 
@@ -196,10 +208,11 @@ class JobManager < JobsOverview
         @column_count = [
             @applied_pool.length, @contacted_pool.length, 
             @screened_pool.length, @shortlisted_pool.length, 
-            @interview_pool.length, @offer_pool.length, @accepted_pool.length
+            @interview_pool.length, @offer_pool.length, @accepted_pool.length,
+            @disqualified_pool.length
         ]
 
-        @all_pools = [@applied_pool, @contacted_pool, @screened_pool, @shortlisted_pool, @interview_pool, @offer_pool, @accepted_pool]
+        @all_pools = [@applied_pool, @contacted_pool, @screened_pool, @shortlisted_pool, @interview_pool, @offer_pool, @accepted_pool, @disqualified_pool]
 
         @id = id
         @title = title
@@ -276,10 +289,10 @@ class JobManager < JobsOverview
         JobManager.add_to_column(job.disqualified_pool, 7, job.cumulative)
 
         table = Terminal::Table.new :headings => [
-            "Applied [a] - (#{job.applied_pool.length})", "Contacted [c] - (#{job.contacted_pool.length})", 
-            "Screened [s] - (#{job.screened_pool.length})", "Shortlisted [sl] - (#{job.shortlisted_pool.length})", 
-            "Interview [i] - (#{job.interview_pool.length})", "Offer [o] - (#{job.offer_pool.length})", 
-            "Accepted [y] - (#{job.accepted_pool.length})", "Disqualified [d] - (#{job.disqualified_pool.length})"
+            "Applied (#{job.applied_pool.length})", "Contacted (#{job.contacted_pool.length})", 
+            "Screened (#{job.screened_pool.length})", "Shortlisted (#{job.shortlisted_pool.length})", 
+            "Interview (#{job.interview_pool.length})", "Offer (#{job.offer_pool.length})", 
+            "Accepted (#{job.accepted_pool.length})", "Disqualified (#{job.disqualified_pool.length})"
             ], :rows => job.cumulative 
         puts table
     
@@ -373,8 +386,8 @@ class JobManager < JobsOverview
 
     # method for displaying job management controls
     def self.control_panel()
-        puts "\n[1] Create Candidate          [2] View Candidate      [3] Progress Candidate   [4] Make Note "
-        puts "[5] Schedule Interview        [6] View Interview Log  [7] Complete Interview   [8] Edit Candidate Details" 
+        puts "\n[1] Create Candidate          [2] View Candidate          [3] Progress Candidate   [4] Make Note "
+        puts "[5] Schedule Interview        [6] View Interview Log      [7] Complete Interview   [8] Edit Candidate Details" 
         puts "[9] Disqualify Candidate      [10] View Details Report"
         puts "[b] Back "
     end

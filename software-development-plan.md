@@ -2,7 +2,7 @@
 ### For **Heich-aR-eM**
 
 #### Founder, Caleb Leung - 10.11.19
-![logo](./logo.png)
+![logo](./terminalHRM-logo.png)
 
 ## **Statement of Purpose and Scope**
 

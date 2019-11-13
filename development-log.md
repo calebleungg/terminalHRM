@@ -1,5 +1,5 @@
 # Development Log
-#### Heich-aR-eM - Caleb Leung
+#### terminalHRM - Caleb Leung
 
 ### 12.11.19 || Entry 1
 * Initial progress sees a functioning UI developed for the top level overview of job listings, with the ability to create, edit, and manage jobs
