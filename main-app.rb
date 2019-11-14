@@ -1,18 +1,7 @@
+require "yaml"
 require "colorize"
 require "terminal-table"
-
-def monetize(number)
-    number = number.to_s
-    length = number.length
-    counter = [4,8,12,16]
-    for i in counter
-        if i <= length
-            number.insert(-i,",")
-            length += 1
-        end
-    end
-    return "$#{number}"
-end
+require "date_format"
 
 # class for User Inferface used to store methods for displaying application features
 class UserInterface 
@@ -50,7 +39,7 @@ end
 class JobsOverview < UserInterface
 
     @@joblist = {}
-    @@open_job_count = 4
+    @@open_job_count = 0
     @@table_info = []
 
     # class method for displaying tabular job listing information
@@ -90,6 +79,10 @@ class JobsOverview < UserInterface
         @@open_job_count
     end
 
+    def self.count_job()
+        @@open_job_count += 1
+    end
+
     # method for creating a job opportunity
     def self.create()
         job = {}
@@ -108,7 +101,27 @@ class JobsOverview < UserInterface
         print "Hiring Manager: "
         job[:manager] = gets.chomp.to_s
         job[:applications] = 0
-        @@joblist.store("100#{@@open_job_count}", JobManager.new("100#{@@open_job_count}", job[:title], job[:type], job[:salary], job[:openings], job[:start_date], job[:manager]))
+        @@joblist.store("100#{@@open_job_count}", JobManager.new(
+                "100#{@@open_job_count}", job[:title], job[:type], 
+                job[:salary], job[:openings], job[:start_date], job[:manager]
+            )
+        )
+
+        saving = { id: "100#{@@open_job_count}", 
+            info: [ { 
+                title: job[:title], 
+                type: job[:type],
+                salary: job[:salary],
+                openings: job[:openings],
+                start_date: job[:start_date],
+                manager: job[:manager],
+                applications: job[:applications],
+                }
+            ]
+        }       
+
+        File.open("job_database.yml", "a") { |file| file.write(saving.to_yaml) }
+
         @@open_job_count += 1 
     end
 
@@ -212,7 +225,11 @@ class JobManager < JobsOverview
             @disqualified_pool.length
         ]
 
-        @all_pools = [@applied_pool, @contacted_pool, @screened_pool, @shortlisted_pool, @interview_pool, @offer_pool, @accepted_pool, @disqualified_pool]
+        @all_pools = [
+            @applied_pool, @contacted_pool, @screened_pool, 
+            @shortlisted_pool, @interview_pool, @offer_pool, 
+            @accepted_pool, @disqualified_pool
+        ]
 
         @id = id
         @title = title
@@ -240,7 +257,8 @@ class JobManager < JobsOverview
         job.column_count = [
             job.applied_pool.length, job.contacted_pool.length, 
             job.screened_pool.length, job.shortlisted_pool.length, 
-            job.interview_pool.length, job.offer_pool.length, job.accepted_pool.length
+            job.interview_pool.length, job.offer_pool.length, job.accepted_pool.length, 
+            job.disqualified_pool.length 
         ]
     end
 
@@ -362,7 +380,9 @@ class JobManager < JobsOverview
         gets
     end
 
-    def self.details_report(job)
+    def self.details_report(id, job)
+        system("clear")
+        JobManager.header_ui(id, job)
         rows = []
 
         for i in job.candidate_pool
@@ -465,11 +485,11 @@ class Candidate
         name = gets.chomp.to_s.downcase
         for i in job.candidate_pool
             if i.name.downcase == name
-                print "Enter Date: "
-                date = gets.chomp.to_s
+                date = Time.now
+                format_date = "#{DateFormat.change_to(date, "MEDIUM_DATE")} #{DateFormat.change_to(date, "MEDIUM_TIME")} "
                 puts "Type Note Below, (Press Enter to save)"
                 note = gets.chomp.to_s
-                i.notes.store(date, note)
+                i.notes.store(format_date, note)
                 return
             end
         end
@@ -488,12 +508,10 @@ class Candidate
     def self.progress(job)
         puts "- Select candidate to be progressed -"
         print "Enter Name: "
-        name = gets.chomp.to_s
-        name_down = name.downcase
+        name = gets.chomp.to_s.downcase
         for i in job.candidate_pool
-            if i.name.downcase == name_down
-                status = i.status
-                case status 
+            if i.name.downcase == name
+                case i.status 
                 when "Applied"
                     i.status = "Contacted"
                     Candidate.move(i, job.applied_pool, job.contacted_pool)
@@ -602,55 +620,64 @@ end
 
 
 
-# entering dummy jobs for testing
-job1 = JobManager.new("1000", "Store Manager", "Permanent - Full Time", "70,000", 1, "30/11/19", "Jody Foster")
-job2 = JobManager.new("1001", "Stock Filler", "Casual - Part Time", "24.50/hour", 3, "15/12/19", "Andy Lee")   
-job3 = JobManager.new("1002", "Floor Assistant", "Casual - Part Time", "24.50/hour", 2, "15/12/19", "Charles Dickens")   
-job4 = JobManager.new("1003", "Senior Butcher", "Permanent - Full Time", "65,000", 1, "27/11/19", "Shingo Nakamura")  
+# # entering dummy jobs for testing
+# job1 = JobManager.new("1000", "Store Manager", "Permanent - Full Time", "70,000", 1, "30/11/19", "Jody Foster")
+# job2 = JobManager.new("1001", "Stock Filler", "Casual - Part Time", "24.50/hour", 3, "15/12/19", "Andy Lee")   
+# job3 = JobManager.new("1002", "Floor Assistant", "Casual - Part Time", "24.50/hour", 2, "15/12/19", "Charles Dickens")   
+# job4 = JobManager.new("1003", "Senior Butcher", "Permanent - Full Time", "65,000", 1, "27/11/19", "Shingo Nakamura")  
 
-JobsOverview.joblist.store("1000", job1)
-JobsOverview.joblist.store("1001", job2)
-JobsOverview.joblist.store("1002", job3)
-JobsOverview.joblist.store("1003", job4)
+# JobsOverview.joblist.store("1000", job1)
+# JobsOverview.joblist.store("1001", job2)
+# JobsOverview.joblist.store("1002", job3)
+# JobsOverview.joblist.store("1003", job4)
 
-list1 =[]
-list2 =[]
-list3 =[]
+# list1 =[]
+# list2 =[]
+# list3 =[]
 
-candidate1 = Candidate.new("James Mackavoy", "Actor", "jmackavoy@gmail.com", "0400 000 111", "81 cresent round India Valley")
-candidate2 = Candidate.new("Andrew Simon", "Professional Cricket Player", "ilovecricket@hotmail.com", "0400 000 222", "1/232 complex 3 James Street")
-candidate3 = Candidate.new("Steve Jobs", "Apple CEO", "apple@apple.io", "0400 000 333", "100 Edward Street Brisbane City")
-candidate4 = Candidate.new("Daniel Napalm", "Student", "daniel.napalm@gmail.com", "0400 000 444", "223 Adelaide Avenue Tasmania")
-candidate5 = Candidate.new("Elizabeth Warren", "Politician", "voteforme1@usa.com", "0400 000 555", "8 Court House Road West End")
-candidate6 = Candidate.new("Glen Kumar", "Educator at Coder Academy", "gkumar@coderacademy.com", "0400 000 666", "97 Eagle Farm Terrace, Gold Coast")
-candidate7 = Candidate.new("Naveen Johnson", "Educator at Coder Academy", "njohnson@coderacademy.com", "0400 000 777", "Homeless")
-candidate8 = Candidate.new("Amy Whinehouse", "Singer", "private", "0400 000 888", "91210 Beverly Road California")
-candidate9 = Candidate.new("Pepsi Max", "A Soft Drink", "pepsi@co", "04000 000 999", "Everywhere")
+# candidate1 = Candidate.new("James Mackavoy", "Actor", "jmackavoy@gmail.com", "0400 000 111", "81 cresent round India Valley")
+# candidate2 = Candidate.new("Andrew Simon", "Professional Cricket Player", "ilovecricket@hotmail.com", "0400 000 222", "1/232 complex 3 James Street")
+# candidate3 = Candidate.new("Steve Jobs", "Apple CEO", "apple@apple.io", "0400 000 333", "100 Edward Street Brisbane City")
+# candidate4 = Candidate.new("Daniel Napalm", "Student", "daniel.napalm@gmail.com", "0400 000 444", "223 Adelaide Avenue Tasmania")
+# candidate5 = Candidate.new("Elizabeth Warren", "Politician", "voteforme1@usa.com", "0400 000 555", "8 Court House Road West End")
+# candidate6 = Candidate.new("Glen Kumar", "Educator at Coder Academy", "gkumar@coderacademy.com", "0400 000 666", "97 Eagle Farm Terrace, Gold Coast")
+# candidate7 = Candidate.new("Naveen Johnson", "Educator at Coder Academy", "njohnson@coderacademy.com", "0400 000 777", "Homeless")
+# candidate8 = Candidate.new("Amy Whinehouse", "Singer", "private", "0400 000 888", "91210 Beverly Road California")
+# candidate9 = Candidate.new("Pepsi Max", "A Soft Drink", "pepsi@co", "04000 000 999", "Everywhere")
 
-list1 << candidate1
-list1 << candidate2
-list1 << candidate3
-list1 << candidate4
-list2 << candidate5
-list2 << candidate6
-list3 << candidate7
-list3 << candidate8
-list3 << candidate9
+# list1 << candidate1
+# list1 << candidate2
+# list1 << candidate3
+# list1 << candidate4
+# list2 << candidate5
+# list2 << candidate6
+# list3 << candidate7
+# list3 << candidate8
+# list3 << candidate9
 
-for i in list1 
-    job1.candidate_pool.push(i)
-    job1.applied_pool.push(i)
-    job1.applications += 1
-end
-for i in list2
-    job2.candidate_pool.push(i)
-    job2.applied_pool.push(i)
-    job2.applications += 1
-end
-for i in list3
-    job3.candidate_pool.push(i)
-    job3.applied_pool.push(i)
-    job3.applications += 1
+# for i in list1 
+#     job1.candidate_pool.push(i)
+#     job1.applied_pool.push(i)
+#     job1.applications += 1
+# end
+# for i in list2
+#     job2.candidate_pool.push(i)
+#     job2.applied_pool.push(i)
+#     job2.applications += 1
+# end
+# for i in list3
+#     job3.candidate_pool.push(i)
+#     job3.applied_pool.push(i)
+#     job3.applications += 1
+# end
+
+
+load_queue = []
+YAML.load_stream(File.read 'job_database.yml') { |job| load_queue << job }
+
+for job in load_queue
+    JobsOverview.joblist.store(job[:id], JobManager.new(job[:id], job[:info][0][:title], job[:info][0][:type], job[:info][0][:salary], job[:info][0][:openings], job[:info][0][:start_date], job[:info][0][:manager]))
+    JobsOverview.count_job()
 end
 
 
@@ -665,6 +692,7 @@ UserInterface.create_company()
 app_on = true 
 while app_on
     system("clear")
+
     UserInterface.header()
 
     JobsOverview.display()
@@ -716,7 +744,7 @@ while app_on
             when "9"
                 Candidate.disqualify(JobsOverview.joblist[id])
             when "10"
-                JobManager.details_report(JobsOverview.joblist[id])
+                JobManager.details_report(id, JobsOverview.joblist[id])
             when "b"
                 manage = false
             end
@@ -728,3 +756,4 @@ while app_on
         app_on = false
     end
 end
+
