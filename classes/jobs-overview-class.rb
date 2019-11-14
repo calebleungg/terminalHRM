@@ -55,7 +55,7 @@ class JobsOverview < UserInterface
         print "Employment Tyle: "
         job[:type] = gets.chomp.to_s
         print "Salary (AUD): "
-        job[:salary] = gets.chomp.to_i
+        job[:salary] = gets.chomp.to_s
         print "# of Openings: "
         job[:openings] = gets.chomp.to_i
         print "Target Start Date: "
@@ -69,18 +69,16 @@ class JobsOverview < UserInterface
             )
         )
 
-        saving = { id: "100#{@@open_job_count}", 
-            info: [ { 
-                title: job[:title], 
-                type: job[:type],
-                salary: job[:salary],
-                openings: job[:openings],
-                start_date: job[:start_date],
-                manager: job[:manager],
-                applications: job[:applications],
-                }
-            ]
-        }       
+        saving = { 
+            id: "100#{@@open_job_count}", 
+            title: job[:title], 
+            type: job[:type],
+            salary: job[:salary],
+            openings: job[:openings],
+            start_date: job[:start_date],
+            manager: job[:manager],
+            applications: job[:applications]
+        }
 
         File.open("job_database.yml", "a") { |file| file.write(saving.to_yaml) }
 

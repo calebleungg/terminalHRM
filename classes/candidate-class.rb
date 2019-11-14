@@ -30,6 +30,18 @@ class Candidate
         job.candidate_pool.push(candidate)
         job.applied_pool.push(candidate)
         job.applications += 1
+
+        saving = { 
+            job_id: job.id, 
+            name: name, 
+            occupation: occupation, 
+            email: email,
+            number: number,
+            address: address
+        }
+
+        File.open("candidate_database.yml", "a") { |file| file.write(saving.to_yaml) }
+
     end
 
     # method for viewing candidate details

@@ -2,6 +2,7 @@
 class JobManager < JobsOverview
     attr_accessor :title, :type, :salary, :openings, :start_date, :manager, :applications, :cumulative, :column_count, :interview_log, :status, :all_pools
     attr_accessor :candidate_pool, :applied_pool, :contacted_pool, :screened_pool, :shortlisted_pool, :interview_pool, :offer_pool, :accepted_pool, :disqualified_pool
+    attr_reader :id
 
     def initialize(id, title, type, salary, openings, start_date, manager)
         @candidate_pool = []

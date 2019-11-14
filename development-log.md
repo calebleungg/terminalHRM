@@ -32,7 +32,21 @@
 #### Next Steps
 * Will be to tie in the rest of the features such as scheduling interview, adding notes to candidate profiles with the rest of the application.
 
+### 14.11.19 || Entry 3
+* All-round functionality of the application is now sound and fairly tested in all aspects
+* Creating a job, adding a candidate, viewing details reports, adding notes, scheduling interviews, and all that have now viable
+* Reporting can be more detailed and will be worked on
+* Now the aim is to incorporate a save/load function so the application is actually practical in a real world sense (ie. all work being done in one terminal session isnt lost and is kept after closing the script)
+* This will be done with YAML as the chosen method- using .yml documents to store the hash information when creating a job and candidate
+* These YAML docs will be read and the iterated contents be loaded into job and candidate objects, to be initially stored for the application to load any previous work saved in these files
+* Save/load functionality is very initial as it only allows for the creating and loading of the first instance created of the object
+* Any further editing to the objects details (includes both jobs and candidates class) has not yet been coded to save properly as such is still lost when the application is terminated
 
+<br> 
+
+#### Next Steps
+* Continue incorporating proper save/load methods to store all progressed worked on
+* A suggestion for creating a total search function of the database using any specific value could also be a next target feature
 
 
 

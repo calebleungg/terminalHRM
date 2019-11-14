@@ -9,13 +9,22 @@ require "./classes/job-manager-class"
 require "./classes/candidate-class"
 
 
-load_queue = []
-YAML.load_stream(File.read 'job_database.yml') { |job| load_queue << job }
+load_queue_jobs = []
+YAML.load_stream(File.read 'job_database.yml') { |job| load_queue_jobs << job }
 
-
-for job in load_queue
-    JobsOverview.joblist.store(job[:id], JobManager.new(job[:id], job[:info][0][:title], job[:info][0][:type], job[:info][0][:salary], job[:info][0][:openings], job[:info][0][:start_date], job[:info][0][:manager]))
+for job in load_queue_jobs
+    JobsOverview.joblist.store(job[:id], JobManager.new(job[:id], job[:title], job[:type], job[:salary], job[:openings], job[:start_date], job[:manager]))
     JobsOverview.count_job()
+end
+
+load_queue_candidates = []
+YAML.load_stream(File.read 'candidate_database.yml') { |candidate| load_queue_candidates << candidate }
+
+for i in load_queue_candidates
+    candidate = Candidate.new(i[:name], i[:occupation], i[:email], i[:number], i[:address])
+    JobsOverview.joblist[i[:job_id]].candidate_pool.push(candidate)
+    JobsOverview.joblist[i[:job_id]].applied_pool.push(candidate)
+    JobsOverview.joblist[i[:job_id]].applications += 1
 end
 
 
