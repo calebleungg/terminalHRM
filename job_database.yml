@@ -1,36 +1,42 @@
 ---
-:id: '1000'
-:title: Assitant Educator
-:type: Permanent - Part Time
-:salary: "$75,000"
-:openings: 2
-:start_date: 01/02/20
-:manager: Ashleigh
-:applications: 0
----
-:id: '1001'
-:title: Lead Educator
-:type: Permanent
-:salary: "$85,000"
-:openings: 1
-:start_date: 01/02/20
-:manager: Ashleigh
-:applications: 0
----
-:id: '1002'
-:title: Student Services Mananger
-:type: Permanent
-:salary: "$70,000"
-:openings: 1
-:start_date: 01/04/20
-:manager: Kanye West
-:applications: 0
----
-:id: '1003'
-:title: 'Receptionist '
-:type: Casual
-:salary: "$28.50 / hour"
-:openings: 1
-:start_date: 25/11/19
-:manager: Naveen Johnson
-:applications: 0
+- :id: '1000'
+  :title: Assistant Educator
+  :type: Permanent - Part TIme
+  :salary: "$75,000"
+  :openings: 2
+  :start_date: 01/02/20
+  :manager: Ashleigh
+  :applications: 0
+- :id: '1001'
+  :title: Lead Educator
+  :type: Permanent
+  :salary: "$85,000"
+  :openings: 1
+  :start_date: 15/01/20
+  :manager: Glen Kumar
+  :applications: 0
+- :id: '1002'
+  :title: Student Services Mananger
+  :type: Permanent
+  :salary: "$70,000"
+  :openings: '3'
+  :start_date: 01/04/20
+  :manager: Kanye West
+  :applications: 0
+- :id: '1003'
+  :title: Receptionsit
+  :type: Casual
+  :salary: "$30.50 / hour"
+  :openings: 1
+  :start_date: 25/11/19
+  :manager: Naveen Johnson
+  :applications: 0
+- :id: '1004'
+  :title: Glen's Assistant
+  :type: Forever
+  :salary: Negotiable
+  :openings: '1'
+  :start_date: 20/11/19
+  :manager: Glen Johnson
+  :applications: 0
+#<File:0x00007fc50204eb28>

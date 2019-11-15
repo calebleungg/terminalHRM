@@ -69,6 +69,7 @@ class JobsOverview < UserInterface
             )
         )
 
+
         saving = { 
             id: "100#{@@open_job_count}", 
             title: job[:title], 
@@ -80,7 +81,10 @@ class JobsOverview < UserInterface
             applications: job[:applications]
         }
 
-        File.open("job_database.yml", "a") { |file| file.write(saving.to_yaml) }
+        load_jobs = []
+        YAML.load_stream(File.read 'job_database.yml') { |job| load_jobs << job }
+        load_jobs[0] << saving
+        File.open("job_database.yml", 'w') { |file| file.write(load_jobs[0].to_yaml, file) }
 
         @@open_job_count += 1 
     end
@@ -103,17 +107,29 @@ class JobsOverview < UserInterface
         print "Change to: "
         case option
         when "1"
-            @@joblist[id].title = gets.chomp.to_s
+            change = gets.chomp.to_s
+            @@joblist[id].title = change
+            JobsOverview.save_edits(id, :title, change)
         when "2"
-            @@joblist[id].type = gets.chomp.to_s
+            change = gets.chomp.to_s
+            @@joblist[id].type = change
+            JobsOverview.save_edits(id, :type, change)
         when "3"
-            @@joblist[id].salary = gets.chomp.to_s
+            change = gets.chomp.to_s
+            @@joblist[id].salary = change
+            JobsOverview.save_edits(id, :salary, change)
         when "4"
-            @@joblist[id].openings = gets.chomp.to_s
+            change = gets.chomp.to_s
+            @@joblist[id].openings = change
+            JobsOverview.save_edits(id, :openings, change)
         when "5"
-            @@joblist[id].start_date = gets.chomp.to_s
+            change = gets.chomp.to_s
+            @@joblist[id].start_date = change
+            JobsOverview.save_edits(id, :start_date, change)
         when "6"
-            @@joblist[id].manager = gets.chomp.to_s
+            change = gets.chomp.to_s
+            @@joblist[id].manager = change
+            JobsOverview.save_edits(id, :manager, change)
         when "7"
             puts "Change status to:
 
@@ -137,6 +153,17 @@ class JobsOverview < UserInterface
             puts "Invalid input. Press Enter to return"
             gets
         end
+    end
+
+    def self.save_edits(id, element, change)
+        load_jobs = []
+        YAML.load_stream(File.read 'job_database.yml') { |job| load_jobs << job }
+        for i in load_jobs[0]
+            if i[:id] == id
+                i[element] = change
+            end
+        end
+        File.open("job_database.yml", 'w') { |file| file.write(load_jobs[0].to_yaml, file) }
     end
 
     # def self.delete()
