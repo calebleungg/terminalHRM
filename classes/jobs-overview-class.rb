@@ -27,7 +27,7 @@ class JobsOverview < UserInterface
 
     # class method for displaying control panel 
     def self.control_panel()
-        puts "\n[1] Create Job    [2] Edit Job Details    [3] Manager Job"
+        puts "\n[1] Create Job    [2] Edit Job Details    [3] Manager Job   [4] Delete Job"
         puts "[x] Exit"
     end
 
@@ -166,32 +166,34 @@ class JobsOverview < UserInterface
         File.open("job_database.yml", 'w') { |file| file.write(load_jobs[0].to_yaml, file) }
     end
 
-    # def self.delete()
-    #     UserInterface.header()
-    #     self.display()
-    #     print "Enter Job ID: "
-    #     id = gets.chomp.to_s
-    #     if JobsOverview.joblist.has_key?(id) == false
-    #         puts "Invalid ID..."
-    #         sleep 1.5
-    #         return
-    #     end
-    #     puts "Are you sure you want to delete jobs? Type 'confirm' to confirm. "
-    #     puts "Press Enter to go back"
-    #     answer = gets.chomp.to_s
-    #     if answer == "confirm"
-    #         @@joblist.delete(id)
-    #         load_list = []
-    #         YAML.load_stream(File.read 'job_database.yml') { |job| load_list << job }
-    #         for job in load_list
-    #             if job[:id] == id
-    #                 load_list.delete(job)
-    #             end
-    #         end
+    def self.delete()
+        UserInterface.header()
+        self.display()
+        print "Enter Job ID: "
+        id = gets.chomp.to_s
+        if JobsOverview.joblist.has_key?(id) == false
+            puts "Invalid ID..."
+            sleep 1.5
+            return
+        end
+        puts "Are you sure you want to delete jobs? Type 'confirm' to confirm. "
+        puts "Press Enter to go back"
+        answer = gets.chomp.to_s
+
+        load_jobs = []
+        YAML.load_stream(File.read 'job_database.yml') { |job| load_jobs << job }
+        for i in load_jobs[0]
+            if i[:id] == id
+                load_jobs[0].delete(i)
+            end
+        end
+
+        File.open("job_database.yml", 'w') { |file| file.write(load_jobs[0].to_yaml, file) }
+
+    
+        @@joblist.delete(id)
         
-    #         return
-    #     end
-    #     return
-    # end
+        return
+    end
 
 end

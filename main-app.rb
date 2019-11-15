@@ -22,8 +22,8 @@ end
 load_queue_candidates = []
 YAML.load_stream(File.read 'candidate_database.yml') { |candidate| load_queue_candidates << candidate }
 
-for i in load_queue_candidates
-    candidate = Candidate.new(i[:name], i[:occupation], i[:email], i[:number], i[:address])
+for i in load_queue_candidates[0]
+    candidate = Candidate.new(i[:name], i[:occupation], i[:email], i[:number], i[:address], i[:status], i[:notes])
     JobsOverview.joblist[i[:job_id]].candidate_pool.push(candidate)
     JobsOverview.joblist[i[:job_id]].applied_pool.push(candidate)
     JobsOverview.joblist[i[:job_id]].applications += 1

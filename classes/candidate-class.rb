@@ -3,14 +3,14 @@ class Candidate
     attr_accessor :name, :occupation, :email, :number, :address
     attr_accessor :status, :notes
 
-    def initialize(name, occupation, email, number, address) 
+    def initialize(name, occupation, email, number, address, status, notes) 
         @name = name
         @occupation = occupation
         @email = email
         @number = number
         @address = address
-        @status = "Applied"
-        @notes = {}
+        @status = status
+        @notes = notes
     end
 
     # method for creating a candidate
@@ -26,7 +26,7 @@ class Candidate
         number = gets.chomp.to_s
         print "Address: "
         address = gets.chomp.to_s
-        candidate = Candidate.new(name, occupation, email, number, address)
+        candidate = Candidate.new(name, occupation, email, number, address, "Applied", {})
         job.candidate_pool.push(candidate)
         job.applied_pool.push(candidate)
         job.applications += 1
@@ -37,10 +37,17 @@ class Candidate
             occupation: occupation, 
             email: email,
             number: number,
-            address: address
+            address: address,
+            status: "Applied",
+            notes: {}
         }
 
-        File.open("candidate_database.yml", "a") { |file| file.write(saving.to_yaml) }
+        # File.open("candidate_database.yml", "a") { |file| file.write(saving.to_yaml) }
+
+        load_candidates = []
+        YAML.load_stream(File.read 'candidate_database.yml') { |candidate| load_candidates << candidate }
+        load_candidates[0] << saving
+        File.open("candidate_database.yml", 'w') { |file| file.write(load_candidates[0].to_yaml, file) }
 
     end
 
@@ -88,6 +95,14 @@ class Candidate
                 puts "Type Note Below, (Press Enter to save)"
                 note = gets.chomp.to_s
                 i.notes.store(format_date, note)
+                load_candidates = []
+                YAML.load_stream(File.read 'candidate_database.yml') { |candidate| load_candidates << candidate }
+                for candidate in load_candidates[0]
+                    if candidate[:name] == i.name 
+                        candidate[:notes][format_date] = note
+                    end
+                end
+                File.open("candidate_database.yml", 'w') { |file| file.write(load_candidates[0].to_yaml, file) }
                 return
             end
         end
@@ -161,7 +176,9 @@ class Candidate
                 case option
                 when "1"
                     puts "Enter new name: "
-                    i.name = gets.chomp.to_s
+                    change = gets.chomp.to_s
+                    Candidate.save_edits(i.name, :name, change)
+                    i.name = change
                     return
                 when "2"
                     puts "Enter new occupation: "
@@ -212,6 +229,17 @@ class Candidate
         puts "\nPress Enter to return."
         gets
         return
+    end
+
+    def self.save_edits(name, element, change)
+        load_candidates = []
+        YAML.load_stream(File.read 'candidate_database.yml') { |candidate| load_candidates << candidate }
+        for i in load_candidates[0]
+            if i[:name] == name
+                i[element] = change
+            end
+        end
+        File.open("candidate_database.yml", 'w') { |file| file.write(load_candidates[0].to_yaml, file) }
     end
 
 end
