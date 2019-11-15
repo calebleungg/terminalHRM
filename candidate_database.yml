@@ -5,7 +5,7 @@
   :email: classified information
   :number: classified information
   :address: Ask Edward Snowden
-  :status: Applied
+  :status: Interview
   :notes: {}
 - :job_id: '1000'
   :name: Jamie Foxx
@@ -13,6 +13,8 @@
   :email: jfoxx@hollywood.com
   :number: 0400 000 222
   :address: '822 Big Rich Mansion Road, California '
+  :status: Applied
+  :notes: {}
 - :job_id: '1000'
   :name: Shauna McCormack
   :occupation: Excellent Teacher
@@ -27,17 +29,83 @@
   :email: thedark.knight@batmancorp.com
   :number: 0400 000 777
   :address: Bruce Wayne's Bat Cave
-  :status: Applied
+  :status: Interview
   :notes:
     '15-Nov-2019 11:46 AM ': He's pretty cool
 - :job_id: '1000'
-  :name: Neil
+  :name: Naruto Uzumaki
+  :occupation: Apartment Complex 101, Konoha Street
+  :email: hokage1@konoha.com
+  :number: n/a
+  :address: d
+  :status: Contacted
+  :notes:
+    '15-Nov-2019 11:38 AM ': lolcake
+    '15-Nov-2019 11:40 AM ': helloworld
+    '15-Nov-2019 15:51 PM ': Fairly decent at eating ramen
+- :job_id: '1000'
+  :name: Pepsi Max
+  :occupation: Soft Drink
+  :email: pepsi@co.com
+  :number: 0400 000 222
+  :address: Everywhere
+  :status: Applied
+  :notes: {}
+- :job_id: '1000'
+  :name: caleb
+  :occupation: d
+  :email: d
+  :number: d
+  :address: d
+  :status: Interview
+  :notes: {}
+- :job_id: '1000'
+  :name: test1
+  :occupation: d
+  :email: d
+  :number: d
+  :address: d
+  :status: Interview
+  :notes: {}
+- :job_id: '1000'
+  :name: test2
+  :occupation: d
+  :email: d
+  :number: d
+  :address: d
+  :status: Interview
+  :notes: {}
+- :job_id: '1000'
+  :name: lol
+  :occupation: d
+  :email: d
+  :number: d
+  :address: d
+  :status: Interview
+  :notes: {}
+- :job_id: '1004'
+  :name: caleb
   :occupation: d
   :email: d
   :number: d
   :address: d
   :status: Applied
+  :notes: {}
+- :job_id: '1000'
+  :name: hello
+  :occupation: d
+  :email: d
+  :number: d
+  :address: d
+  :status: Interview
+  :notes: {}
+- :job_id: '1001'
+  :name: elmo
+  :occupation: d
+  :email: d
+  :number: d
+  :address: d
+  :status: Interview
   :notes:
-    '15-Nov-2019 11:38 AM ': lolcake
-    '15-Nov-2019 11:40 AM ': helloworld
-#<File:0x00007fd88d06a988>
+    '15-Nov-2019 15:13 PM ': d
+#<File:0x00007f8ed296d170>

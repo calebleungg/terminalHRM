@@ -127,14 +127,17 @@ class Candidate
                 case i.status 
                 when "Applied"
                     i.status = "Contacted"
+                    Candidate.save_edits(i.name, :status, i.status)
                     Candidate.move(i, job.applied_pool, job.contacted_pool)
                     return
                 when "Contacted"
                     i.status = "Screened"
+                    Candidate.save_edits(i.name, :status, i.status)
                     Candidate.move(i, job.contacted_pool, job.screened_pool)
                     return
                 when "Screened"
                     i.status = "Shortlisted"
+                    Candidate.save_edits(i.name, :status, i.status)
                     Candidate.move(i, job.screened_pool, job.shortlisted_pool)
                     return
                 when "Shortlisted"
@@ -150,10 +153,12 @@ class Candidate
                         return
                     end
                     i.status = "Offered"
+                    Candidate.save_edits(i.name, :status, i.status)
                     Candidate.move(i, job.interview_pool, job.offer_pool)
                     return
                 when "Offered"
                     i.status = "Accepted"
+                    Candidate.save_edits(i.name, :status, i.status)
                     Candidate.move(i, job.offer_pool, job.accepted_pool)
                     return
                 end
@@ -182,19 +187,27 @@ class Candidate
                     return
                 when "2"
                     puts "Enter new occupation: "
-                    i.occupation = gets.chomp.to_s
+                    change = gets.chomp.to_s
+                    Candidate.save_edits(i.name, :occupation, change)
+                    i.occupation = change
                     return
                 when "3"
                     puts "Enter new email: "
-                    i.email = gets.chomp.to_s
+                    change = gets.chomp.to_s
+                    Candidate.save_edits(i.name, :email, change)
+                    i.email = change
                     return
                 when "4"
                     puts "Enter new number: "
-                    i.number = gets.chomp.to_s
+                    change = gets.chomp.to_s
+                    Candidate.save_edits(i.name, :number, change)
+                    i.number = change
                     return
                 when "5"
                     puts "Enter new address: "
-                    i.address = gets.chomp.to_s
+                    change = gets.chomp.to_s
+                    Candidate.save_edits(i.name, :occupation, change)
+                    i.address = change
                     return
                 end
             end

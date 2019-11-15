@@ -128,9 +128,28 @@ class JobManager < JobsOverview
                 duration = gets.chomp.to_s
                 print "Location: "
                 location = gets.chomp.to_s
-                job.interview_log.store(i.name, {date: date, interviewers: interviewers, duration: duration, location: location, status: "Booked", notes: "", rating: 0})
+                # job.interview_log.store(i.name, {date: date, interviewers: interviewers, duration: duration, location: location, status: "Booked", notes: "", rating: 0})
                 i.status = "Interview"
+                Candidate.save_edits(i.name, :status, i.status)
                 Candidate.move(i, job.shortlisted_pool, job.interview_pool)
+
+                saving = { 
+                    job_id: job.id, 
+                    name: i.name, 
+                    date: date,
+                    interviewers: interviewers,
+                    duration: duration,
+                    location: location,
+                    status: "Booked",
+                    notes: "",
+                    rating: 0
+                }
+        
+                load_logs = []
+                YAML.load_stream(File.read 'interview_logs.yml') { |interview| load_logs << interview }
+                load_logs[0] << saving
+                File.open("interview_logs.yml", 'w') { |file| file.write(load_logs[0].to_yaml, file) }
+
                 return
             end
         end
@@ -140,18 +159,26 @@ class JobManager < JobsOverview
     end
 
     def self.display_interview_list(job)
+
+        load_logs = []
+
+        YAML.load_stream(File.read 'interview_logs.yml') { |interview| load_logs << interview }
+
         puts "- Interview Log - "
         puts "------------------------------"
-        for key, value in job.interview_log
-            puts "Candidate:    #{key}"
-            puts "Date:         #{value[:date]}"
-            puts "Interviewers: #{value[:interviewers]}"
-            puts "Duration:     #{value[:duration]}"
-            puts "Location:     #{value[:location]}\n\n"
-            puts "Status:       #{value[:status]}"
-            puts "Notes:        #{value[:notes]}"
-            puts "Rating:       #{value[:rating]}"
-            puts "------------------------------"
+        for i in load_logs[0]
+    
+            if i[:job_id] == job.id
+                puts "Candidate:    #{i[:name]}"
+                puts "Date:         #{i[:date]}"
+                puts "Interviewers: #{i[:interviews]}"
+                puts "Duration:     #{i[:duration]}"
+                puts "Location:     #{i[:location]}\n\n"
+                puts "Status:       #{i[:status]}"
+                puts "Notes:        #{i[:notes]}"
+                puts "Rating:       #{i[:rating]}"
+                puts "------------------------------"
+            end
         end
         puts "\nPress Enter to return"
         gets
@@ -163,16 +190,34 @@ class JobManager < JobsOverview
         puts "Completed interview for,"
         print "Enter Name: "
         name = gets.chomp.to_s.downcase
-        for key, value in job.interview_log
-            if name == key.downcase 
-                value[:status] = "Completed"
+
+        load_logs = []
+        YAML.load_stream(File.read 'interview_logs.yml') { |interview| load_logs << interview }
+        for i in load_logs[0]
+            if i[:id] == job.id && i[:name].downcase == name
+                i[:status] = "Completed"
                 print "Enter Rating /5: "
-                value[:rating] = gets.chomp.to_i
+                i[:rating] = gets.chomp.to_i
                 puts "Additional comments, type below: "
-                value[:notes] = gets.chomp.to_s
+                i[:notes] = gets.chomp.to_s
                 return
             end
         end
+
+        File.open("interview_logs.yml", 'w') { |file| file.write(load_logs[0].to_yaml, file) }
+
+
+
+        # for key, value in job.interview_log
+        #     if name == key.downcase 
+        #         value[:status] = "Completed"
+        #         print "Enter Rating /5: "
+        #         value[:rating] = gets.chomp.to_i
+        #         puts "Additional comments, type below: "
+        #         value[:notes] = gets.chomp.to_s
+        #         return
+        #     end
+        # end
         puts "Candidate needs to be shortlisted to schedule an interview."
         puts "\nPress Enter to return"
         gets

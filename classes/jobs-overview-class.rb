@@ -84,7 +84,9 @@ class JobsOverview < UserInterface
         load_jobs = []
         YAML.load_stream(File.read 'job_database.yml') { |job| load_jobs << job }
         load_jobs[0] << saving
-        File.open("job_database.yml", 'w') { |file| file.write(load_jobs[0].to_yaml, file) }
+        File.open("job_database.yml", 'w') { |file| file.write(load_jobs.to_yaml, file) }
+        p load_jobs
+        gets
 
         @@open_job_count += 1 
     end
