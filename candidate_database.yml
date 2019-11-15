@@ -49,7 +49,7 @@
   :email: pepsi@co.com
   :number: 0400 000 222
   :address: Everywhere
-  :status: Applied
+  :status: Screened
   :notes: {}
 - :job_id: '1000'
   :name: caleb
@@ -108,4 +108,21 @@
   :status: Interview
   :notes:
     '15-Nov-2019 15:13 PM ': d
-#<File:0x00007f8ed296d170>
+- :job_id: '1002'
+  :name: animal
+  :occupation: being an animal
+  :email: d
+  :number: d
+  :address: d
+  :status: Offer
+  :notes:
+    '15-Nov-2019 16:21 PM ': lolodfklsanfgrjgntg
+- :job_id: '1002'
+  :name: john
+  :occupation: d
+  :email: d
+  :number: d
+  :address: d
+  :status: Offer
+  :notes: {}
+#<File:0x00007fd18f910560>

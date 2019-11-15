@@ -128,7 +128,6 @@ class JobManager < JobsOverview
                 duration = gets.chomp.to_s
                 print "Location: "
                 location = gets.chomp.to_s
-                # job.interview_log.store(i.name, {date: date, interviewers: interviewers, duration: duration, location: location, status: "Booked", notes: "", rating: 0})
                 i.status = "Interview"
                 Candidate.save_edits(i.name, :status, i.status)
                 Candidate.move(i, job.shortlisted_pool, job.interview_pool)
@@ -194,30 +193,20 @@ class JobManager < JobsOverview
         load_logs = []
         YAML.load_stream(File.read 'interview_logs.yml') { |interview| load_logs << interview }
         for i in load_logs[0]
-            if i[:id] == job.id && i[:name].downcase == name
+            if i[:job_id] == job.id && i[:name].downcase == name
+                p i 
+                gets
                 i[:status] = "Completed"
                 print "Enter Rating /5: "
                 i[:rating] = gets.chomp.to_i
                 puts "Additional comments, type below: "
                 i[:notes] = gets.chomp.to_s
+    
+                File.open("interview_logs.yml", 'w') { |file| file.write(load_logs[0].to_yaml, file) }
                 return
             end
         end
 
-        File.open("interview_logs.yml", 'w') { |file| file.write(load_logs[0].to_yaml, file) }
-
-
-
-        # for key, value in job.interview_log
-        #     if name == key.downcase 
-        #         value[:status] = "Completed"
-        #         print "Enter Rating /5: "
-        #         value[:rating] = gets.chomp.to_i
-        #         puts "Additional comments, type below: "
-        #         value[:notes] = gets.chomp.to_s
-        #         return
-        #     end
-        # end
         puts "Candidate needs to be shortlisted to schedule an interview."
         puts "\nPress Enter to return"
         gets
@@ -248,7 +237,7 @@ class JobManager < JobsOverview
     def self.control_panel()
         puts "\n[1] Create Candidate          [2] View Candidate          [3] Progress Candidate   [4] Make Note "
         puts "[5] Schedule Interview        [6] View Interview Log      [7] Complete Interview   [8] Edit Candidate Details" 
-        puts "[9] Disqualify Candidate      [10] View Details Report"
+        puts "[9] Disqualify Candidate"
         puts "[b] Back "
     end
 

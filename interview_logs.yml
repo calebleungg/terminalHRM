@@ -34,4 +34,22 @@
   :status: Booked
   :notes: ''
   :rating: 0
-#<File:0x00007f8b000dd580>
+- :job_id: '1002'
+  :name: animal
+  :date: 25/11/19
+  :interviewers: me
+  :duration: 10 seconds
+  :location: here
+  :status: Completed
+  :notes: hello testing 123 testing 321
+  :rating: 5
+- :job_id: '1002'
+  :name: john
+  :date: d
+  :interviewers: d
+  :duration: d
+  :location: d
+  :status: Completed
+  :notes: was really bad
+  :rating: 3
+#<File:0x00007fd18f05b348>

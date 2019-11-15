@@ -146,16 +146,25 @@ class Candidate
                     gets
                     return
                 when "Interview"
-                    if job.interview_log[i.name][:status] != "Completed"
-                        puts "Interview must be completed before sending offer"
-                        puts "\nPress Enter to return"
-                        gets
-                        return
+                    load_logs = []
+                    YAML.load_stream(File.read 'interview_logs.yml') { |interview| load_logs << interview }
+                    for log in load_logs[0]
+                        if log[:job_id] == job.id && log[:name].downcase == name && log[:status] == "Completed"
+                            i.status = "Offer"
+                            Candidate.save_edits(i.name, :status, i.status)
+                            Candidate.move(i, job.interview_pool, job.offer_pool)
+                            return
+                        end
                     end
-                    i.status = "Offered"
-                    Candidate.save_edits(i.name, :status, i.status)
-                    Candidate.move(i, job.interview_pool, job.offer_pool)
+                
+                    puts "Interview must be completed before sending offer"
+                    puts "\nPress Enter to return"
                     return
+
+                    # i.status = "Offered"
+                    # Candidate.save_edits(i.name, :status, i.status)
+                    # Candidate.move(i, job.interview_pool, job.offer_pool)
+                    # return
                 when "Offered"
                     i.status = "Accepted"
                     Candidate.save_edits(i.name, :status, i.status)
