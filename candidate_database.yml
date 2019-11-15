@@ -109,12 +109,12 @@
   :notes:
     '15-Nov-2019 15:13 PM ': d
 - :job_id: '1002'
-  :name: lolcake
+  :name: Adam Sandler
   :occupation: being an animal
   :email: d
   :number: d
   :address: d
-  :status: Offer
+  :status: Accepted
   :notes:
     '15-Nov-2019 16:21 PM ': lolodfklsanfgrjgntg
 - :job_id: '1002'
@@ -125,4 +125,12 @@
   :address: d
   :status: Offer
   :notes: {}
-#<File:0x00007fab3d12fe68>
+- :job_id: '1002'
+  :name: Neil Armstrong
+  :occupation: Ex-Astronaut
+  :email: narmstrong@hotmail.com
+  :number: 0400 000 555
+  :address: The Moon
+  :status: Disqualified
+  :notes: {}
+#<File:0x00007fb8f1882320>

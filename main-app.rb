@@ -14,7 +14,7 @@ YAML.load_stream(File.read 'job_database.yml') { |job| load_queue_jobs << job }
 
 
 for job in load_queue_jobs[0]
-    JobsOverview.joblist.store(job[:id], JobManager.new(job[:id], job[:title], job[:type], job[:salary], job[:openings], job[:start_date], job[:manager]))
+    JobsOverview.joblist.store(job[:id], JobManager.new(job[:id], job[:title], job[:type], job[:salary], job[:openings], job[:start_date], job[:manager], job[:status]))
     JobsOverview.count_job()
 end
 

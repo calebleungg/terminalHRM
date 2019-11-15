@@ -161,12 +161,7 @@ class Candidate
                     puts "\nPress Enter to return"
                     gets
                     return
-
-                    # i.status = "Offered"
-                    # Candidate.save_edits(i.name, :status, i.status)
-                    # Candidate.move(i, job.interview_pool, job.offer_pool)
-                    # return
-                when "Offered"
+                when "Offer"
                     i.status = "Accepted"
                     Candidate.save_edits(i.name, :status, i.status)
                     Candidate.move(i, job.offer_pool, job.accepted_pool)
@@ -252,6 +247,7 @@ class Candidate
                 reason = gets.chomp.to_s
                 i.notes.store(format_date, "Not Suitable: " + reason)
                 i.status = "Disqualified"
+                Candidate.save_edits(i.name, :status, i.status)
                 Candidate.move(i, Candidate.delete_from(job, i), job.disqualified_pool)
                 return
             end

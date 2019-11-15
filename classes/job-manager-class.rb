@@ -4,7 +4,7 @@ class JobManager < JobsOverview
     attr_accessor :candidate_pool, :applied_pool, :contacted_pool, :screened_pool, :shortlisted_pool, :interview_pool, :offer_pool, :accepted_pool, :disqualified_pool
     attr_reader :id
 
-    def initialize(id, title, type, salary, openings, start_date, manage)
+    def initialize(id, title, type, salary, openings, start_date, manage, status)
         @candidate_pool = []
 
         @applied_pool = []
@@ -36,7 +36,7 @@ class JobManager < JobsOverview
         @openings = openings
         @start_date = start_date
         @manager = manager
-        @status = "Open"
+        @status = status
         @applications = 0
 
         @cumulative = []

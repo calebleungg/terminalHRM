@@ -7,6 +7,7 @@
   :start_date: 01/02/20
   :manager: Ashleigh
   :applications: 0
+  :status: Open
 - :id: '1001'
   :title: Lead Educator
   :type: Permanent
@@ -15,6 +16,7 @@
   :start_date: 15/01/20
   :manager: Glen Kumar
   :applications: 0
+  :status: Open
 - :id: '1002'
   :title: Student Services Mananger
   :type: Permanent
@@ -23,6 +25,7 @@
   :start_date: 01/04/20
   :manager: Kanye West
   :applications: 0
+  :status: Open
 - :id: '1003'
   :title: Receptionsit
   :type: Casual
@@ -31,6 +34,7 @@
   :start_date: 25/11/19
   :manager: Naveen Johnson
   :applications: 0
+  :status: Open
 - :id: '1004'
   :title: Glen's Assistant
   :type: Forever
@@ -39,4 +43,5 @@
   :start_date: 21/11/19
   :manager: Glen Johnson
   :applications: 0
-#<File:0x00007fc297880700>
+  :status: Pending
+#<File:0x00007fa84c0e9880>

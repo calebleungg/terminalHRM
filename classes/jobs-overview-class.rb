@@ -27,7 +27,7 @@ class JobsOverview < UserInterface
 
     # class method for displaying control panel 
     def self.control_panel()
-        puts "\n[1] Create Job    [2] Edit Job Details    [3] Manager Job   [4] Delete Job"
+        puts "\n[1] Create Job    [2] Edit Job Details    [3] Manager Job"
         puts "[x] Exit"
     end
 
@@ -63,6 +63,7 @@ class JobsOverview < UserInterface
         print "Hiring Manager: "
         job[:manager] = gets.chomp.to_s
         job[:applications] = 0
+        job[:status] = "Open"
         @@joblist.store("100#{@@open_job_count}", JobManager.new(
                 "100#{@@open_job_count}", job[:title], job[:type], 
                 job[:salary], job[:openings], job[:start_date], job[:manager]
@@ -78,7 +79,9 @@ class JobsOverview < UserInterface
             openings: job[:openings],
             start_date: job[:start_date],
             manager: job[:manager],
-            applications: job[:applications]
+            applications: job[:applications],
+            status: job[:status]
+
         }
 
         load_jobs = []
@@ -143,13 +146,19 @@ class JobsOverview < UserInterface
             answer = gets.chomp.to_s
             case answer 
             when "1"
-                @@joblist[id].status = "Open"
+                change = "Open"
+                @@joblist[id].status = change
+                JobsOverview.save_edits(id, :status, change)
                 return
             when "2"
-                @@joblist[id].status = "Pending"
+                change = "Pending"
+                @@joblist[id].status = change
+                JobsOverview.save_edits(id, :status, change)
                 return
             when "3"
-                @@joblist[id].status = "Closed"
+                change = "Closed"
+                @@joblist[id].status = change
+                JobsOverview.save_edits(id, :status, change)
                 return
             end
             puts "Invalid input. Press Enter to return"
