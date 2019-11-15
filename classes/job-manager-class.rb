@@ -4,7 +4,7 @@ class JobManager < JobsOverview
     attr_accessor :candidate_pool, :applied_pool, :contacted_pool, :screened_pool, :shortlisted_pool, :interview_pool, :offer_pool, :accepted_pool, :disqualified_pool
     attr_reader :id
 
-    def initialize(id, title, type, salary, openings, start_date, manager)
+    def initialize(id, title, type, salary, openings, start_date, manage)
         @candidate_pool = []
 
         @applied_pool = []
@@ -194,8 +194,6 @@ class JobManager < JobsOverview
         YAML.load_stream(File.read 'interview_logs.yml') { |interview| load_logs << interview }
         for i in load_logs[0]
             if i[:job_id] == job.id && i[:name].downcase == name
-                p i 
-                gets
                 i[:status] = "Completed"
                 print "Enter Rating /5: "
                 i[:rating] = gets.chomp.to_i

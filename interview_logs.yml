@@ -13,9 +13,9 @@
   :interviewers: d
   :duration: d
   :location: d
-  :status: Booked
-  :notes: ''
-  :rating: 0
+  :status: Completed
+  :notes: hmmm wasnt too good testing 123
+  :rating: 4
 - :job_id: '1001'
   :name: elmo
   :date: d
@@ -35,7 +35,7 @@
   :notes: ''
   :rating: 0
 - :job_id: '1002'
-  :name: animal
+  :name: lolcake
   :date: 25/11/19
   :interviewers: me
   :duration: 10 seconds
@@ -44,7 +44,7 @@
   :notes: hello testing 123 testing 321
   :rating: 5
 - :job_id: '1002'
-  :name: john
+  :name: steven
   :date: d
   :interviewers: d
   :duration: d
@@ -52,4 +52,4 @@
   :status: Completed
   :notes: was really bad
   :rating: 3
-#<File:0x00007fd18f05b348>
+#<File:0x00007fab3d13c758>

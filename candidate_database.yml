@@ -97,7 +97,7 @@
   :email: d
   :number: d
   :address: d
-  :status: Interview
+  :status: Offer
   :notes: {}
 - :job_id: '1001'
   :name: elmo
@@ -109,7 +109,7 @@
   :notes:
     '15-Nov-2019 15:13 PM ': d
 - :job_id: '1002'
-  :name: animal
+  :name: lolcake
   :occupation: being an animal
   :email: d
   :number: d
@@ -118,11 +118,11 @@
   :notes:
     '15-Nov-2019 16:21 PM ': lolodfklsanfgrjgntg
 - :job_id: '1002'
-  :name: john
+  :name: steven
   :occupation: d
   :email: d
   :number: d
   :address: d
   :status: Offer
   :notes: {}
-#<File:0x00007fd18f910560>
+#<File:0x00007fab3d12fe68>

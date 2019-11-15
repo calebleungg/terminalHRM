@@ -159,6 +159,7 @@ class Candidate
                 
                     puts "Interview must be completed before sending offer"
                     puts "\nPress Enter to return"
+                    gets
                     return
 
                     # i.status = "Offered"
@@ -192,6 +193,14 @@ class Candidate
                     puts "Enter new name: "
                     change = gets.chomp.to_s
                     Candidate.save_edits(i.name, :name, change)
+                    load_logs = []
+                    YAML.load_stream(File.read 'interview_logs.yml') { |interview| load_logs << interview }
+                    for log in load_logs[0]
+                        if log[:job_id] == job.id && log[:name].downcase == name
+                            log[:name] = change
+                            File.open("interview_logs.yml", 'w') { |file| file.write(load_logs[0].to_yaml, file) }
+                        end
+                    end
                     i.name = change
                     return
                 when "2"
