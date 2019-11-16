@@ -1,5 +1,4 @@
 # class for User Inferface used to store methods for displaying application features
-
 class UserInterface 
     
     @@user = ""
@@ -7,7 +6,7 @@ class UserInterface
     @@industry = ""
     @@total_employees = 0
 
-    # method for creating company when initialising application
+    # method for creating company when initialising application- currently hardcoded for convenience
     def self.create_company()
         print "Company Name: "
         @@company = "Coder Academy"#gets.chomp.to_s

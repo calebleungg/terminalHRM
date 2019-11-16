@@ -7,14 +7,18 @@ class JobsOverview < UserInterface
 
     # class method for displaying tabular job listing information
     def self.display()
+        # variable reset to ensure changes display
         @@table_info = []
         
         puts "\nJob Opportunities Overview (Open Positions)\n\n"
         puts "Total Listings: #{@@joblist.length}"
+
+        # for statement iterating through joblist class variable to organise data
         for key, value in @@joblist
             @@table_info.push([key, value.title, value.type, value.salary, value.openings, value.start_date, value.manager, value.applications, value.status])
         end
 
+        # initialising table using terminal-table gem to display @@table_info data
         table = Terminal::Table.new :headings => [
             "Job ID", "Job Title", 
             "Type", "Salary $(AUD)", 
@@ -35,14 +39,21 @@ class JobsOverview < UserInterface
         @@open_job_count
     end
 
+    # method to increasing job count
     def self.count_job()
         @@open_job_count += 1
     end
 
     # method for creating a job opportunity
     def self.create()
+
+        # method variable as instance storage
         job = {}
+
+        # class method for displaying overall UI Header
         UserInterface.header()
+
+        # storing user input for new job details
         puts "\n - Create New Jobs -\n\n"
         print "Job Title: "
         job[:title] = gets.chomp.to_s
@@ -58,13 +69,15 @@ class JobsOverview < UserInterface
         job[:manager] = gets.chomp.to_s
         job[:applications] = 0
         job[:status] = "Open"
+
+        # appending info into joblist class variable using job_id as key and a job object instanced by the info above
         @@joblist.store("100#{@@open_job_count}", JobManager.new(
                 "100#{@@open_job_count}", job[:title], job[:type], 
                 job[:salary], job[:openings], job[:start_date], job[:manager], job[:status]
             )
         )
 
-
+        # method variable for saving to yaml file
         saving = { 
             id: "100#{@@open_job_count}", 
             title: job[:title], 
@@ -78,26 +91,32 @@ class JobsOverview < UserInterface
 
         }
 
+        # loading yaml file contents into an instanced array
         load_jobs = []
         YAML.load_stream(File.read './info/job_database.yml') { |job| load_jobs << job }
 
+        # if check to skip load sequence if yaml file is empty
         if load_jobs[0] == [nil]
             load_jobs[0] = [saving]
         else
+            # if not empty, appenging the 'saving' hash above into the instanced array
             load_jobs[0] << saving
         end
 
+        # writing new instanced array back into the yaml file with new information added
         File.open("./info/job_database.yml", 'w') { |file| file.write(load_jobs[0].to_yaml, file) }
 
         @@open_job_count += 1 
     end
 
-    # method for editing a job opportunity information
+    # method for editing a job details
     def self.edit()
         UserInterface.header()
         self.display()
         print "Enter Job ID: "
         id = gets.chomp.to_s
+
+        # if statement checking invalid id 
         if JobsOverview.joblist.has_key?(id) == false
             puts "Invalid ID..."
             puts "\nPress Enter to return"
@@ -109,11 +128,14 @@ class JobsOverview < UserInterface
         option = prompt.select("Select Option (scroll to display all)", 
             %w(Job_Title Employment_Type Salary #_of_Openings Target_Start_Date Hiring_Manager Status Back))
 
+        # case statement applying changes to selected element from tty-prompt 
         print "Change to: "
         case option
         when "Job_Title"
             change = gets.chomp.to_s
+            # chagning selected element in the job object
             @@joblist[id].title = change
+            # method for saving edits- see below for job details in yaml file
             JobsOverview.save_edits(id, :title, change)
         when "Employment_Type"
             change = gets.chomp.to_s
@@ -138,6 +160,8 @@ class JobsOverview < UserInterface
         when "Status"
             prompt = TTY::Prompt.new
             answer = prompt.select("Change Status to", %w(Open Pending Closed))
+
+            # changing status is limited to 3 options, a case statement used to select from
             case answer 
             when "Open"
                 change = "Open"
@@ -162,14 +186,21 @@ class JobsOverview < UserInterface
         end
     end
 
+    # method for saving edits to information used above
     def self.save_edits(id, element, change)
+
+        # using method variable to load yaml data into
         load_jobs = []
         YAML.load_stream(File.read './info/job_database.yml') { |job| load_jobs << job }
+
+        # for loop to identify and change element with passed in variables
         for i in load_jobs[0]
             if i[:id] == id
                 i[element] = change
             end
         end
+
+        # overwriting yaml file with updated method variable
         File.open("./info/job_database.yml", 'w') { |file| file.write(load_jobs[0].to_yaml, file) }
     end
 

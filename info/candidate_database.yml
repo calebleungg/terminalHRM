@@ -32,4 +32,12 @@
   :address: Area 51 Nevada Basement 2
   :status: Disqualified
   :notes: {}
-#<File:0x00007fad2588dba8>
+- :job_id: '1001'
+  :name: Jason Bourne
+  :occupation: Goverment Assassin
+  :email: classified information
+  :number: classified information
+  :address: Homeless
+  :status: Applied
+  :notes: {}
+#<File:0x00007fe35114a910>
