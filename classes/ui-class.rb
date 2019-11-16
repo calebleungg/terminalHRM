@@ -22,7 +22,7 @@ class UserInterface
     # method for displaying company information as the header display 
     def self.header()
         system("clear")
-        puts "------ Heich-aR-eM -------\n\n"
+        puts "------ terminal" + "HRM".colorize(:green) + " -------\n\n"
         puts "Welcome, #{@@user}\n\n"
         puts "Company Name:     #{@@company}"
         puts "Industry:         #{@@industry}"

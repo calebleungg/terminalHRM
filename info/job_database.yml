@@ -3,7 +3,7 @@
   :title: Assistant Educator
   :type: Permanent - Part Time
   :salary: "$55,000"
-  :openings: 1
+  :openings: '1'
   :start_date: 01/02/20
   :manager: Glen Kumar
   :applications: 0
@@ -11,10 +11,10 @@
 - :id: '1001'
   :title: Lead Educataor
   :type: Permanent - Full Time
-  :salary: "$70,000"
+  :salary: "$72,000"
   :openings: 1
   :start_date: 01/12/19
   :manager: Kanye West
   :applications: 0
   :status: Open
-#<File:0x00007ffa4d0cb7b0>
+#<File:0x00007fc0240368f8>

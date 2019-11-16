@@ -34,11 +34,7 @@ Ones that have a current solution still show large opportunities for targeting, 
 
 3. **To select and shortlist potential candidates**. This feature will also allow the user go through each candidate’s profile and shortlist them to the next stage if they have potential. Then from here, a user can schedule an interview with each shortlisted candidate. Once interviews are completed a user can then provide comments, feedback, and a star rating of each, or even request a 2nd stage interview if necessary. 
 
-4. **Extend an offer**. The software will allow the user to select and send out an offer email for successful candidates, and to set a start date for each. From here the user can either close off the job opportunity if all the openings are filled, or continue to recruit for the roles, storing successful candidates in a completed pool.
-
-5. **Reporting**. Throughout the applications, at almost each step of the process, the user will have access to an information report that displays all relevant information on the jobs/candidates/shortlists. This information can be printed out, edited, and shared/emailed to others working in the company. 
-
-6. **Communication**. The application will allow a user to communicate and send emails to candidates or other work colleagues, and to make progress notes on specific jobs/candidates if multiple users are working on the same opportunity (to avoid double-work).
+4. **Extend an offer**. The software will allow the user to select and offer successful candidates. From here the user can either close off the job opportunity if all the openings are filled, or continue to recruit for the roles, storing successful candidates in a completed pool.
 
 <br>
 
@@ -59,31 +55,19 @@ Ones that have a current solution still show large opportunities for targeting, 
 | 2.4 Feature to close job listings |    |
 | | 
 | **3. Job Management Features (Mid Level)** | Management of currently open jobs- recruitment proess for reviewing, screening, and organising candidates. |
-| 3.1 Feature to accept candidates|  Priority: **Required**        |
-| 3.2 Feature to record indirect candidate applications |  Total Estimated Time: **2:00 hrs**        |
+| 3.1 Feature to record candidate applications|  Priority: **Required**        |
+| 3.2 Feature to make notes on a candidate |  Total Estimated Time: **2:00 hrs**        |
 | 3.3 Feature to view candidate profile |      |
 | 3.4 Feature to edit candidate details |    |
-| 3.5 Feature to view a report on total applicants |         |
-| 3.6 Feature to shortlist a candidate |         |
+| 3.5 Feature to shortlist a candidate |         |
+|3.6 Feature to disqualify a candidate|
 ||
 | **4. Offer Features (Mid Level)** | Offering, accepting, and recording successful candidates |
 | 4.1 Feature to schedule an interview with a candidate|  Priority: **Mid-level**        |
-| 4.2 Feature to mark completed interviews- provide feedback and comments show on candidate profile |  Total Estimated Time: **2:00 hrs**        |
-| 4.3 Feature to make notes on current candidate progression |      |
-| 4.5 Feature to send out an offer letter email to candidates |    |
-||
-| **5. Reporting Features (Low Level)** | Reporting features across all stages of the application of relevant helpful information |
-| 5.1 Feature to provide a report on total job opportunities currently open, previously completed and closed as well|  Priority: **Additional**        |
-| 5.2 Feature to provide a report on current applicants across all jobs |  Total Estimated Time: **2:00 hrs**        |
-| 5.3 Feature to provide a report on total shortlisted candidates across all jobs |      |
-| 5.4 Feature to provide a report on total interviewed/scheduled to interview candidates across all jobs |    |
-| 5.5 Feature to provide a report on all successfully offered candidates|    |
-| 5.6 Feature to provide a report on all unsuccessful candidates|    |
-||
-| **6. Communications Features (Low Level)** | Communication features across the application to allow multi-member use in larger companies |
-| 6.1 Feature to email candidates throughout all steps|  Priority: **Additional**        |
-| 6.2 Feature to make progression notes on candidates or specific job openings |  Total Estimated Time: **1:00 hrs**        |
-| 6.3 Feature to email colleagues reports/candidate profies/job opening information|      |
+| 4.2 Feature to mark completed interviews- provide feedback and comments |  Total Estimated Time: **2:00 hrs**        |
+| 4.3 Feature to view an interview log of booked interviews |      |
+| 4.5 Feature to send out an offer to candidates |    |
+
 
 
 

@@ -25,12 +25,6 @@ class JobsOverview < UserInterface
         puts table
     end
 
-    # class method for displaying control panel 
-    def self.control_panel()
-        puts "\n[1] Create Job    [2] Edit Job Details    [3] Manager Job"
-        puts "[x] Exit"
-    end
-
     # method for accessing job list 
     def self.joblist()
         @@joblist
@@ -106,60 +100,56 @@ class JobsOverview < UserInterface
         id = gets.chomp.to_s
         if JobsOverview.joblist.has_key?(id) == false
             puts "Invalid ID..."
-            sleep 1.5
+            puts "\nPress Enter to return"
+            gets
             return
         end
-        puts "Select field to edit:"
-        puts "[1] Job Title     [2] Employment Type     [3] Salary,"
-        puts "[4] # of Openings [5] Target Start Date   [6] Hiring Manager  [7] Status"
-        option = gets.chomp.to_s
+
+        prompt = TTY::Prompt.new
+        option = prompt.select("Select Option (scroll to display all)", 
+            %w(Job_Title Employment_Type Salary #_of_Openings Target_Start_Date Hiring_Manager Status Back))
+
         print "Change to: "
         case option
-        when "1"
+        when "Job_Title"
             change = gets.chomp.to_s
             @@joblist[id].title = change
             JobsOverview.save_edits(id, :title, change)
-        when "2"
+        when "Employment_Type"
             change = gets.chomp.to_s
             @@joblist[id].type = change
             JobsOverview.save_edits(id, :type, change)
-        when "3"
+        when "Salary"
             change = gets.chomp.to_s
             @@joblist[id].salary = change
             JobsOverview.save_edits(id, :salary, change)
-        when "4"
+        when "#_of_Openings"
             change = gets.chomp.to_s
             @@joblist[id].openings = change
             JobsOverview.save_edits(id, :openings, change)
-        when "5"
+        when "Target_Start_Date"
             change = gets.chomp.to_s
             @@joblist[id].start_date = change
             JobsOverview.save_edits(id, :start_date, change)
-        when "6"
+        when "Hiring_Manager"
             change = gets.chomp.to_s
             @@joblist[id].manager = change
             JobsOverview.save_edits(id, :manager, change)
-        when "7"
-            puts "Change status to:
-
-            [1] Open
-            [2] Pending
-            [3] Closed
-            "
-            print "Select: "
-            answer = gets.chomp.to_s
+        when "Status"
+            prompt = TTY::Prompt.new
+            answer = prompt.select("Change Status to", %w(Open Pending Closed))
             case answer 
-            when "1"
+            when "Open"
                 change = "Open"
                 @@joblist[id].status = change
                 JobsOverview.save_edits(id, :status, change)
                 return
-            when "2"
+            when "Pending"
                 change = "Pending"
                 @@joblist[id].status = change
                 JobsOverview.save_edits(id, :status, change)
                 return
-            when "3"
+            when "Closed"
                 change = "Closed"
                 @@joblist[id].status = change
                 JobsOverview.save_edits(id, :status, change)
@@ -167,6 +157,8 @@ class JobsOverview < UserInterface
             end
             puts "Invalid input. Press Enter to return"
             gets
+        when "Back"
+            return
         end
     end
 
@@ -181,34 +173,5 @@ class JobsOverview < UserInterface
         File.open("./info/job_database.yml", 'w') { |file| file.write(load_jobs[0].to_yaml, file) }
     end
 
-    def self.delete()
-        UserInterface.header()
-        self.display()
-        print "Enter Job ID: "
-        id = gets.chomp.to_s
-        if JobsOverview.joblist.has_key?(id) == false
-            puts "Invalid ID..."
-            sleep 1.5
-            return
-        end
-        puts "Are you sure you want to delete jobs? Type 'confirm' to confirm. "
-        puts "Press Enter to go back"
-        answer = gets.chomp.to_s
-
-        load_jobs = []
-        YAML.load_stream(File.read './info/job_database.yml') { |job| load_jobs << job }
-        for i in load_jobs[0]
-            if i[:id] == id
-                load_jobs[0].delete(i)
-            end
-        end
-
-        File.open("./info/job_database.yml", 'w') { |file| file.write(load_jobs[0].to_yaml, file) }
-
-    
-        @@joblist.delete(id)
-        
-        return
-    end
 
 end

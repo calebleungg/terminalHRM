@@ -2,6 +2,7 @@ require "yaml"
 require "colorize"
 require "terminal-table"
 require "date_format"
+require "tty-prompt"
 
 require "./classes/ui-class"
 require "./classes/jobs-overview-class"
@@ -78,57 +79,59 @@ while app_on
 
     JobsOverview.display()
 
-    JobsOverview.control_panel()
+    # JobsOverview.control_panel()
 
-    option = gets.chomp.to_s
+    prompt = TTY::Prompt.new
+    option = prompt.select("Select Option", %w(Create_Job Edit_Job Manage_Job Exit))
+
     case option
-    when "1"
+    when "Create_Job"
         JobsOverview.create()
-    when "2"
+    when "Edit_Job"
         JobsOverview.edit()
-    when "3"
+    when "Manage_Job"
+        manage = true
         print "Enter Job ID: "
         id = gets.chomp.to_s
         if JobsOverview.joblist.has_key?(id) == false
             puts "Invalid ID..."
             puts "\nPress Enter to return"
             gets
-            return
+            manage = false
         end
-        manage = true
         while manage
             JobManager.header_ui(id, JobsOverview.joblist[id])
             JobManager.progress_bar(JobsOverview.joblist[id])
-            JobManager.control_panel()
-            x = gets.chomp.to_s
-            case x
-            when "1"
+
+            prompt = TTY::Prompt.new
+            option = prompt.select("Select Option (scroll to display all)", 
+                %w(Create View Progress Make_note Schedule_interview Interview_Log 
+                    Complete_interview Edit_Cadidate Disqualify_Candidate Back))
+
+            case option
+            when "Create"
                 Candidate.create(JobsOverview.joblist[id])
-            when "2"
+            when "View"
                 Candidate.view(JobsOverview.joblist[id])
-            when "3"
+            when "Progress"
                 Candidate.progress(JobsOverview.joblist[id])
-            when "4"
+            when "Make_note"
                 Candidate.make_note(JobsOverview.joblist[id])
-            when "5"
+            when "Schedule_interview"
                 JobManager.schedule_interview(JobsOverview.joblist[id])
-            when "6"
+            when "Interview_Log"
                 JobManager.display_interview_list(JobsOverview.joblist[id])
-            when "7"
+            when "Complete_interview"
                 JobManager.complete_interview(JobsOverview.joblist[id])
-            when "8"
+            when "Edit_Cadidate"
                 Candidate.edit(JobsOverview.joblist[id])
-            when "9"
+            when "Disqualify_Candidate"
                 Candidate.disqualify(JobsOverview.joblist[id])
-            when "10"
-                JobManager.details_report(id, JobsOverview.joblist[id])
-            when "b"
+            when "Back"
                 manage = false
             end
         end
-    when "4"
-        JobsOverview.delete()
-    when "x"
+    when "Exit"
         system("clear")
         app_on = false
     end

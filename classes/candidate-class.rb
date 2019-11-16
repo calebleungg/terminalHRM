@@ -244,14 +244,6 @@ class Candidate
         return
     end
 
-    def self.delete_from(job, candidate)
-        for i in job.all_pools
-            if i.include?(candidate)
-                i.delete(candidate)
-            end
-        end
-    end
-
     def self.disqualify(job)
         puts "- Disqualify Candidates -"
         print "Enter name: "

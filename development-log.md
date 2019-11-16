@@ -12,12 +12,12 @@
 * As of now, functionality is fairly sound for all the available features
 * It was thought up that a Job ID assigned to each job object would be a good way to instance, and bring forth selected jobs going forward.
 
-<br> 
-
 #### Next Steps
 * Will be to continue building upon the features at the job management level
 * Test to see if the current interation method for correctly displaying progress information will work when integrating the other progression pools
 * If not, find a better way to display the information
+
+<br> 
 
 ### 12.11.19 || Entry 2
 * Probably the most challenge aspect of development was figuring out a way to display a candidates progression through the stages correctly in tabular form yet keep the table dynamic depending on the number of candidates in each stage
@@ -27,10 +27,11 @@
 * After much efforts a correct way to display the progression was found
 * From here a method for progressing/moving candidates to the next stage of the recruitment process was formed (relatively straight forward) using the candidate.status instance variable as a case variable for the corresponding options
 
-<br> 
 
 #### Next Steps
 * Will be to tie in the rest of the features such as scheduling interview, adding notes to candidate profiles with the rest of the application.
+
+<br> 
 
 ### 14.11.19 || Entry 3
 * All-round functionality of the application is now sound and fairly tested in all aspects
@@ -42,11 +43,23 @@
 * Save/load functionality is very initial as it only allows for the creating and loading of the first instance created of the object
 * Any further editing to the objects details (includes both jobs and candidates class) has not yet been coded to save properly as such is still lost when the application is terminated
 
-<br> 
-
 #### Next Steps
 * Continue incorporating proper save/load methods to store all progressed worked on
 * A suggestion for creating a total search function of the database using any specific value could also be a next target feature
+
+<br/>
+
+### 16.11.19 || Entry 4
+* Save and load function now works for all editing/adding features of the application
+* A significant hurdle was trying to integrate save/loading correctly to yaml for each and every information piece that could be edited as the process to write to file was different for each depending on what I wanted to do with the specific information
+* YAML files was used to store all information inside an Array containing an Array, that contained a list of hashes
+* The way the information is retrived is by load_streaming the file onto a method variable that stores it initially, iterating onto that first index of the load_stream, then iterating through the list of arrays inside to find the correct piece of information to either change it, or to add another hash of information to the list of hashes in the array (first index of load_stream) to then write back the method variable onto the yaml file with the change.
+* As save/load was integrated from bottom up (candidate level info to job info), the application was made dependent on having information already stored inside of the YAML files. 
+* When I tried running the application as a fresh database without any information- the load process would iterate through the empty YAML file and throw an error (as an empty yaml file returns a nil value)
+* The way around this was to add an if condition before every load/save requirement in the application to skip the loading process if the yaml file returned a nil. If it didnt then the load process would be passed through. 
+
+#### Next Steps
+* Possibly make load/save code a bit more DRY (a little repetitive currently)
 
 
 

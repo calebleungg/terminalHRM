@@ -229,27 +229,6 @@ class JobManager < JobsOverview
         gets
     end
 
-    def self.details_report(id, job)
-        system("clear")
-        JobManager.header_ui(id, job)
-        rows = []
-
-        for i in job.candidate_pool
-            rows << [i.name, i.status, i.occupation, i.email, i.number, i.address, i.notes.values.last]
-        end
-
-        table = Terminal::Table.new :headings => [
-            "Candidate Name", "Status", 
-            "Occupation", "Email", 
-            "Number", "Address", 
-            "Latest Note"
-            ], :rows => rows
-
-        puts table
-        puts "\n Press Enter to return"
-        gets
-    end
-
     # method for displaying job management controls
     def self.control_panel()
         puts "\n[1] Create Candidate          [2] View Candidate          [3] Progress Candidate   [4] Make Note "

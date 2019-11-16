@@ -1,3 +1,12 @@
 ---
-- 
-#<File:0x00007fd04d969270>
+- :job_id: '1000'
+  :name: Thanos
+  :date: 10/11/19
+  :interviewers: Naveen & Glen & Ashleigh
+  :duration: 45 minutes
+  :location: Coder Academy Room 5
+  :status: Completed
+  :notes: 'Had strong feelings about halving the universe''s population. Probably
+    not a good culture fit because of that. '
+  :rating: 1
+#<File:0x00007fe74e8f0998>

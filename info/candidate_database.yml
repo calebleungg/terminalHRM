@@ -7,4 +7,29 @@
   :address: classified information
   :status: Applied
   :notes: {}
-#<File:0x00007ffa50802d50>
+- :job_id: '1000'
+  :name: Harry Potter
+  :occupation: Wizard
+  :email: hpotter@hogwarts.com
+  :number: 0404 939 020
+  :address: Uncle's house under the stairs (for now...)
+  :status: Applied
+  :notes: {}
+- :job_id: '1000'
+  :name: Naruto Uzumaki
+  :occupation: Ninja
+  :email: uzumaki_hokage@hotmail.com
+  :number: n/a - ninja's dont have phones
+  :address: 51 Street Konoha Village
+  :status: Contacted
+  :notes:
+    '16-Nov-2019 15:26 PM ': Can eat a surprising amount of ramen
+- :job_id: '1000'
+  :name: Thanos
+  :occupation: Destroyer of Worlds
+  :email: i-am-inevitable@gmail.com
+  :number: '0408 904 983'
+  :address: Area 51 Nevada Basement 2
+  :status: Disqualified
+  :notes: {}
+#<File:0x00007fad2588dba8>
