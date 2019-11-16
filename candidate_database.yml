@@ -1,136 +1,20 @@
 ---
-- :job_id: '1002'
-  :name: Barak Obama
-  :occupation: President USA
-  :email: classified information
-  :number: classified information
-  :address: Ask Edward Snowden
-  :status: Interview
-  :notes: {}
 - :job_id: '1000'
-  :name: Jamie Foxx
-  :occupation: Actor/Singer/Comedian
-  :email: jfoxx@hollywood.com
-  :number: 0400 000 222
-  :address: '822 Big Rich Mansion Road, California '
-  :status: Applied
-  :notes: {}
-- :job_id: '1000'
-  :name: Shauna McCormack
-  :occupation: Excellent Teacher
-  :email: shauna.catlady@ilovescience.com
-  :number: 0400 000 999
-  :address: '82 Brisbane City, Australia Queensland '
-  :status: Applied
-  :notes: {}
-- :job_id: '1000'
-  :name: Batman
-  :occupation: Vigilanti
-  :email: thedark.knight@batmancorp.com
-  :number: 0400 000 777
-  :address: Bruce Wayne's Bat Cave
-  :status: Interview
-  :notes:
-    '15-Nov-2019 11:46 AM ': He's pretty cool
-- :job_id: '1000'
-  :name: Naruto Uzumaki
-  :occupation: Apartment Complex 101, Konoha Street
-  :email: hokage1@konoha.com
-  :number: n/a
+  :name: candidate
+  :occupation: d
+  :email: d
+  :number: d
   :address: d
-  :status: Contacted
-  :notes:
-    '15-Nov-2019 11:38 AM ': lolcake
-    '15-Nov-2019 11:40 AM ': helloworld
-    '15-Nov-2019 15:51 PM ': Fairly decent at eating ramen
+  :status: Applied
+  :notes: {}
 - :job_id: '1000'
-  :name: Pepsi Max
-  :occupation: Soft Drink
-  :email: pepsi@co.com
-  :number: 0400 000 222
-  :address: Everywhere
+  :name: lolcake
+  :occupation: d
+  :email: d
+  :number: d
+  :address: d
   :status: Screened
-  :notes: {}
-- :job_id: '1000'
-  :name: caleb
-  :occupation: d
-  :email: d
-  :number: d
-  :address: d
-  :status: Interview
-  :notes: {}
-- :job_id: '1000'
-  :name: test1
-  :occupation: d
-  :email: d
-  :number: d
-  :address: d
-  :status: Interview
-  :notes: {}
-- :job_id: '1000'
-  :name: test2
-  :occupation: d
-  :email: d
-  :number: d
-  :address: d
-  :status: Interview
-  :notes: {}
-- :job_id: '1000'
-  :name: lol
-  :occupation: d
-  :email: d
-  :number: d
-  :address: d
-  :status: Interview
-  :notes: {}
-- :job_id: '1004'
-  :name: caleb
-  :occupation: d
-  :email: d
-  :number: d
-  :address: d
-  :status: Applied
-  :notes: {}
-- :job_id: '1000'
-  :name: hello
-  :occupation: d
-  :email: d
-  :number: d
-  :address: d
-  :status: Offer
-  :notes: {}
-- :job_id: '1001'
-  :name: elmo
-  :occupation: d
-  :email: d
-  :number: d
-  :address: d
-  :status: Interview
   :notes:
-    '15-Nov-2019 15:13 PM ': d
-- :job_id: '1002'
-  :name: Adam Sandler
-  :occupation: being an animal
-  :email: d
-  :number: d
-  :address: d
-  :status: Accepted
-  :notes:
-    '15-Nov-2019 16:21 PM ': lolodfklsanfgrjgntg
-- :job_id: '1002'
-  :name: steven
-  :occupation: d
-  :email: d
-  :number: d
-  :address: d
-  :status: Offer
-  :notes: {}
-- :job_id: '1002'
-  :name: Neil Armstrong
-  :occupation: Ex-Astronaut
-  :email: narmstrong@hotmail.com
-  :number: 0400 000 555
-  :address: The Moon
-  :status: Disqualified
-  :notes: {}
-#<File:0x00007fb8f1882320>
+    '16-Nov-2019 11:26 AM ': gregtg
+    '16-Nov-2019 11:27 AM ': helmet is too big
+#<File:0x00007fe057101460>

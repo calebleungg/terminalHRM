@@ -46,7 +46,13 @@ class Candidate
 
         load_candidates = []
         YAML.load_stream(File.read 'candidate_database.yml') { |candidate| load_candidates << candidate }
-        load_candidates[0] << saving
+
+        if load_candidates[0] == [nil]
+            load_candidates[0] = [saving]
+        else
+            load_candidates[0] << saving
+        end
+        
         File.open("candidate_database.yml", 'w') { |file| file.write(load_candidates[0].to_yaml, file) }
 
     end

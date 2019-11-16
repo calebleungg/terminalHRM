@@ -66,7 +66,7 @@ class JobsOverview < UserInterface
         job[:status] = "Open"
         @@joblist.store("100#{@@open_job_count}", JobManager.new(
                 "100#{@@open_job_count}", job[:title], job[:type], 
-                job[:salary], job[:openings], job[:start_date], job[:manager]
+                job[:salary], job[:openings], job[:start_date], job[:manager], job[:status]
             )
         )
 
@@ -86,10 +86,14 @@ class JobsOverview < UserInterface
 
         load_jobs = []
         YAML.load_stream(File.read 'job_database.yml') { |job| load_jobs << job }
-        load_jobs[0] << saving
-        File.open("job_database.yml", 'w') { |file| file.write(load_jobs.to_yaml, file) }
-        p load_jobs
-        gets
+
+        if load_jobs[0] == [nil]
+            load_jobs[0] = [saving]
+        else
+            load_jobs[0] << saving
+        end
+
+        File.open("job_database.yml", 'w') { |file| file.write(load_jobs[0].to_yaml, file) }
 
         @@open_job_count += 1 
     end

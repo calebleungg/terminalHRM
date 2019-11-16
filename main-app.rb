@@ -12,38 +12,53 @@ require "./classes/candidate-class"
 load_queue_jobs = []
 YAML.load_stream(File.read 'job_database.yml') { |job| load_queue_jobs << job }
 
-
-for job in load_queue_jobs[0]
-    JobsOverview.joblist.store(job[:id], JobManager.new(job[:id], job[:title], job[:type], job[:salary], job[:openings], job[:start_date], job[:manager], job[:status]))
-    JobsOverview.count_job()
+if load_queue_jobs[0] == [nil]
+    puts "loading jobs..."
+    sleep 0.5
+else
+    puts "loading jobs..."
+    sleep 0.5
+    for job in load_queue_jobs[0]
+        JobsOverview.joblist.store(job[:id], JobManager.new(job[:id], job[:title], job[:type], job[:salary], job[:openings], job[:start_date], job[:manager], job[:status]))
+        JobsOverview.count_job()
+    end
 end
 
 load_queue_candidates = []
 YAML.load_stream(File.read 'candidate_database.yml') { |candidate| load_queue_candidates << candidate }
 
-for i in load_queue_candidates[0]
-    candidate = Candidate.new(i[:name], i[:occupation], i[:email], i[:number], i[:address], i[:status], i[:notes])
-    JobsOverview.joblist[i[:job_id]].candidate_pool.push(candidate)
-    case candidate.status
-    when "Applied"
-        JobsOverview.joblist[i[:job_id]].applied_pool.push(candidate)
-    when "Contacted"
-        JobsOverview.joblist[i[:job_id]].contacted_pool.push(candidate)
-    when "Screened"
-        JobsOverview.joblist[i[:job_id]].screened_pool.push(candidate)
-    when "Shortlisted"
-        JobsOverview.joblist[i[:job_id]].shortlisted_pool.push(candidate)
-    when "Interview"
-        JobsOverview.joblist[i[:job_id]].interview_pool.push(candidate)
-    when "Offer"
-        JobsOverview.joblist[i[:job_id]].offer_pool.push(candidate)
-    when "Accepted"
-        JobsOverview.joblist[i[:job_id]].accepted_pool.push(candidate)
-    when "Disqualified"
-        JobsOverview.joblist[i[:job_id]].disqualified_pool.push(candidate)
+if load_queue_candidates[0] == [nil]
+    puts "loading candidates..."
+    sleep 0.5
+else   
+    puts "loading candidates..."
+    sleep 0.5
+
+    for i in load_queue_candidates[0]
+        candidate = Candidate.new(i[:name], i[:occupation], i[:email], i[:number], i[:address], i[:status], i[:notes])
+        JobsOverview.joblist[i[:job_id]].candidate_pool.push(candidate)
+        case candidate.status
+        when "Applied"
+            JobsOverview.joblist[i[:job_id]].applied_pool.push(candidate)
+        when "Contacted"
+            JobsOverview.joblist[i[:job_id]].contacted_pool.push(candidate)
+        when "Screened"
+            JobsOverview.joblist[i[:job_id]].screened_pool.push(candidate)
+        when "Shortlisted"
+            JobsOverview.joblist[i[:job_id]].shortlisted_pool.push(candidate)
+        when "Interview"
+            JobsOverview.joblist[i[:job_id]].interview_pool.push(candidate)
+        when "Offer"
+            JobsOverview.joblist[i[:job_id]].offer_pool.push(candidate)
+        when "Accepted"
+            JobsOverview.joblist[i[:job_id]].accepted_pool.push(candidate)
+        when "Disqualified"
+            JobsOverview.joblist[i[:job_id]].disqualified_pool.push(candidate)
+        end
+        # JobsOverview.joblist[i[:job_id]].applied_pool.push(candidate)
+        JobsOverview.joblist[i[:job_id]].applications += 1
     end
-    # JobsOverview.joblist[i[:job_id]].applied_pool.push(candidate)
-    JobsOverview.joblist[i[:job_id]].applications += 1
+
 end
 
 
