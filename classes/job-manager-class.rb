@@ -145,7 +145,7 @@ class JobManager < JobsOverview
                 }
         
                 load_logs = []
-                YAML.load_stream(File.read 'interview_logs.yml') { |interview| load_logs << interview }
+                YAML.load_stream(File.read './info/interview_logs.yml') { |interview| load_logs << interview }
 
                 if load_logs[0] == [nil]
                     load_logs[0] = [saving]
@@ -153,7 +153,7 @@ class JobManager < JobsOverview
                     load_logs[0] << saving
                 end
 
-                File.open("interview_logs.yml", 'w') { |file| file.write(load_logs[0].to_yaml, file) }
+                File.open("./info/interview_logs.yml", 'w') { |file| file.write(load_logs[0].to_yaml, file) }
 
                 return
             end
@@ -167,7 +167,7 @@ class JobManager < JobsOverview
 
         load_logs = []
 
-        YAML.load_stream(File.read 'interview_logs.yml') { |interview| load_logs << interview }
+        YAML.load_stream(File.read './info/interview_logs.yml') { |interview| load_logs << interview }
 
         if load_logs[0] == [nil]
             puts "- Interview Log - "
@@ -205,7 +205,7 @@ class JobManager < JobsOverview
         name = gets.chomp.to_s.downcase
 
         load_logs = []
-        YAML.load_stream(File.read 'interview_logs.yml') { |interview| load_logs << interview }
+        YAML.load_stream(File.read './info/interview_logs.yml') { |interview| load_logs << interview }
 
         if load_logs[0] == [nil]
             puts "Invalde Error: "
@@ -218,7 +218,7 @@ class JobManager < JobsOverview
                     puts "Additional comments, type below: "
                     i[:notes] = gets.chomp.to_s
 
-                    File.open("interview_logs.yml", 'w') { |file| file.write(load_logs[0].to_yaml, file) }
+                    File.open("./info/interview_logs.yml", 'w') { |file| file.write(load_logs[0].to_yaml, file) }
                     return
                 end
             end

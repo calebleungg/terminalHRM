@@ -85,7 +85,7 @@ class JobsOverview < UserInterface
         }
 
         load_jobs = []
-        YAML.load_stream(File.read 'job_database.yml') { |job| load_jobs << job }
+        YAML.load_stream(File.read './info/job_database.yml') { |job| load_jobs << job }
 
         if load_jobs[0] == [nil]
             load_jobs[0] = [saving]
@@ -93,7 +93,7 @@ class JobsOverview < UserInterface
             load_jobs[0] << saving
         end
 
-        File.open("job_database.yml", 'w') { |file| file.write(load_jobs[0].to_yaml, file) }
+        File.open("./info/job_database.yml", 'w') { |file| file.write(load_jobs[0].to_yaml, file) }
 
         @@open_job_count += 1 
     end
@@ -172,13 +172,13 @@ class JobsOverview < UserInterface
 
     def self.save_edits(id, element, change)
         load_jobs = []
-        YAML.load_stream(File.read 'job_database.yml') { |job| load_jobs << job }
+        YAML.load_stream(File.read './info/job_database.yml') { |job| load_jobs << job }
         for i in load_jobs[0]
             if i[:id] == id
                 i[element] = change
             end
         end
-        File.open("job_database.yml", 'w') { |file| file.write(load_jobs[0].to_yaml, file) }
+        File.open("./info/job_database.yml", 'w') { |file| file.write(load_jobs[0].to_yaml, file) }
     end
 
     def self.delete()
@@ -196,14 +196,14 @@ class JobsOverview < UserInterface
         answer = gets.chomp.to_s
 
         load_jobs = []
-        YAML.load_stream(File.read 'job_database.yml') { |job| load_jobs << job }
+        YAML.load_stream(File.read './info/job_database.yml') { |job| load_jobs << job }
         for i in load_jobs[0]
             if i[:id] == id
                 load_jobs[0].delete(i)
             end
         end
 
-        File.open("job_database.yml", 'w') { |file| file.write(load_jobs[0].to_yaml, file) }
+        File.open("./info/job_database.yml", 'w') { |file| file.write(load_jobs[0].to_yaml, file) }
 
     
         @@joblist.delete(id)

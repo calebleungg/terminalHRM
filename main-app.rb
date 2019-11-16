@@ -10,7 +10,7 @@ require "./classes/candidate-class"
 
 
 load_queue_jobs = []
-YAML.load_stream(File.read 'job_database.yml') { |job| load_queue_jobs << job }
+YAML.load_stream(File.read './info/job_database.yml') { |job| load_queue_jobs << job }
 
 if load_queue_jobs[0] == [nil]
     puts "loading jobs..."
@@ -25,7 +25,7 @@ else
 end
 
 load_queue_candidates = []
-YAML.load_stream(File.read 'candidate_database.yml') { |candidate| load_queue_candidates << candidate }
+YAML.load_stream(File.read './info/candidate_database.yml') { |candidate| load_queue_candidates << candidate }
 
 if load_queue_candidates[0] == [nil]
     puts "loading candidates..."

@@ -45,7 +45,7 @@ class Candidate
         # File.open("candidate_database.yml", "a") { |file| file.write(saving.to_yaml) }
 
         load_candidates = []
-        YAML.load_stream(File.read 'candidate_database.yml') { |candidate| load_candidates << candidate }
+        YAML.load_stream(File.read './info/candidate_database.yml') { |candidate| load_candidates << candidate }
 
         if load_candidates[0] == [nil]
             load_candidates[0] = [saving]
@@ -53,7 +53,7 @@ class Candidate
             load_candidates[0] << saving
         end
         
-        File.open("candidate_database.yml", 'w') { |file| file.write(load_candidates[0].to_yaml, file) }
+        File.open("./info/candidate_database.yml", 'w') { |file| file.write(load_candidates[0].to_yaml, file) }
 
     end
 
@@ -102,13 +102,13 @@ class Candidate
                 note = gets.chomp.to_s
                 i.notes.store(format_date, note)
                 load_candidates = []
-                YAML.load_stream(File.read 'candidate_database.yml') { |candidate| load_candidates << candidate }
+                YAML.load_stream(File.read './info/candidate_database.yml') { |candidate| load_candidates << candidate }
                 for candidate in load_candidates[0]
                     if candidate[:name] == i.name 
                         candidate[:notes][format_date] = note
                     end
                 end
-                File.open("candidate_database.yml", 'w') { |file| file.write(load_candidates[0].to_yaml, file) }
+                File.open("./info/candidate_database.yml", 'w') { |file| file.write(load_candidates[0].to_yaml, file) }
                 return
             end
         end
@@ -153,7 +153,7 @@ class Candidate
                     return
                 when "Interview"
                     load_logs = []
-                    YAML.load_stream(File.read 'interview_logs.yml') { |interview| load_logs << interview }
+                    YAML.load_stream(File.read './info/interview_logs.yml') { |interview| load_logs << interview }
                     for log in load_logs[0]
                         if log[:job_id] == job.id && log[:name].downcase == name && log[:status] == "Completed"
                             i.status = "Offer"
@@ -196,7 +196,7 @@ class Candidate
                     Candidate.save_edits(i.name, :name, change)
                     
                     load_logs = []
-                    YAML.load_stream(File.read 'interview_logs.yml') { |interview| load_logs << interview }
+                    YAML.load_stream(File.read './info/interview_logs.yml') { |interview| load_logs << interview }
                     if load_logs[0] == [nil]
                         i.name = change
                         return
@@ -204,7 +204,7 @@ class Candidate
                         for log in load_logs[0]
                             if log[:name] == i.name
                                 log[:name] = change
-                                File.open("interview_logs.yml", 'w') { |file| file.write(load_logs[0].to_yaml, file) }
+                                File.open("./info/interview_logs.yml", 'w') { |file| file.write(load_logs[0].to_yaml, file) }
                             end
                         end
                     end
@@ -277,13 +277,13 @@ class Candidate
 
     def self.save_edits(name, element, change)
         load_candidates = []
-        YAML.load_stream(File.read 'candidate_database.yml') { |candidate| load_candidates << candidate }
+        YAML.load_stream(File.read './info/candidate_database.yml') { |candidate| load_candidates << candidate }
         for i in load_candidates[0]
             if i[:name] == name
                 i[element] = change
             end
         end
-        File.open("candidate_database.yml", 'w') { |file| file.write(load_candidates[0].to_yaml, file) }
+        File.open("./info/candidate_database.yml", 'w') { |file| file.write(load_candidates[0].to_yaml, file) }
     end
 
 end
