@@ -185,23 +185,30 @@ class Candidate
         puts "- Edit Candidate Details -"
         print "Enter name: "
         name = gets.chomp.to_s.downcase
-        puts "Field to Change? Name [1] Occupation [2], Email [3], Number [4], Address [5]"
-        option = gets.chomp.to_s
         for i in job.candidate_pool
             if i.name.downcase == name
+                puts "Field to Change? Name [1] Occupation [2], Email [3], Number [4], Address [5]"
+                option = gets.chomp.to_s
                 case option
                 when "1"
                     puts "Enter new name: "
                     change = gets.chomp.to_s
                     Candidate.save_edits(i.name, :name, change)
+                    
                     load_logs = []
                     YAML.load_stream(File.read 'interview_logs.yml') { |interview| load_logs << interview }
-                    for log in load_logs[0]
-                        if log[:job_id] == job.id && log[:name].downcase == name
-                            log[:name] = change
-                            File.open("interview_logs.yml", 'w') { |file| file.write(load_logs[0].to_yaml, file) }
+                    if load_logs[0] == [nil]
+                        i.name = change
+                        return
+                    else
+                        for log in load_logs[0]
+                            if log[:name] == i.name
+                                log[:name] = change
+                                File.open("interview_logs.yml", 'w') { |file| file.write(load_logs[0].to_yaml, file) }
+                            end
                         end
                     end
+
                     i.name = change
                     return
                 when "2"
@@ -225,12 +232,16 @@ class Candidate
                 when "5"
                     puts "Enter new address: "
                     change = gets.chomp.to_s
-                    Candidate.save_edits(i.name, :occupation, change)
+                    Candidate.save_edits(i.name, :address, change)
                     i.address = change
                     return
                 end
             end
         end
+        puts "Invalid Candidate, please enter name correctly. "
+        puts "\nPress Enter to return."
+        gets
+        return
     end
 
     def self.delete_from(job, candidate)
@@ -251,7 +262,7 @@ class Candidate
                 format_date = "#{DateFormat.change_to(date, "MEDIUM_DATE")} #{DateFormat.change_to(date, "MEDIUM_TIME")} "
                 puts "Reason for disqualification: "
                 reason = gets.chomp.to_s
-                i.notes.store(format_date, "Not Suitable: " + reason)
+                i.notes.store(format_date, "DQ - Not Suitable: " + reason)
                 i.status = "Disqualified"
                 Candidate.save_edits(i.name, :status, i.status)
                 Candidate.move(i, Candidate.delete_from(job, i), job.disqualified_pool)

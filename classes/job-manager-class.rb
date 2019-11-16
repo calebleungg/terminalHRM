@@ -146,13 +146,19 @@ class JobManager < JobsOverview
         
                 load_logs = []
                 YAML.load_stream(File.read 'interview_logs.yml') { |interview| load_logs << interview }
-                load_logs[0] << saving
+
+                if load_logs[0] == [nil]
+                    load_logs[0] = [saving]
+                else
+                    load_logs[0] << saving
+                end
+
                 File.open("interview_logs.yml", 'w') { |file| file.write(load_logs[0].to_yaml, file) }
 
                 return
             end
         end
-        puts "Invalid Candidate, please enter name correctly."
+        puts "Candidate needs to be shortlisted to schedule an interview."
         puts "\nPress Enter to return"
         gets
     end
@@ -163,22 +169,30 @@ class JobManager < JobsOverview
 
         YAML.load_stream(File.read 'interview_logs.yml') { |interview| load_logs << interview }
 
-        puts "- Interview Log - "
-        puts "------------------------------"
-        for i in load_logs[0]
-    
-            if i[:job_id] == job.id
-                puts "Candidate:    #{i[:name]}"
-                puts "Date:         #{i[:date]}"
-                puts "Interviewers: #{i[:interviews]}"
-                puts "Duration:     #{i[:duration]}"
-                puts "Location:     #{i[:location]}\n\n"
-                puts "Status:       #{i[:status]}"
-                puts "Notes:        #{i[:notes]}"
-                puts "Rating:       #{i[:rating]}"
-                puts "------------------------------"
+        if load_logs[0] == [nil]
+            puts "- Interview Log - "
+            puts "------------------------------"
+            puts "No entries..."
+        else
+            puts "- Interview Log - "
+            puts "------------------------------"
+            for i in load_logs[0]
+        
+                if i[:job_id] == job.id
+                    puts "Candidate:    #{i[:name]}"
+                    puts "Date:         #{i[:date]}"
+                    puts "Interviewers: #{i[:interviews]}"
+                    puts "Duration:     #{i[:duration]}"
+                    puts "Location:     #{i[:location]}\n\n"
+                    puts "Status:       #{i[:status]}"
+                    puts "Notes:        #{i[:notes]}"
+                    puts "Rating:       #{i[:rating]}"
+                    puts "------------------------------"
+                end
             end
         end
+
+
         puts "\nPress Enter to return"
         gets
     end
@@ -192,19 +206,24 @@ class JobManager < JobsOverview
 
         load_logs = []
         YAML.load_stream(File.read 'interview_logs.yml') { |interview| load_logs << interview }
-        for i in load_logs[0]
-            if i[:job_id] == job.id && i[:name].downcase == name
-                i[:status] = "Completed"
-                print "Enter Rating /5: "
-                i[:rating] = gets.chomp.to_i
-                puts "Additional comments, type below: "
-                i[:notes] = gets.chomp.to_s
-    
-                File.open("interview_logs.yml", 'w') { |file| file.write(load_logs[0].to_yaml, file) }
-                return
+
+        if load_logs[0] == [nil]
+            puts "Invalde Error: "
+        else
+            for i in load_logs[0]
+                if i[:job_id] == job.id && i[:name].downcase == name
+                    i[:status] = "Completed"
+                    print "Enter Rating /5: "
+                    i[:rating] = gets.chomp.to_i
+                    puts "Additional comments, type below: "
+                    i[:notes] = gets.chomp.to_s
+
+                    File.open("interview_logs.yml", 'w') { |file| file.write(load_logs[0].to_yaml, file) }
+                    return
+                end
             end
         end
-
+                
         puts "Candidate needs to be shortlisted to schedule an interview."
         puts "\nPress Enter to return"
         gets

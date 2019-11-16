@@ -1,20 +1,3 @@
 ---
-- :job_id: '1000'
-  :name: candidate
-  :occupation: d
-  :email: d
-  :number: d
-  :address: d
-  :status: Applied
-  :notes: {}
-- :job_id: '1000'
-  :name: lolcake
-  :occupation: d
-  :email: d
-  :number: d
-  :address: d
-  :status: Screened
-  :notes:
-    '16-Nov-2019 11:26 AM ': gregtg
-    '16-Nov-2019 11:27 AM ': helmet is too big
-#<File:0x00007fe057101460>
+- 
+#<File:0x00007fd04d963cf8>
