@@ -15,7 +15,18 @@ class JobsOverview < UserInterface
 
         # for statement iterating through joblist class variable to organise data
         for key, value in @@joblist
-            @@table_info.push([key, value.title, value.type, value.salary, value.openings, value.start_date, value.manager, value.applications, value.status])
+            @@table_info.push([
+                key, 
+                value.title, 
+                value.type, 
+                value.salary, 
+                value.openings, 
+                value.start_date, 
+                value.manager, 
+                value.applications, 
+                value.status
+                ]
+            )
         end
 
         # initialising table using terminal-table gem to display @@table_info data

@@ -45,8 +45,8 @@ Ones that have a current solution still show large opportunities for targeting, 
 | **1. User Interface** | Create a class to display a basic UI for the software, includes all levels of the application     |
 | 1.1 Homepage - Job listing UI |    Priority: **Important**      |
 | 1.2 Job level - management UI |   Total Estimated Time: **1:30 hrs**       |
-| 1.3 Details report UIs (all levels)|      |
-| 1.4 Communication UIs |         |
+| 1.3 Candidate Profile/Details UI|      |
+| 1.4 Interview Log/Scheduling UI |         |
 |    |  |
 | **2. Opportunities Features (Top Level)** | Main menu job creation/listing and management. The first thing the user lands on when opening the application.        |
 | 2.1 Feature to create job listings|  Priority: **Required**        |

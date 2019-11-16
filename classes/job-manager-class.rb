@@ -1,7 +1,7 @@
 # class for Managing selected job
 class JobManager < JobsOverview
     attr_accessor :title, :type, :salary, :openings, :start_date, :manager, :interview_pool, :offer_pool
-    attr_accessor :applications, :cumulative, :column_count, :interview_log, :status, :disqualified_pool
+    attr_accessor :applications, :cumulative, :column_count, :interview_log, :status, :disqualified_pool, :all_pools
     attr_accessor :candidate_pool, :applied_pool, :contacted_pool, :screened_pool, :shortlisted_pool, :accepted_pool
     attr_reader :id
 
@@ -27,6 +27,14 @@ class JobManager < JobsOverview
             @interview_pool.length, @offer_pool.length, @accepted_pool.length,
             @disqualified_pool.length
         ]
+
+        # instance variable referenced when disqualifying candidate
+        @all_pools = [
+            @applied_pool, @contacted_pool, @screened_pool, 
+            @shortlisted_pool, @interview_pool, @offer_pool, 
+            @accepted_pool, @disqualified_pool
+        ]
+
 
         @id = id
         @title = title

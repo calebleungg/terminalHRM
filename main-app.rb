@@ -33,9 +33,15 @@ end
 spinner2.success('(successful)')
 sleep 0.5
 
+# method for loading yaml files
+def load_yaml(yaml_file)
+    data = []
+    YAML.load_stream(File.read yaml_file) { |f| data << f }
+    return data
+end
+
 # load sequence for saved job data- appending yaml data into an array of hashes 
-load_queue_jobs = []
-YAML.load_stream(File.read './info/job_database.yml') { |job| load_queue_jobs << job }
+load_queue_jobs = load_yaml('./info/job_database.yml') #[]
 
 # if condition for skipping sequence if yaml file is empty
 if load_queue_jobs[0] == [nil]
@@ -44,14 +50,24 @@ else
     for job in load_queue_jobs[0]
 
         #initialising saved jobs into objects for the program to use throughout- iterating through the list of hashes 
-        JobsOverview.joblist.store(job[:id], JobManager.new(job[:id], job[:title], job[:type], job[:salary], job[:openings], job[:start_date], job[:manager], job[:status]))
+        JobsOverview.joblist.store(job[:id], 
+            JobManager.new(
+                job[:id], 
+                job[:title], 
+                job[:type], 
+                job[:salary], 
+                job[:openings], 
+                job[:start_date], 
+                job[:manager], 
+                job[:status]
+            )
+        )
         JobsOverview.count_job()
     end
 end
 
 # load sequence for saved candidate data
-load_queue_candidates = []
-YAML.load_stream(File.read './info/candidate_database.yml') { |candidate| load_queue_candidates << candidate }
+load_queue_candidates = load_yaml('./info/candidate_database.yml')
 
 # if condition for skipping seuqnece if yaml file is empty
 if load_queue_candidates[0] == [nil]
@@ -83,7 +99,6 @@ else
         end
         JobsOverview.joblist[i[:job_id]].applications += 1
     end
-
 end
 
 
@@ -110,7 +125,7 @@ while app_on
     prompt = TTY::Prompt.new
     option = prompt.select("Select Option", %w(Create_Job Edit_Job Manage_Job Exit))
 
-    # case statement using the option selected by tty-promt
+    # case statement using the option selected by tty-prompt
     case option
     when "Create_Job"
         # class method for creating a job "./classes/jobs-overview-class.rb"

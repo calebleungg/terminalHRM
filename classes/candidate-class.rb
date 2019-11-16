@@ -349,4 +349,13 @@ class Candidate
         File.open("./info/candidate_database.yml", 'w') { |file| file.write(load_candidates[0].to_yaml, file) }
     end
 
+    # class method used to delete from pool when used in disqualifying method
+    def self.delete_from(job, candidate)
+        for i in job.all_pools
+            if i.include?(candidate)
+                i.delete(candidate)
+            end
+        end
+    end
+
 end
