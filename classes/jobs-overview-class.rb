@@ -1,8 +1,9 @@
-# class specific to Jobs Listing functionality used to store job listings features
-class JobsOverview < UserInterface
+# class used to store job listings level features
+class JobsOverview #< UserInterface
 
     @@joblist = {}
     @@open_job_count = 0
+    
     @@table_info = []
 
     # class method for displaying tabular job listing information
@@ -57,11 +58,8 @@ class JobsOverview < UserInterface
 
     # method for creating a job opportunity
     def self.create()
-
         # method variable as instance storage
         job = {}
-
-        # class method for displaying overall UI Header
         UserInterface.header()
 
         # storing user input for new job details
@@ -82,13 +80,20 @@ class JobsOverview < UserInterface
         job[:status] = "Open"
 
         # appending info into joblist class variable using job_id as key and a job object instanced by the info above
-        @@joblist.store("100#{@@open_job_count}", JobManager.new(
-                "100#{@@open_job_count}", job[:title], job[:type], 
-                job[:salary], job[:openings], job[:start_date], job[:manager], job[:status]
+        @@joblist.store("100#{@@open_job_count}", 
+            JobManager.new(
+                "100#{@@open_job_count}", 
+                job[:title], 
+                job[:type], 
+                job[:salary], 
+                job[:openings], 
+                job[:start_date], 
+                job[:manager], 
+                job[:status]
             )
         )
 
-        # method variable for saving to yaml file
+        # method variable used for saving to yaml file below
         saving = { 
             id: "100#{@@open_job_count}", 
             title: job[:title], 
@@ -146,28 +151,34 @@ class JobsOverview < UserInterface
             change = gets.chomp.to_s
             # chagning selected element in the job object
             @@joblist[id].title = change
-            # method for saving edits- see below for job details in yaml file
+            # method for saving edits (see bottom) for job details in yaml file
             JobsOverview.save_edits(id, :title, change)
+
         when "Employment_Type"
             change = gets.chomp.to_s
             @@joblist[id].type = change
             JobsOverview.save_edits(id, :type, change)
+
         when "Salary"
             change = gets.chomp.to_s
             @@joblist[id].salary = change
             JobsOverview.save_edits(id, :salary, change)
+
         when "#_of_Openings"
             change = gets.chomp.to_s
             @@joblist[id].openings = change
             JobsOverview.save_edits(id, :openings, change)
+
         when "Target_Start_Date"
             change = gets.chomp.to_s
             @@joblist[id].start_date = change
             JobsOverview.save_edits(id, :start_date, change)
+
         when "Hiring_Manager"
             change = gets.chomp.to_s
             @@joblist[id].manager = change
             JobsOverview.save_edits(id, :manager, change)
+
         when "Status"
             prompt = TTY::Prompt.new
             answer = prompt.select("Change Status to", %w(Open Pending Closed))
@@ -192,6 +203,7 @@ class JobsOverview < UserInterface
             end
             puts "Invalid input. Press Enter to return"
             gets
+            
         when "Back"
             return
         end

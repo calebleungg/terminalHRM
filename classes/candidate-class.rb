@@ -30,14 +30,17 @@ class Candidate
 
         # instancing a candidate objct
         candidate = Candidate.new(name, occupation, email, number, address, "Applied", {})
+
         # appending candidate object to total pool
         job.candidate_pool.push(candidate)
+
         # appending new candidate object to applied pool
         job.applied_pool.push(candidate)
+
         # updating count for correct ui info display
         job.applications += 1
 
-        # method variable used for saving to yaml file later
+        # method variable used for saving to yaml file below
         saving = { 
             job_id: job.id, 
             name: name, 
@@ -53,7 +56,7 @@ class Candidate
         load_candidates = []
         YAML.load_stream(File.read './info/candidate_database.yml') { |candidate| load_candidates << candidate }
 
-        # if check to skip load sequence if yaml file is empty
+        # if check to overwrite nil if yaml file is empty
         if load_candidates[0] == [nil]
             load_candidates[0] = [saving]
         else
@@ -117,13 +120,14 @@ class Candidate
 
                 # recording current time/date
                 date = Time.now
+
                 # formatting current time/date using date_format gem
                 format_date = "#{DateFormat.change_to(date, "MEDIUM_DATE")} #{DateFormat.change_to(date, "MEDIUM_TIME")} "
 
                 puts "Type Note Below, (Press Enter to save)"
                 note = gets.chomp.to_s
 
-                # storing note information (with formatted date as key) into candidate object notes instance variable
+                # storing note information (with formatted date as key) into candidate object notes hash
                 i.notes.store(format_date, note)
 
                 # usual load save sequence for updating and writing to yaml file 
@@ -166,8 +170,10 @@ class Candidate
                 when "Applied"
                     # updating object status 
                     i.status = "Contacted"
-                    # class method for saving updated status into yaml file- see below 
+
+                    # class method for saving updated status into yaml file- see bottom 
                     Candidate.save_edits(i.name, :status, i.status)
+
                     # class method for moving candidate to next progression pool
                     Candidate.move(i, job.applied_pool, job.contacted_pool)
                     return
@@ -196,6 +202,7 @@ class Candidate
                     for log in load_logs[0]
                         if log[:job_id] == job.id && log[:name].downcase == name && log[:status] == "Completed"
                             i.status = "Offer"
+
                             # progressing if condition is met
                             Candidate.save_edits(i.name, :status, i.status)
                             Candidate.move(i, job.interview_pool, job.offer_pool)
@@ -242,7 +249,7 @@ class Candidate
                 when "Name"
                     puts "Enter new name: "
                     change = gets.chomp.to_s
-                    # class method for 
+                    # class method for saving edits- see bottom
                     Candidate.save_edits(i.name, :name, change)
                     
                     # load reference sequence for yaml data 
@@ -349,7 +356,7 @@ class Candidate
         File.open("./info/candidate_database.yml", 'w') { |file| file.write(load_candidates[0].to_yaml, file) }
     end
 
-    # class method used to delete from pool when used in disqualifying method
+    # class method to delete candidate from current pool when used in disqualifying method
     def self.delete_from(job, candidate)
         for i in job.all_pools
             if i.include?(candidate)
@@ -357,5 +364,4 @@ class Candidate
             end
         end
     end
-
 end

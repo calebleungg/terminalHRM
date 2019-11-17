@@ -1,7 +1,7 @@
 # Software Development Plan
 ### For **terminalHRM**
 
-#### Founder, Caleb Leung - 10.11.19
+#### Caleb Leung - 10.11.19
 ![logo](./terminalHRM-logo.png)
 
 ## **Statement of Purpose and Scope**
@@ -28,45 +28,66 @@ Ones that have a current solution still show large opportunities for targeting, 
 
 ## **List of Features**
 
-1. **Manage job opportunities**. The software will have a feature to manage multiple job opportunities, and provide a high-level overview of all current opportunities in the business. The software will also allow the user to manage the recruitment process of each opportunity separately. The software will provide a useful high-level details report summarising the progress of each opportunity. 
+1. **Manage job opportunities**. The software will have a feature to manage multiple job opportunities, and provide a high-level overview of all current opportunities in the business. The software will also allow the user to manage the recruitment process of each opportunity separately.  
 
 2. **Receive, record applications**. Within each job opportunity, the software will provide multiple features to- receive external applications, record indirect applications, view each candidate’s profile, see relevant details, edit these if necessary, and provide useful information reports on total applications, type of applicants, days live for the job posting etc. 
 
-3. **To select and shortlist potential candidates**. This feature will also allow the user go through each candidate’s profile and shortlist them to the next stage if they have potential. Then from here, a user can schedule an interview with each shortlisted candidate. Once interviews are completed a user can then provide comments, feedback, and a star rating of each, or even request a 2nd stage interview if necessary. 
+3. **To select and shortlist potential candidates**. This feature will also allow the user go through each candidate’s profile and shortlist them to the next stage if they have potential. Then from here, a user can schedule an interview with each shortlisted candidate. Once interviews are completed a user can then provide comments, feedback, and a rating of each. 
 
 4. **Extend an offer**. The software will allow the user to select and offer successful candidates. From here the user can either close off the job opportunity if all the openings are filled, or continue to recruit for the roles, storing successful candidates in a completed pool.
 
 <br>
 
-## **Implementation Plan**
+## **User Interaction and Experience**
 
-| Features      | Description |
-| ----------- | ----------- |
-| **1. User Interface** | Create a class to display a basic UI for the software, includes all levels of the application     |
-| 1.1 Homepage - Job listing UI |    Priority: **Important**      |
-| 1.2 Job level - management UI |   Total Estimated Time: **1:30 hrs**       |
-| 1.3 Candidate Profile/Details UI|      |
-| 1.4 Interview Log/Scheduling UI |         |
-|    |  |
-| **2. Opportunities Features (Top Level)** | Main menu job creation/listing and management. The first thing the user lands on when opening the application.        |
-| 2.1 Feature to create job listings|  Priority: **Required**        |
-| 2.2 Feature to edit job listings |  Total Estimated Time: **1:30 hrs**        |
-| 2.3 Feature to view job listings |      |
-| 2.4 Feature to close job listings |    |
-| | 
-| **3. Job Management Features (Mid Level)** | Management of currently open jobs- recruitment proess for reviewing, screening, and organising candidates. |
-| 3.1 Feature to record candidate applications|  Priority: **Required**        |
-| 3.2 Feature to make notes on a candidate |  Total Estimated Time: **2:00 hrs**        |
-| 3.3 Feature to view candidate profile |      |
-| 3.4 Feature to edit candidate details |    |
-| 3.5 Feature to shortlist a candidate |         |
-|3.6 Feature to disqualify a candidate|
-||
-| **4. Offer Features (Mid Level)** | Offering, accepting, and recording successful candidates |
-| 4.1 Feature to schedule an interview with a candidate|  Priority: **Mid-level**        |
-| 4.2 Feature to mark completed interviews- provide feedback and comments |  Total Estimated Time: **2:00 hrs**        |
-| 4.3 Feature to view an interview log of booked interviews |      |
-| 4.5 Feature to send out an offer to candidates |    |
+### **Starting the Application**
+
+1. Upon starting terminalHRM for the first time, the user will be prompted to enter their Company's details- in which then it will bring them straight to the job listing UI. 
+2. If returning user, the application will load the job listing UI straight in displaying the User's saved company details at the top
+
+### **Jobs Overview Level**
+3. Here the UI will display current open job opportunities for the user to see
+4. At the bottom of the inferface, there will be options for the user to choose from- using directional keys to select
+5. If there are no current jobs openings, a user can select the create option to enter job details and create an opening to manage later
+6. If there are existing job openings, a user can choose to edit the displayed details if something with the opportunity changes, if there is an error, or to set the job status to close if the recruitment process is finished
+7. From here a user can also choose to exit and close the program
+8. Next a user can select a job to manage with the 'manage' option, inputting the job ID they wish to manage
+
+### **Job Management Level**
+9. Going into a specific job to manage, a new UI will display the job's details at the top, and a candidate progression table below
+10. Underneath the candidate table a similar menu using directional keys will let the user choose what to manage. 
+11. Important features to note here are the "Create Candidate" option, "Edit Candidate" option, and "View Candidate profile" option- these options will display an input field if creating or editing, or the candidate's information below the menu display if viewing. 
+12. A user can choose to "Make a Note" on a candidate in which it will bring up an input field for the user to type the candidates name, and associated note.
+13. The "Progress Candidate" option will move the candidate to the next pool if applicable.
+14. A user can choose to "Schedule an Interview" for a shortlisted candidate in which it will display an input field below the menu to enter interview details
+15. These details will be logged into the interview log which the user can see with the "Interview Log" option
+16. A user can choose to disqualify a candidate with the "Disqualify Candidate" option which will move the candidate into the disqualified column and prompt a user to note a reason which will be recorded in the candidate profile's notes
+17. The "Back" option will take the user back into the job listing UI
+
+### **Error Handling**
+Error handling throughout terminalHRM will be done so at each user input stage when either type a job ID or candidate name to action upon. 
+
+If an invalid ID is typed in, the application will throw a simple "Invalid ID Error" message and prompt the user to press Enter to return back to the menu.
+
+For candidates:
+* User input is case insentive when entering a candidate's name
+* If a non-existent candidate name is entered in, the application will throw a simple "Invalid/Non-existing Candidate Error" message and prompt the user to press Enter to return back to the job management menu
+* If a user tries to book an interview in with candidates not in the shortlist a "Candidate must be in shortlist stage" message will show prompting the user to return back to menu
+* If a user tries to progress a candidate pass the shortlisting stage without booking an interview- the application will throw a "Candidate must be booked in for an interview" error message and usual prompt back to menu
+* If a user tries to progress a candidate at interview stage without marking the interview complete a "Interview must be completed before sending offer" message will show prompting user to return back to menu
+
+Error handling when the application is initialising and loading jobs/candidates when executing will throw a simple "Failed to load database" message and direct the user an empty job listing UI.
+
+<br>
+
+## **Control Flow Diagram**
+
+Below is a control flow diagram explaining the experience flow for a typical user. 
+
+Find a PDF with the same diagram for easier viewing in the same docs.
+
+![Control Flow Diagram](./CFD.JPG)
+
 
 
 

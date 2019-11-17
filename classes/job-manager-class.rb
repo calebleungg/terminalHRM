@@ -28,14 +28,14 @@ class JobManager < JobsOverview
             @disqualified_pool.length
         ]
 
-        # instance variable referenced when disqualifying candidate
+        # instance array referenced when disqualifying candidate
         @all_pools = [
             @applied_pool, @contacted_pool, @screened_pool, 
             @shortlisted_pool, @interview_pool, @offer_pool, 
             @accepted_pool, @disqualified_pool
         ]
 
-
+        # general class variable info 
         @id = id
         @title = title
         @type = type
@@ -47,7 +47,7 @@ class JobManager < JobsOverview
         @applications = 0
         @interview_log = {}
 
-        # instance variable for organising information correctly in tabular
+        # instance variable for organising information correctly in tabular form
         @cumulative = []
 
     end
@@ -80,7 +80,7 @@ class JobManager < JobsOverview
         puts "Reporting to:     #{job.manager}\n\n"
     end
 
-    # method for adding candidates in each pool to currectly tabulate below
+    # method for adding candidates in each pool to correctly tabulate below
     def self.add_to_column(pool, column, cumulative)
         counter = 0
         for i in pool
@@ -152,7 +152,7 @@ class JobManager < JobsOverview
                 # class method for moving a candidate to next pool- "./classes/candidate-class.rb"
                 Candidate.move(i, job.shortlisted_pool, job.interview_pool)
 
-                # method variable use for saving to yaml file later
+                # method variable used for saving to yaml file
                 saving = { 
                     job_id: job.id, 
                     name: i.name, 
@@ -169,7 +169,7 @@ class JobManager < JobsOverview
                 load_logs = []
                 YAML.load_stream(File.read './info/interview_logs.yml') { |interview| load_logs << interview }
 
-                # if check to skip load sequence if yaml file is empty
+                # if check to overwrite nil sequence if yaml file is empty
                 if load_logs[0] == [nil]
                     load_logs[0] = [saving]
                 else

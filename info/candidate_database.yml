@@ -13,8 +13,9 @@
   :email: hpotter@hogwarts.com
   :number: 0404 939 020
   :address: Uncle's house under the stairs (for now...)
-  :status: Applied
-  :notes: {}
+  :status: Contacted
+  :notes:
+    '17-Nov-2019 12:04 PM ': Kinda Clumsy
 - :job_id: '1000'
   :name: Naruto Uzumaki
   :occupation: Ninja
@@ -40,4 +41,4 @@
   :address: Homeless
   :status: Applied
   :notes: {}
-#<File:0x00007fc3728be3d0>
+#<File:0x00007fa89d815f90>
