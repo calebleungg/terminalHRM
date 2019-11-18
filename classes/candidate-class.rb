@@ -37,7 +37,6 @@ class Candidate
         # appending new candidate object to applied pool
         job.applied_pool.push(candidate)
 
-        # updating count for correct ui info display
         job.applications += 1
 
         # method variable used for saving to yaml file below

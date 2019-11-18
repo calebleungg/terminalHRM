@@ -12,6 +12,7 @@ require "./classes/jobs-overview-class"
 require "./classes/job-manager-class"
 require "./classes/candidate-class"
 
+# loop variable condition
 app_on = true 
 
 # loading animation sequence using tty-spinner
@@ -64,66 +65,70 @@ begin
             JobsOverview.count_job()
         end
     end
+
     spinner1.success('(successful)')
+
+    spinner2 = TTY::Spinner.new("[:spinner] Loading candidates ...")
+    15.times do
+    spinner2.spin
+    sleep(0.1)
+    end
+
+    # load sequence for candidate only if job data has been loaded successfully
+    begin
+        load_queue_candidates = load_yaml('./info/candidate_database.yml')
+    
+        # if condition for skipping sequence if yaml file is empty
+        if load_queue_candidates[0] == [nil]
+            puts ""
+        else   
+            # initialising saved candidates into candidate objects by iterating through array of hashes 
+            for i in load_queue_candidates[0]
+                candidate = Candidate.new(i[:name], i[:occupation], i[:email], i[:number], i[:address], i[:status], i[:notes])
+                JobsOverview.joblist[i[:job_id]].candidate_pool.push(candidate)
+    
+                # case statement specifying the candidate's status as a condition to append into in the right pool
+                case candidate.status
+                when "Applied"
+                    JobsOverview.joblist[i[:job_id]].applied_pool.push(candidate)
+                when "Contacted"
+                    JobsOverview.joblist[i[:job_id]].contacted_pool.push(candidate)
+                when "Screened"
+                    JobsOverview.joblist[i[:job_id]].screened_pool.push(candidate)
+                when "Shortlisted"
+                    JobsOverview.joblist[i[:job_id]].shortlisted_pool.push(candidate)
+                when "Interview"
+                    JobsOverview.joblist[i[:job_id]].interview_pool.push(candidate)
+                when "Offer"
+                    JobsOverview.joblist[i[:job_id]].offer_pool.push(candidate)
+                when "Accepted"
+                    JobsOverview.joblist[i[:job_id]].accepted_pool.push(candidate)
+                when "Disqualified"
+                    JobsOverview.joblist[i[:job_id]].disqualified_pool.push(candidate)
+                end
+                JobsOverview.joblist[i[:job_id]].applications += 1
+            end
+        end
+        spinner2.success('(successful)')
+        sleep 0.5
+        system("clear")
+    
+        puts "Welcome to terminalHRM"
+        puts "Please enter your company details,\n\n"
+        UserInterface.create_company()
+    rescue
+        spinner2.success('(failed)')
+        puts "Error: Could not load candidates from database- check './info/candidate_database.yml' is laid out correctly for loading."
+        puts "       An Example of correct yaml folder layout can be seen in './help.md'"
+        app_on = false
+    end
 rescue
     spinner1.success('(failed)')
     puts "Error: Could not load jobs from database- check './info/job_database.yml' is laid out correctly for loading."
-end
-
-spinner2 = TTY::Spinner.new("[:spinner] Loading candidates ...")
-15.times do
-  spinner2.spin
-  sleep(0.1)
-end
-
-begin
-    # load sequence for saved candidate data
-    load_queue_candidates = load_yaml('./info/candidate_database.yml')
-
-    # if condition for skipping sequence if yaml file is empty
-    if load_queue_candidates[0] == [nil]
-        puts ""
-    else   
-        # initialising saved candidates into candidate objects by iterating through array of hashes 
-        for i in load_queue_candidates[0]
-            candidate = Candidate.new(i[:name], i[:occupation], i[:email], i[:number], i[:address], i[:status], i[:notes])
-            JobsOverview.joblist[i[:job_id]].candidate_pool.push(candidate)
-
-            # case statement specifying the candidate's status as a condition to append into in the right pool
-            case candidate.status
-            when "Applied"
-                JobsOverview.joblist[i[:job_id]].applied_pool.push(candidate)
-            when "Contacted"
-                JobsOverview.joblist[i[:job_id]].contacted_pool.push(candidate)
-            when "Screened"
-                JobsOverview.joblist[i[:job_id]].screened_pool.push(candidate)
-            when "Shortlisted"
-                JobsOverview.joblist[i[:job_id]].shortlisted_pool.push(candidate)
-            when "Interview"
-                JobsOverview.joblist[i[:job_id]].interview_pool.push(candidate)
-            when "Offer"
-                JobsOverview.joblist[i[:job_id]].offer_pool.push(candidate)
-            when "Accepted"
-                JobsOverview.joblist[i[:job_id]].accepted_pool.push(candidate)
-            when "Disqualified"
-                JobsOverview.joblist[i[:job_id]].disqualified_pool.push(candidate)
-            end
-            JobsOverview.joblist[i[:job_id]].applications += 1
-        end
-    end
-    spinner2.success('(successful)')
-    sleep 0.5
-    system("clear")
-
-    puts "Welcome to terminalHRM"
-    puts "Please enter your company details,\n\n"
-    UserInterface.create_company()
-rescue
-    spinner2.success('(failed)')
-    puts "Error: Could not load candidates from database- check './info/candidate_database.yml' is laid out correctly for loading."
-    puts "       An Example of correct yaml folder layout can be seen in './docs/help.md'"
+    puts "       An Example of correct yaml folder layout can be seen in './help.md'"
     app_on = false
 end
+
 
 #------------------------ main script for running the program ------------------------
 
@@ -176,7 +181,7 @@ while app_on
             prompt = TTY::Prompt.new
             option = prompt.select("Select Option (scroll to display all)", 
                 %w(Create View Progress Make_note Schedule_interview Interview_Log 
-                Complete_interview Edit_Cadidate Disqualify_Candidate Back))
+                Complete_interview Edit_Candidate Disqualify_Candidate Back))
                 
             # case statement using selected option from tty-prompt, passing the job_id to determine specific job in each class method argument
             case option
@@ -208,7 +213,7 @@ while app_on
                 # class method for making an interview completed "./classes/job-manager-class.rb"
                 JobManager.complete_interview(JobsOverview.joblist[id])
 
-            when "Edit_Cadidate"
+            when "Edit_Candidate"
                 # class method for editing a candidate "./classes/candidate-class.rb"
                 Candidate.edit(JobsOverview.joblist[id])
 

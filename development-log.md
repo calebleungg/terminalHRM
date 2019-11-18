@@ -21,7 +21,7 @@
 
 ### 12.11.19 || Entry 2
 * Probably the most challenge aspect of development was figuring out a way to display a candidates progression through the stages correctly in tabular form yet keep the table dynamic depending on the number of candidates in each stage
-* The solution was to create class variable counting the number of candidates in each stage stored in a separate array- and use the maximum value from that array to determine how many rows the table would dispaly 
+* The solution was to create a class variable counting the number of candidates in each stage stored in a separate array- and use the maximum value from that array to determine how many rows the table would dispaly 
 * Next difficulties again were had in trying to understand how to get the candidate names stored in each separate progress pool, to display correctly in the corresponding column of progression
 * A method was chosen to iterate through the cumulative array, using a counter to determine the index through each column, and to set the index correct for each row that corresponded to the candidate pool 
 * After much efforts a correct way to display the progression was found
@@ -44,7 +44,7 @@
 * Any further editing to the objects details (includes both jobs and candidates class) has not yet been coded to save properly as such is still lost when the application is terminated
 
 #### Next Steps
-* Continue incorporating proper save/load methods to store all progressed worked on
+* Continue incorporating proper save/load methods to store all progress worked on
 * A suggestion for creating a total search function of the database using any specific value could also be a next target feature
 
 <br/>

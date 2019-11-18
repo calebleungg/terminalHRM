@@ -26,4 +26,9 @@
 |15.11 ✅| 4.1 Feature to schedule an interview with a candidate|  Priority: **Mid-level**        |
 |15.11 ✅| 4.2 Feature to mark completed interviews- provide feedback and comments |  Total Estimated Time: **2:00 hrs**        |
 |16.11 ✅| 4.3 Feature to view an interview log of booked interviews |      |
-|16.11 ✅| 4.5 Feature to send out an offer to candidates |    |
+|16.11 ✅| 4.4 Feature to send out an offer to candidates |    |
+|| **5. Save/Load Feature(Additional)** | Adding a save/load feature so the application has reuseable appeal |
+|16.11 ✅| 5.1 Feature to save job edits/creations|  Priority: **additional**        |
+|16.11 ✅| 5.2 Feature to load job edits/creations |  Total Estimated Time: **3:00 hrs**        |
+|17.11 ✅| 5.3 Feature to save candidate edits/creations |      |
+|17.11 ✅| 5.4 Feature to load candidate edits/creations|    |
