@@ -132,93 +132,105 @@ class JobManager < JobsOverview
         print "Enter Candidate: "
         name = gets.chomp.to_s.downcase
 
-        # for loop to determine if candidate is at the correct stage to continue
-        for i in job.candidate_pool
+        # error handling to catch load errors from interview_log
+        begin
+            # for loop to determine if candidate is at the correct stage to continue
+            for i in job.candidate_pool
 
-            # checking if name is same as selected, and candidate is in the shortlisted pool 
-            if i.name.downcase == name && job.shortlisted_pool.include?(i) == true
-                print "Enter Interview Date: "
-                date = gets.chomp.to_s
-                print "Enter Interviewer(s): "
-                interviewers = gets.chomp.to_s
-                print "Enter Duration: "
-                duration = gets.chomp.to_s
-                print "Location: "
-                location = gets.chomp.to_s
-                i.status = "Interview"
+                # checking if name is same as selected, and candidate is in the shortlisted pool 
+                if i.name.downcase == name && job.shortlisted_pool.include?(i) == true
+                    print "Enter Interview Date: "
+                    date = gets.chomp.to_s
+                    print "Enter Interviewer(s): "
+                    interviewers = gets.chomp.to_s
+                    print "Enter Duration: "
+                    duration = gets.chomp.to_s
+                    print "Location: "
+                    location = gets.chomp.to_s
+                    
+                    # method variable used for saving to yaml file
+                    saving = { 
+                        job_id: job.id, 
+                        name: i.name, 
+                        date: date,
+                        interviewers: interviewers,
+                        duration: duration,
+                        location: location,
+                        status: "Booked",
+                        notes: "",
+                        rating: 0
+                    }
+                    
+                    # loading yaml file contents into an instanced array
+                    load_logs = []
+                    YAML.load_stream(File.read './info/interview_logs.yml') { |interview| load_logs << interview }
+                    
+                    # if check to overwrite nil sequence if yaml file is empty
+                    if load_logs[0] == [nil]
+                        load_logs[0] = [saving]
+                    else
+                        # if not empty, appenging the 'saving' hash above into the instanced array
+                        load_logs[0] << saving
+                    end
+                    
+                    # writing new instanced array back into the yaml file with new information added
+                    File.open("./info/interview_logs.yml", 'w') { |file| file.write(load_logs[0].to_yaml, file) }
 
-                # class method for changing candidate status and saving to yaml file- "./classes/candidate-class.rb"
-                Candidate.save_edits(i.name, :status, i.status)
-                # class method for moving a candidate to next pool- "./classes/candidate-class.rb"
-                Candidate.move(i, job.shortlisted_pool, job.interview_pool)
+                    i.status = "Interview"
+    
+                    # class method for changing candidate status and saving to yaml file- "./classes/candidate-class.rb"
+                    Candidate.save_edits(i.name, :status, i.status)
+                    # class method for moving a candidate to next pool- "./classes/candidate-class.rb"
+                    Candidate.move(i, job.shortlisted_pool, job.interview_pool)
 
-                # method variable used for saving to yaml file
-                saving = { 
-                    job_id: job.id, 
-                    name: i.name, 
-                    date: date,
-                    interviewers: interviewers,
-                    duration: duration,
-                    location: location,
-                    status: "Booked",
-                    notes: "",
-                    rating: 0
-                }
-                
-                # loading yaml file contents into an instanced array
-                load_logs = []
-                YAML.load_stream(File.read './info/interview_logs.yml') { |interview| load_logs << interview }
-
-                # if check to overwrite nil sequence if yaml file is empty
-                if load_logs[0] == [nil]
-                    load_logs[0] = [saving]
-                else
-                    # if not empty, appenging the 'saving' hash above into the instanced array
-                    load_logs[0] << saving
+                    return
                 end
-
-                # writing new instanced array back into the yaml file with new information added
-                File.open("./info/interview_logs.yml", 'w') { |file| file.write(load_logs[0].to_yaml, file) }
-                return
             end
+            puts "Candidate needs to be shortlisted to schedule an interview."
+        rescue
+            puts "Error: Could not save interview to database- check './info/interview)log.yml' is laid out correctly for loading."
+            puts "       An Example of correct yaml folder layout can be seen in './help.md'"
         end
 
         # notifying invalid candidate if above conditions arent met
-        puts "Candidate needs to be shortlisted to schedule an interview."
         puts "\nPress Enter to return"
         gets
     end
 
     # method for displaying interview log
     def self.display_interview_list(job)
+        begin
+            # loading yaml file contents into an instanced array to reference from
+            load_logs = []
+            YAML.load_stream(File.read './info/interview_logs.yml') { |interview| load_logs << interview }
 
-        # loading yaml file contents into an instanced array to reference from
-        load_logs = []
-        YAML.load_stream(File.read './info/interview_logs.yml') { |interview| load_logs << interview }
-
-        # if check to display no entires when yaml is empty
-        if load_logs[0] == [nil]
-            puts "- Interview Log - "
-            puts "------------------------------"
-            puts "No entries..."
-        else
-            # iterating through instanced array to access relevant details for interview log to displayed below
-            puts "- Interview Log - "
-            puts "------------------------------"
-            for i in load_logs[0]
-                # if to check for only the interviews with the correct job id to be displayed
-                if i[:job_id] == job.id
-                    puts "Candidate:    #{i[:name]}"
-                    puts "Date:         #{i[:date]}"
-                    puts "Interviewers: #{i[:interviews]}"
-                    puts "Duration:     #{i[:duration]}"
-                    puts "Location:     #{i[:location]}\n\n"
-                    puts "Status:       #{i[:status]}"
-                    puts "Notes:        #{i[:notes]}"
-                    puts "Rating:       #{i[:rating]}"
-                    puts "------------------------------"
+            # if check to display no entires when yaml is empty
+            if load_logs[0] == [nil]
+                puts "- Interview Log - "
+                puts "------------------------------"
+                puts "No entries..."
+            else
+                # iterating through instanced array to access relevant details for interview log to displayed below
+                puts "- Interview Log - "
+                puts "------------------------------"
+                for i in load_logs[0]
+                    # if to check for only the interviews with the correct job id to be displayed
+                    if i[:job_id] == job.id
+                        puts "Candidate:    #{i[:name]}"
+                        puts "Date:         #{i[:date]}"
+                        puts "Interviewers: #{i[:interviews]}"
+                        puts "Duration:     #{i[:duration]}"
+                        puts "Location:     #{i[:location]}\n\n"
+                        puts "Status:       #{i[:status]}"
+                        puts "Notes:        #{i[:notes]}"
+                        puts "Rating:       #{i[:rating]}"
+                        puts "------------------------------"
+                    end
                 end
             end
+        rescue
+            puts "Error: Could not load interview log from database- check './info/interview)log.yml' is laid out correctly for loading."
+            puts "       An Example of correct yaml folder layout can be seen in './help.md'"
         end
 
         puts "\nPress Enter to return"
@@ -227,40 +239,48 @@ class JobManager < JobsOverview
 
     # class method for marking an interview complete
     def self.complete_interview(job)
-        puts "- Complete Interview - "
-        puts "------------------------------"
-        puts "Completed interview for,"
-        print "Enter Name: "
-        name = gets.chomp.to_s.downcase
 
-        # loading yaml file contents into an instanced array to reference from
-        load_logs = []
-        YAML.load_stream(File.read './info/interview_logs.yml') { |interview| load_logs << interview }
+        begin
+            puts "- Complete Interview - "
+            puts "------------------------------"
+            puts "Completed interview for,"
+            print "Enter Name: "
+            name = gets.chomp.to_s.downcase
 
-        # if check to display an error when no valid interviews can be completed
-        if load_logs[0] == [nil]
-            puts "Invalde Error: "
-        else
-            # iterating through the logs using an if statement to 
-            # determine the correct job id and the name of candidate typed in by user
-            # downcase is used to allow for user input variability
-            for i in load_logs[0]
-                if i[:job_id] == job.id && i[:name].downcase == name
-                    i[:status] = "Completed"
-                    print "Enter Rating /5: "
-                    i[:rating] = gets.chomp.to_i
-                    puts "Additional comments, type below: "
-                    i[:notes] = gets.chomp.to_s
-                    
-                    # writing the edited instanced array with updated information back into the yaml file
-                    File.open("./info/interview_logs.yml", 'w') { |file| file.write(load_logs[0].to_yaml, file) }
-                    return
+            # loading yaml file contents into an instanced array to reference from
+            load_logs = []
+            YAML.load_stream(File.read './info/interview_logs.yml') { |interview| load_logs << interview }
+
+            # if check to display an error when no valid interviews can be completed
+            if load_logs[0] == [nil]
+                puts "Invalde Error: "
+            else
+                # iterating through the logs using an if statement to 
+                # determine the correct job id and the name of candidate typed in by user
+                # downcase is used to allow for user input variability
+                for i in load_logs[0]
+                    if i[:job_id] == job.id && i[:name].downcase == name
+                        i[:status] = "Completed"
+                        print "Enter Rating /5: "
+                        i[:rating] = gets.chomp.to_i
+                        puts "Additional comments, type below: "
+                        i[:notes] = gets.chomp.to_s
+                        
+                        # writing the edited instanced array with updated information back into the yaml file
+                        File.open("./info/interview_logs.yml", 'w') { |file| file.write(load_logs[0].to_yaml, file) }
+                        return
+                    end
                 end
             end
+            
+            # notifying user when condidtions above arent met
+            puts "Candidate needs to be shortlisted to schedule an interview."
+
+        rescue
+            puts "Error: Could not save completed changes interview to database- check './info/interview)log.yml' is laid out correctly for loading."
+            puts "       An Example of correct yaml folder layout can be seen in './help.md'"
         end
-        
-        # notifying user when condidtions above arent met
-        puts "Candidate needs to be shortlisted to schedule an interview."
+
         puts "\nPress Enter to return"
         gets
     end
