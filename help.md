@@ -24,11 +24,11 @@ In order to turn on the application, ensure you're in the terminalHRM directory 
 
 Type the following command into your command line to allow permissions for the application. (This step only has to be done once on the first time using)
 ```
-$ chmod +x exec.sh
+$ chmod +x terminal-hrm.sh
 ```
 And then execute:
 ```
-$ ./exec.sh
+$ ./terminal-hrm.sh
 ```
 
 

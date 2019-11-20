@@ -41,7 +41,7 @@ begin
     end
 
     # load sequence for saved job data- appending yaml data into an array of hashes 
-    load_queue_jobs = load_yaml('./info/job_database.yml') #[]
+    load_queue_jobs = load_yaml('./info/job_database.yml')
 
     # if condition for skipping sequence if yaml file is empty
     if load_queue_jobs[0] == [nil]
@@ -84,7 +84,15 @@ begin
         else   
             # initialising saved candidates into candidate objects by iterating through array of hashes 
             for i in load_queue_candidates[0]
-                candidate = Candidate.new(i[:name], i[:occupation], i[:email], i[:number], i[:address], i[:status], i[:notes])
+                candidate = Candidate.new(
+                    i[:name], 
+                    i[:occupation], 
+                    i[:email], 
+                    i[:number], 
+                    i[:address], 
+                    i[:status], 
+                    i[:notes]
+                )
                 JobsOverview.joblist[i[:job_id]].candidate_pool.push(candidate)
     
                 # case statement specifying the candidate's status as a condition to append into in the right pool
@@ -115,6 +123,7 @@ begin
     
         puts "Welcome to terminalHRM"
         puts "Please enter your company details,\n\n"
+        # class method for creating the company- information has already been hardcoded in "./classes/ui-class.rb"
         UserInterface.create_company()
     rescue
         spinner2.success('(failed)')
@@ -132,7 +141,6 @@ end
 
 #------------------------ main script for running the program ------------------------
 
-# class method for creating the company- information has already been hardcoded in "./classes/ui-class.rb"
 
 # run loop for program
 while app_on

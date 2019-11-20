@@ -22,17 +22,26 @@ class JobManager < JobsOverview
 
         # instance array used to determine number of rows in table
         @column_count = [
-            @applied_pool.length, @contacted_pool.length, 
-            @screened_pool.length, @shortlisted_pool.length, 
-            @interview_pool.length, @offer_pool.length, @accepted_pool.length,
+            @applied_pool.length, 
+            @contacted_pool.length, 
+            @screened_pool.length, 
+            @shortlisted_pool.length, 
+            @interview_pool.length, 
+            @offer_pool.length, 
+            @accepted_pool.length,
             @disqualified_pool.length
         ]
 
         # instance array referenced when disqualifying candidate
         @all_pools = [
-            @applied_pool, @contacted_pool, @screened_pool, 
-            @shortlisted_pool, @interview_pool, @offer_pool, 
-            @accepted_pool, @disqualified_pool
+            @applied_pool, 
+            @contacted_pool, 
+            @screened_pool, 
+            @shortlisted_pool, 
+            @interview_pool, 
+            @offer_pool, 
+            @accepted_pool, 
+            @disqualified_pool
         ]
 
         # general class variable info 
@@ -60,10 +69,14 @@ class JobManager < JobsOverview
     # method for updating column statistics 
     def self.update_columns(job)
         job.column_count = [
-            job.applied_pool.length, job.contacted_pool.length, 
-            job.screened_pool.length, job.shortlisted_pool.length, 
-            job.interview_pool.length, job.offer_pool.length, 
-            job.accepted_pool.length, job.disqualified_pool.length 
+            job.applied_pool.length, 
+            job.contacted_pool.length, 
+            job.screened_pool.length, 
+            job.shortlisted_pool.length, 
+            job.interview_pool.length, 
+            job.offer_pool.length, 
+            job.accepted_pool.length, 
+            job.disqualified_pool.length 
         ]
     end
 
@@ -117,10 +130,14 @@ class JobManager < JobsOverview
 
         # initialising table using terminal-table passing the instance variable cumulative to display info
         table = Terminal::Table.new :headings => [
-            "Applied (#{job.applied_pool.length})", "Contacted (#{job.contacted_pool.length})", 
-            "Screened (#{job.screened_pool.length})", "Shortlisted (#{job.shortlisted_pool.length})", 
-            "Interview (#{job.interview_pool.length})", "Offer (#{job.offer_pool.length})", 
-            "Accepted (#{job.accepted_pool.length})", "Disqualified (#{job.disqualified_pool.length})"
+            "Applied (#{job.applied_pool.length})", 
+            "Contacted (#{job.contacted_pool.length})", 
+            "Screened (#{job.screened_pool.length})", 
+            "Shortlisted (#{job.shortlisted_pool.length})", 
+            "Interview (#{job.interview_pool.length})", 
+            "Offer (#{job.offer_pool.length})", 
+            "Accepted (#{job.accepted_pool.length})", 
+            "Disqualified (#{job.disqualified_pool.length})"
             ], :rows => job.cumulative 
         puts table
     

@@ -32,12 +32,16 @@ class JobsOverview #< UserInterface
 
         # initialising table using terminal-table gem to display @@table_info data
         table = Terminal::Table.new :headings => [
-            "Job ID", "Job Title", 
-            "Type", "Salary $(AUD)", 
-            "# of Openings", "Target Start Date", 
-            "Hiring Manager", "Total Applications", "Status" 
-        ], :rows => @@table_info
-
+            "Job ID", 
+            "Job Title", 
+            "Type", 
+            "Salary $(AUD)", 
+            "# of Openings", 
+            "Target Start Date", 
+            "Hiring Manager", 
+            "Total Applications", 
+            "Status" 
+            ], :rows => @@table_info
         puts table
     end
 
@@ -104,7 +108,6 @@ class JobsOverview #< UserInterface
             manager: job[:manager],
             applications: job[:applications],
             status: job[:status]
-
         }
 
         # loading yaml file contents into an instanced array
