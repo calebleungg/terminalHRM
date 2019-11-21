@@ -13,7 +13,7 @@
 ## **Requirements**
 
 * Ruby- updated to version 2.6.3 is recommended
-* Windows OS / Mac OS both copmatible
+* Windows OS / Mac OS both compatible
 * Command Line access 
 
 ## **Usage (Auto)**
