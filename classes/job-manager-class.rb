@@ -83,7 +83,7 @@ class JobManager < JobsOverview
     # method for displaying job information in the header UI
     def self.header_ui(id, job)
         system("clear")
-        puts "------ Heich-aR-eM -------\n\n"
+        puts "------ terminal" + "HRM".colorize(:green) + " -------\n\n"
         puts "Job ID:           #{id}"
         puts "Job Title:        #{job.title}"
         puts "Type:             #{job.type}"

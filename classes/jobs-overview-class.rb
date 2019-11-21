@@ -11,7 +11,7 @@ class JobsOverview #< UserInterface
         # variable reset to ensure changes display
         @@table_info = []
         
-        puts "\nJob Opportunities Overview (Open Positions)\n\n"
+        puts "\nJob Opportunities Overview\n\n"
         puts "Total Listings: #{@@joblist.length}"
 
         # for statement iterating through joblist class variable to organise data

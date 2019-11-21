@@ -22,10 +22,6 @@ If you wish to manually run from the ruby executable- see "Installation-Manual" 
 
 In order to turn on the application, ensure you're in the terminalHRM directory as downloaded onto your computer. 
 
-Type the following command into your command line to allow permissions for the application. (This step only has to be done once on the first time using)
-```
-$ chmod +x terminal-hrm.sh
-```
 And then execute:
 ```
 $ ./terminal-hrm.sh
