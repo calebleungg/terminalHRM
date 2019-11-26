@@ -71,7 +71,7 @@ a:focus {
 
 #sidebar ul.components {
     padding: 20px 0;
-    border-bottom: 1px solid #fafafa;
+    border-bottom: 1px solid #ddd;
 }
 
 #sidebar ul p {
@@ -86,7 +86,7 @@ a:focus {
 }
 
 #sidebar ul li a:hover {
-    color: rgb(192, 194, 201);
+    color: #0892A5;
     background: #fff;
 }
 
@@ -148,7 +148,8 @@ a.article:hover {
     transition: all 0.3s;
 }
 
-.details {
-    line-height: 0.5em;
+#profile-information p {
+    line-height: 1em;
+    color: black
 }
 
