@@ -102,6 +102,9 @@
                                 <li class="nav-item">
                                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addNote" style="margin-right: 10px;">Make Note</button>
                                 </li>
+                                <li class="nav-item">
+                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#interviewLog" style="margin-right: 10px;">Interview Log</button>
+                            </li>
                             </ul>
                         </div>
 
@@ -259,6 +262,113 @@
                             </div>
                         </div>
 
+                        <!-- Modal for viewing interview log -->
+
+                        <div class="modal fade" id="interviewLog" tabindex="-1" role="dialog" aria-labelledby="modalLabelLarge" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                            
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="modalLabelLarge">Interview Log</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                            
+                                    <div class="modal-body">
+                                        <div class="row">
+                                                <div class="col" style="color: black;">
+                                                    <h6>Date</h6>
+                                                </div>
+                                                <div class="col">
+                                                    <h6>Candidate</h6>
+                                                </div>
+                                                <div class="col">
+                                                    <h6>Status</h6>
+                                                </div>
+                                                <div class="col-6">
+                                                    <h6>Comments</h6>
+                                                </div>
+                                            </div>
+
+                                        <div class="line"></div>
+
+                                        <div class="row">
+                                            <div class="col">
+                                                15/11/19
+                                            </div>
+                                            <div class="col">
+                                                Thanos
+                                            </div>
+                                            <div class="col" style="color: green;">
+                                                Completed
+                                            </div>
+                                            <div class="col-6">
+                                                Had strong feelings about halving the universe's population. Probably not a good culture fit because of that.
+                                            </div>
+                                        </div>
+
+                                        <div class="line"></div>
+
+                                        <div class="row">
+                                            <div class="col">
+                                                17/11/19
+                                            </div>
+                                            <div class="col">
+                                                John Wick
+                                            </div>
+                                            <div class="col" style="color: green;">
+                                                Completed
+                                            </div>
+                                            <div class="col-6">
+                                                Was Terrific, showed excellent fighting skills. Deciding between other offers but is our preferred candidate.
+                                            </div>
+                                        </div>
+
+                                        <div class="line"></div>
+
+                                        <div class="row">
+                                            <div class="col">
+                                                19/11/19
+                                            </div>
+                                            <div class="col">
+                                                Pikachu
+                                            </div>
+                                            <div class="col">
+                                                Booked
+                                            </div>
+                                            <div class="col-6">
+                                                <button type="button" class="btn btn-success btn-sm">Complete</button>
+                                                <button type="button" class="btn btn-warning btn-sm">Reschedule</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="line"></div>
+
+                                        <div class="row">
+                                            <div class="col" style="color: black;">
+                                                22/11/19
+                                            </div>
+                                            <div class="col">
+                                                Edward Snowden
+                                            </div>
+                                            <div class="col">
+                                                Requested
+                                            </div>
+                                            <div class="col-6">
+                                                Awaiting Comfirmation
+                                            </div>
+                                        </div>
+
+                                        <div class="line"></div>
+
+
+                                    </div>
+                                            
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </nav>
 
@@ -293,28 +403,28 @@
                         <tr style="font-size: larger; background-color: #ddd;">  
                             <td>Applied (7)</td>
                             <td>Contacted (4)</td>
-                            <td>Screened (0)</td>
+                            <td>Screened (1)</td>
                             <td>Shortlisted (2)</td>
-                            <td>Interviewed (0)</td>
-                            <td>Offer (0)</td>
-                            <td>Accepted (1)</td>
+                            <td>Interview (1)</td>
+                            <td>Offer (1)</td>
+                            <td>Accepted (0)</td>
                             <td>Disqualified (1)</td>
                         </tr>
                         <tr style="color: rgb(50, 50, 50);">  
                             <td>Barack Obama</td>
                             <td style="color: #ffffff; background-color: #0892A5; border-radius: 10px;">Harry Potter</td>
-                            <td></td>
+                            <td>Tim Cook</td>
                             <td>Edward Snowden</td>
-                            <td></td>
-                            <td></td>
+                            <td>Pikachu</td>
                             <td>John Wick</td>
+                            <td></td>
                             <td>Thanos</td>
                         </tr>
                         <tr style="color: rgb(50, 50, 50);">  
                             <td>Conor McGregor</td>
                             <td>Naruto Uzumaki</td>
                             <td></td>
-                            <td></td>
+                            <td>Albert Einstein</td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -378,6 +488,7 @@
                 <div class="container-fluid" id="profile-information">
                     <h4 style="color: #0892A5">Profile:&emsp;Harry Potter</h4>
                     <nav style="padding-bottom: 10px;">
+                        <button type="button" class="btn btn-outline-success btn-sm">Edit Details</button>
                         <button type="button" class="btn btn-outline-success btn-sm">View CV</button>
                         <button type="button" class="btn btn-outline-success btn-sm">Attached Documents</button>
                         <button type="button" class="btn btn-outline-success btn-sm">Test Scores</button>
