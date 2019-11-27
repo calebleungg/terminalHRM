@@ -94,27 +94,182 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="nav navbar-nav ml-auto">
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="#">Add Job</a>
+                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addJob" style="margin-right: 10px;">Add Job</button>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Add Candidate</a>
+                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addCandidate" style="margin-right: 10px;">Add Candidate</button>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Add Note</a>
+                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addNote" style="margin-right: 10px;">Make Note</button>
                                 </li>
                             </ul>
                         </div>
+
+                        <!-- Modal for adding a job-->
+
+                        <div class="modal fade" id="addJob" tabindex="-1" role="dialog" aria-labelledby="modalLabelLarge" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                            
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="modalLabelLarge">Add Job</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                            
+                                    <div class="modal-body">
+                                        <p>Please complete all fields.</p>
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="job-title">Job Title</label>
+                                                <input type="text" class="form-control" id="job-title">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="job-type">Type</label>
+                                                <select class="form-control" id="job-type">
+                                                    <option>Full-Time</option>
+                                                    <option>Part-Time</option>
+                                                    <option>Casual</option>
+                                                    <option>Casual Part-Time</option>
+                                                    <option>Permanent Part-Time</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="salary">Salary</label>
+                                                <input type="text" class="form-control" id="salary">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="openings"># of Openings</label>
+                                                <input type="text" class="form-control" id="openings">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="start-date">Target Start Date</label>
+                                                <input type="text" class="form-control" id="start-date">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="hiring-manager">Hiring Manager</label>
+                                                <input type="text" class="form-control" id="start-date">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="hiring-manager">Job Description</label>
+                                                <small id="hiring-manager-help" class="form-text text-muted">Enter important job details or description.</small>
+                                                <textarea class="form-control" id="hiring-manager" rows="5"></textarea>
+                                            </div>
+
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+
+                                        </form>
+                                    </div>
+                                            
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal for adding a candidate-->
+
+                        <div class="modal fade" id="addCandidate" tabindex="-1" role="dialog" aria-labelledby="modalLabelLarge" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                            
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="modalLabelLarge">Add Candidate</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                            
+                                    <div class="modal-body">
+                                        <p>Please complete all fields.</p>
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="job-id">Job ID</label>
+                                                <input type="text" class="form-control" id="job-id">
+                                                <small id="hiring-manager-help" class="form-text text-muted">Enter associated Job ID you wish to add candidate to</small>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="occupation">Occupation</label>
+                                                <input type="text" class="form-control" id="occupation">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="email">Email</label>
+                                                <input type="email" class="form-control" id="email">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="number">Number</label>
+                                                <input type="text" class="form-control" id="number">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="address">Address</label>
+                                                <input type="text" class="form-control" id="address">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="hiring-manager">Additional Comments</label>
+                                                <textarea class="form-control" id="hiring-manager" rows="5"></textarea>
+                                            </div>
+
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+
+                                        </form>
+                                    </div>
+                                            
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal for adding a note -->
+
+                        <div class="modal fade" id="addNote" tabindex="-1" role="dialog" aria-labelledby="modalLabelLarge" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                            
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="modalLabelLarge">Make Note</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                            
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="job-id">Job Reference</label>
+                                                <input type="text" class="form-control" id="job-id">
+                                                <small id="hiring-manager-help" class="form-text text-muted">Enter Job ID Reference</small>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="occupation">Candidate Reference</label>
+                                                <input type="text" class="form-control" id="occupation">
+                                                <small id="hiring-manager-help" class="form-text text-muted">Enter Candidate Name Reference</small>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="hiring-manager">Type Note Below:</label>
+                                                <textarea class="form-control" id="hiring-manager" rows="7"></textarea>
+                                            </div>
+
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+
+                                        </form>
+                                    </div>
+                                            
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </nav>
 
                 <h2 style="font-size: large;">Job Details</h2>
                 <table>
                     <tr>
-                        <td style="color: #0892A5;">ID:&emsp;</td>
+                        <td style="color: #0892A5; text-align: right;">ID:&emsp;</td>
                         <td>1001&emsp;</td>
-                        <td style="color: #0892A5">Title:&emsp;</td>
+                        <td style="color: #0892A5; text-align: right;">Title:&emsp;</td>
                         <td>Assistant Educator&emsp;</td>
-                        <td style="color: #0892A5">Type:&emsp;</td>
+                        <td style="color: #0892A5; text-align: right;">Type:&emsp;</td>
                         <td>Permanent - Full Time&emsp;</td>
                     </tr>
                     <tr>
@@ -223,10 +378,10 @@
                 <div class="container-fluid" id="profile-information">
                     <h4 style="color: #0892A5">Profile:&emsp;Harry Potter</h4>
                     <nav style="padding-bottom: 10px;">
-                        <a href="#">View CV&emsp;|&emsp;</a>
-                        <a href="#">Attached Documents&emsp;|&emsp;</a>
-                        <a href="#">Test Scores&emsp;|&emsp;</a>
-                        <a href="#">Activity History</a>
+                        <button type="button" class="btn btn-outline-success btn-sm">View CV</button>
+                        <button type="button" class="btn btn-outline-success btn-sm">Attached Documents</button>
+                        <button type="button" class="btn btn-outline-success btn-sm">Test Scores</button>
+                        <button type="button" class="btn btn-outline-success btn-sm">Activity History</button>
                     </nav>
                     <div class="row">
                         <div class="col" style="color: black;">
