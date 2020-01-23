@@ -2,7 +2,7 @@
 body {
     font-family: 'Poppins', sans-serif;
     background: #ffffff;
-    font-size: 90%;
+    font-size: 85%;
 }
 
 p {
@@ -94,7 +94,7 @@ a:focus {
 #sidebar ul li.active>a,
 a[aria-expanded="true"] {
     color: #2c2c2c;
-    background: #fff;
+    background: #fafafa;
 }
 
 a[data-toggle="collapse"] {

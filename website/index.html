@@ -61,8 +61,8 @@
                     </li>
                     
                     <li>
-                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Communication</a>
-                        <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <a href="#commSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Communication</a>
+                        <ul class="collapse list-unstyled" id="commSubmenu">
                             <li>
                                 <a href="#">Candidates</a>
                             </li>
@@ -83,7 +83,7 @@
                 <nav class="navbar navbar-expand-lg navbar-light bg-white">
                     <div class="container-fluid">
 
-                        <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <button type="button" id="sidebarCollapse" class="btn btn-success">
                             <i class="fas fa-align-left"></i>
                             <span>Toggle Sidebar</span>
                         </button>
@@ -395,8 +395,7 @@
                 </table>
 
                 <div class="line"></div>
-
-                <h3 style="padding-bottom: 5px; color: #0892A5">Dashboard</h3>
+                <br/>
 
                 <div class="table-responsive">
                     <table class="table">
@@ -500,7 +499,7 @@
                             <table>
                                 <tr>
                                     <td>Status: </td>
-                                    <td>&emsp;Applied</td>
+                                    <td>&emsp;Contacted</td>
                                 </tr>
                                 <tr>
                                     <td>Occupation: </td>
@@ -542,7 +541,7 @@
                                 <span>See All Interviews</span>
                             </button>
                         </div>
-                        <div class="col-7">
+                        <div class="col-6">
                             <h5>Latest Note</h5>
                             <p>20.11.19 - 15:30</p>
                             <p>Harry is fairly rebelious student. He turned up to the interview late his excuse being he got caught up fighting a 3 headed dog, and had to wait for a potion effort made by hermoine to wear off. His uniform was also a bit unkept (could just be poor).</p>
@@ -557,14 +556,6 @@
             </div>
 
         </div>
-
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#sidebarCollapse').on('click', function () {
-                    $('#sidebar').toggleClass('active');
-                });
-            });
-        </script>
 
     </body>
 
