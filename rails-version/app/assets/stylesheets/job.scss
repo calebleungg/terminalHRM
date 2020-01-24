@@ -20,6 +20,11 @@ body {
 
     margin: 0px;
     padding: 0px;
+
+    a {
+        text-decoration: none;
+        color: $secondary-color;
+    }
 }
 
 .sidebar {
@@ -89,6 +94,28 @@ body {
     border-radius: 5px;
     height: 30px;
     padding: 5px 10px;
+
+    &:hover {
+        background-color: #06707e;
+    }
+}
+
+.secondary-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8em;
+    color: #52a152;
+    border: 2px solid #52a152;
+    border-radius: 8px;
+    height: 20px;
+    padding: 5px 10px;
+    font-weight: 700;
+
+    &:hover {
+        background-color: #52a152;
+        color: white;
+    }
 }
 
 .content {
@@ -109,9 +136,7 @@ body {
 
     .main-button {
         margin: 5px;
-        &:hover {
-            background-color: #06707e;
-        }
+
         &:last-child {
             margin-right: 2em;
         }
@@ -120,7 +145,7 @@ body {
 }
 
 .job-details {
-    padding: 10px 20px;
+    padding: 20px 0;
     table {
         font-size: 90%;
         tr {
@@ -141,6 +166,7 @@ body {
     justify-content: center;
     align-items: center;
     margin: 20px;
+
     table {
         width: 85vw;
         border-collapse: collapse;
@@ -161,10 +187,44 @@ body {
         .taken {
             &:hover {
                 background-color: $primary-color;
-                color: white;
                 border-radius: 5px;
+                a {
+                    color: white;
+                }
             }
         }
         
+    }
+
+    a {
+        text-decoration: none;
+        &:visited, &:link {
+            color: $secondary-color;
+        }
+
+    }
+
+}
+
+.candidate-display {
+
+    .candidate-action-bar {
+        display: flex;
+    
+        .secondary-button {
+            margin: 0 2px;
+        }
+    
+    }
+
+    table {
+
+        td:nth-child(odd) {
+            font-weight: 700;
+        }
+
+        td:nth-child(even) {
+            padding: 0 20px;
+        }
     }
 }

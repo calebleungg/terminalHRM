@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  work_type: MyString
+  salary: 9.99
+  openings: 
+  start_date: 2020-01-24
+  reporting_to: MyString
+
+two:
+  title: MyString
+  work_type: MyString
+  salary: 9.99
+  openings: 
+  start_date: 2020-01-24
+  reporting_to: MyString

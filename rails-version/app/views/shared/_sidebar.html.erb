@@ -11,7 +11,7 @@
         <ul>
             <li> Dashboard </li>
             <% @jobs.each do | job | %>
-                <li><%=  "Job #{job[:id]}" %></li>
+                <li><%=  link_to "Job #{job[:id]}", root_path() %></li>
             <% end %>
         </ul>
     </div>
