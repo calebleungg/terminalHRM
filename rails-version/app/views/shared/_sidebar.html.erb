@@ -1,0 +1,19 @@
+<div class="sidebar">
+
+    <h1>terminalHRM</h1>
+
+    <div id="user-info">
+        <img src="assets/IMG_3679.JPG" alt="user profile picture">
+        <p>Username</p>
+    </div>
+
+    <div id="navigation">
+        <ul>
+            <li> Dashboard </li>
+            <% @jobs.each do | job | %>
+                <li><%=  "Job #{job[:id]}" %></li>
+            <% end %>
+        </ul>
+    </div>
+
+</div>
