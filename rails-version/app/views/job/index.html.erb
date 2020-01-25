@@ -1,0 +1,19 @@
+<div class="job-list-display">
+    <h1> Joblist</h1>
+    <% @jobs.each do | job | %>
+        <div class="details-panel">
+            <p> <%= job[:id] %> </p>
+            <p> <%= job[:title] %> </p>
+            <p> <%= job[:work_type] %> </p>
+            <p> <%= "$%.2f" % job[:salary] %> </p>
+            <p> <%= "%.0f" % job[:openings] %> </p>
+            <p> <%= job[:start_date] %> </p>
+            <p> <%= job[:reporting_to] %> </p>
+            <% if job[:status] == "open" %>
+                <div class="green-dot"></div>
+            <% else %>
+                <div class="red-dot"></div>
+            <% end %>
+        </div>
+    <% end %>
+</div>

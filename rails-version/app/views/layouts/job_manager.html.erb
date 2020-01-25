@@ -24,7 +24,14 @@
             </div>
 
             <div class="job-details">
-                <h2> <%= "#{@jobs[0][:title]} | ##{@jobs[0][:id]}" %> </h2>
+                <div class="job-title">
+                    <% if @jobs[0][:status] == "open"%>
+                        <div class="green-dot"></div>
+                    <% else%>
+                        <div class="red-dot"></div>
+                    <% end %>
+                    <h2> <%= "#{@jobs[0][:title]} | ##{@jobs[0][:id]}" %> </h2>
+                </div>
                 <table>
                     <tr>
                         <td>Type: </td>
@@ -43,6 +50,7 @@
 
                 </table>
             </div>
+            <div class="dashboard-title"> <h2>Dashboard</h2> </div>
             <div class="progression-table">
                 <table>
 

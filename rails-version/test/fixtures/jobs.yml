@@ -7,6 +7,7 @@ one:
   openings: 
   start_date: 2020-01-24
   reporting_to: MyString
+  status: MyString
 
 two:
   title: MyString
@@ -15,3 +16,4 @@ two:
   openings: 
   start_date: 2020-01-24
   reporting_to: MyString
+  status: MyString

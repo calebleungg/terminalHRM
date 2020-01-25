@@ -9,9 +9,9 @@
 
     <div id="navigation">
         <ul>
-            <li> Dashboard </li>
+            <li> <%= link_to "Dashboard", root_path() %> </li>
             <% @jobs.each do | job | %>
-                <li><%=  link_to "Job #{job[:id]}", root_path() %></li>
+                <li><%=  link_to "Job #{job[:id]}", manager_path() %></li>
             <% end %>
         </ul>
     </div>

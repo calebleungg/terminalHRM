@@ -3,6 +3,10 @@ class JobController < ApplicationController
     before_action :setup_jobs
 
     def index
+        # render layout: "job_manager"
+    end
+
+    def job_manager
         render layout: "job_manager"
     end
 
@@ -15,7 +19,6 @@ class JobController < ApplicationController
             end
         end
         render layout: "job_manager"
-        # render json: @candidate
     end
 
     
@@ -23,14 +26,6 @@ class JobController < ApplicationController
     def setup_jobs
         @jobs = Job.all
         @candidates = Candidate.all
-    end
-    
-    def get_candidate_id(name)
-        @candidates.each do | candidate |
-            if candidate[:name] == name
-                return candidate[:id]
-            end
-        end
     end
 
 end

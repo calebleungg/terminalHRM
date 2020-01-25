@@ -3,5 +3,6 @@ Rails.application.routes.draw do
 
   get "/", to: "job#index", as: "root"
   get "/candidate/:id", to: "job#candidate", as: "candidate"
+  get "/job-manager", to: "job#job_manager", as: "manager"
 
 end

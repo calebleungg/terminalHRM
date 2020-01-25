@@ -7,6 +7,7 @@ class CreateJobs < ActiveRecord::Migration[5.2]
       t.numeric :openings, null:false
       t.date :start_date, null:false
       t.string :reporting_to, limit: 50, null:false
+      t.string :status, limit: 50, null:false
 
       t.timestamps
     end
