@@ -1,0 +1,135 @@
+<div class="job-details">
+    <div class="job-title">
+        <% if @job[:status] == "open"%>
+            <div class="green-dot"></div>
+        <% else%>
+            <div class="red-dot"></div>
+        <% end %>
+        <h2> <%= "#{@job[:title]} | ##{@job[:id]}" %> </h2>
+    </div>
+    <table>
+        <tr>
+            <td>Type: </td>
+            <td> <%= @job[:work_type] %> </td>
+            <td>Salary: </td>
+            <td> <%= "$%.2f" % @job[:salary] %> </td>
+        </tr>
+        <tr>
+            <td>Openings: </td>
+            <td> <%= "%.0f" % @job[:openings] %> </td>
+            <td>Start Date: </td>
+            <td> <%= @job[:start_date] %> </td>
+            <td>Reporting to: </td>
+            <td> <%= @job[:reporting_to] %> </td>
+        </tr>
+
+    </table>
+</div>
+
+<div class="dashboard-title"> <h2>Dashboard</h2> </div>
+
+<% if @candidate_pool != [] %>
+    <div class="progression-table">
+        <table>
+
+            <tr>
+                <th>Applied (<%= @repeats["applied"] %>) </th>
+                <th>Contacted (<%= @repeats["contacted"] %>) </th>
+                <th>Screened (<%= @repeats["screened"] %>) </th>
+                <th>Shortlisted (<%= @repeats["shortlisted"] %>) </th>
+                <th>Interview (<%= @repeats["interview"] %>) </th>
+                <th>Offer (<%= @repeats["offer"] %>) </th>
+                <th>Accepted (<%= @repeats["accepted"] %>) </th>
+                <th>Disqualified (<%= @repeats["disqualified"] %>) </th>
+            </tr>
+
+            <% @candidate_pool.each do | candidate | %>
+                <% if @repeats[candidate[:status]] > 0%>
+                    <% @row_data[@repeats[candidate[:status]]-1][@columns[candidate[:status]]] = "#{candidate[:first_name]} #{candidate[:last_name]}" %>
+                    <% @repeats[candidate[:status]] -= 1%>
+                <% end %>
+            <% end %>
+
+            <% @row_data.each do | row | %>
+                <tr>
+                    <% row.each do | data | %>
+                        <% if data != ""%>        
+                            <% @candidate_pool.each do | candidate | %>
+                                <% if "#{candidate[:first_name]} #{candidate[:last_name]}" == data %>
+                                     <td class="taken">  <%= link_to data, candidate_path(:job_id => @job[:id], :candidate_id => candidate[:id]) %> </td> 
+                                <% end %>
+                            <% end %>
+                        <% else %>
+                            <td> <%= data %> </td>
+                        <% end %>
+                    <% end %>
+                </tr>
+
+            <% end %>  
+
+        </table>
+
+    </div>
+<% else %>
+    <div class="progression-table">
+        <table>
+
+            <tr>
+                <th>Applied (0) </th>
+                <th>Contacted (0) </th>
+                <th>Screened (0) </th>
+                <th>Shortlisted (0) </th>
+                <th>Interview (0) </th>
+                <th>Offer (0) </th>
+                <th>Accepted (0) </th>
+                <th>Disqualified (0) </th>
+            </tr>
+
+        </table>
+
+
+    </div>
+
+    <p id="add-prompt"> Start recruiting for this role now! </p>
+
+<% end %>
+
+<% if @candidate %>
+
+    <div class="candidate-display">
+
+        <h2> <%= "Profile | #{@candidate[:first_name]} #{@candidate[:last_name]}" %> </h2>
+        <div class="candidate-action-bar">
+            <div class="secondary-button">Progress</div>
+            <div class="secondary-button">Edit</div>
+            <div class="secondary-button">Schedule Interview</div>
+            <div class="secondary-button">Offer</div>
+            <div class="secondary-button">Disqualify</div>
+        </div>
+        <h3> Details </h3>
+
+        <table>
+            <tr>
+                <td>Status:</td>
+                <td> <%= @candidate[:status].capitalize %> </td>
+            </tr>
+            <tr>
+                <td>Occupation:</td>
+                <td> <%= @candidate[:occupation] %> </td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td> <%= @candidate[:email] %> </td>
+            </tr>
+            <tr>
+                <td>Number:</td>
+                <td> <%= @candidate[:number] %> </td>
+            </tr>
+            <tr>
+                <td>Address:</td>
+                <td> <%= @candidate[:address] %> </td>
+            </tr>
+        </table>
+
+    </div>
+<% end %>

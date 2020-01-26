@@ -3,16 +3,17 @@
     <h1>terminalHRM</h1>
 
     <div id="user-info">
-        <img src="assets/IMG_3679.JPG" alt="user profile picture">
-        <p>Username</p>
+        <%= image_tag("IMG_3679.JPG", :alt => "rss feed") %>
+        <p>Caled Leung</p>
     </div>
 
     <div id="navigation">
         <ul>
-            <li> <%= link_to "Dashboard", root_path() %> </li>
-            <% @jobs.each do | job | %>
-                <li><%=  link_to "Job #{job[:id]}", manager_path() %></li>
-            <% end %>
+            <%= link_to root_path() do %> <li class="dashboard-link"> <i class="fas fa-chalkboard"></i> Dashboard </li> <% end %>
+            <li> <i class="fas fa-user-circle"></i> Account </li>
+            <li> <i class="fas fa-envelope-square"></i> Communications</li>
+            <li> <i class="far fa-file-alt"></i> Reports </li>
+            <li> <i class="fas fa-cog"></i> Settings </li>
         </ul>
     </div>
 

@@ -67,22 +67,26 @@ body {
             list-style-type: none;
             li {
 
+                .dashboard-link {
+                    font-size: 1em;
+                }
+
                 padding: 10px;
 
-                &:first-child {
-                    &:hover {
-                        border-left: 5px $secondary-color solid;
-                    }
-                }
                 &:hover {
                     border-left: 5px $primary-color solid;
                 }
 
             }
+            i {
+                margin: 0 10px;
+                @include set-size(20px, 20px)
+            }
         }
     }
 
 }
+
 
 .main-button {
     display: flex;
@@ -234,6 +238,11 @@ body {
 
     }
 
+}
+
+#add-prompt {
+    font-size: 1em;
+    text-align: center;
 }
 
 .dashboard-title {
