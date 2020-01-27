@@ -45,22 +45,18 @@
 
             <% @candidate_pool.each do | candidate | %>
                 <% if @repeats[candidate[:status]] > 0%>
-                    <% @row_data[@repeats[candidate[:status]]-1][@columns[candidate[:status]]] = "#{candidate[:first_name]} #{candidate[:last_name]}" %>
+                    <% @row_data[@repeats[candidate[:status]]-1][@columns[candidate[:status]]] = candidate %>
                     <% @repeats[candidate[:status]] -= 1%>
                 <% end %>
             <% end %>
 
             <% @row_data.each do | row | %>
                 <tr>
-                    <% row.each do | data | %>
-                        <% if data != ""%>        
-                            <% @candidate_pool.each do | candidate | %>
-                                <% if "#{candidate[:first_name]} #{candidate[:last_name]}" == data %>
-                                     <td class="taken">  <%= link_to data, candidate_path(:job_id => @job[:id], :candidate_id => candidate[:id]) %> </td> 
-                                <% end %>
-                            <% end %>
+                    <% row.each do | candidate | %>
+                        <% if candidate != "" %>
+                            <td class="taken">  <%= link_to "#{candidate[:first_name]} #{candidate[:last_name]}", candidate_path(:job_id => @job[:id], :candidate_id => candidate[:id]) %> </td>                      
                         <% else %>
-                            <td> <%= data %> </td>
+                            <td> </td>
                         <% end %>
                     <% end %>
                 </tr>

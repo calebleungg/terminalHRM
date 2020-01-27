@@ -4,7 +4,9 @@ class JobController < ApplicationController
     attr_reader :candidate
 
     def index
-        # render layout: "job_manager"
+    end
+
+    def new
     end
 
     def job_manager

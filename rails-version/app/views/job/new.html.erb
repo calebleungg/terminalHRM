@@ -1,0 +1,31 @@
+<div class ="add-form">
+    <h1> Add Job </h1>
+    <p> Please complete all fields </p>
+
+    <%=form_with model:@job, class: "form-class" do |form| %>
+        <%= label(:title,"Job Title")%> <br>
+        <%= form.text_field :title %> <br><br>
+
+        <%= label(:work_type,"Type")%> <br>
+        <%= form.select(:work_type, ['Full Time', 'Part Time', 'Casual', 'Fixed Term'] )  %><br><br>
+
+        <%= label(:salary,"Salary")%><br>
+        <%= form.text_field :salary %> <br><br>
+
+        <%= label(:openings,"# of Openings")%><br>
+        <%= form.number_field :openings, value: 1 %> <br><br>
+
+        <%= label(:start_date,"Start Date")%> <br>
+        <%= form.date_field :start_date %> <br><br>
+
+        <%= label(:reporting_to,"Reporting To")%> <br>
+        <%= form.text_field :reporting_to %> <br><br>
+
+        <%= label(:description,"Job Description")%> <br>
+        <%= form.text_area :description %> <br><br>
+        <%= form.submit "Save and Add", class: "button-class" %>
+
+
+    <%end%>
+</div>
+
