@@ -8,4 +8,12 @@ Rails.application.routes.draw do
   get "/new-job", to: "job#new", as: "new_job"
   get "/new-candidate", to: "candidate#new", as: "new_candidate"
 
+  post "/new-candidate", to: "candidate#create"
+  post "/new-job", to: "job#create"
+
+  get "/progress-candidate", to: "candidate#progress", as: "progress_candidate"
+  get "/edit-candidate/:candidate_id", to: "candidate#edit", as: "edit_candidate"
+
+  patch "/job-manager/:job_id/candidate/:candidate_id", to: "candidate#update"
+
 end

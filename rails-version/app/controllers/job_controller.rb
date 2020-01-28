@@ -9,6 +9,23 @@ class JobController < ApplicationController
     def new
     end
 
+    def create
+        @job = Job.new
+        @job.title = params[:title]
+        @job.work_type = params[:work_type]
+        @job.salary = params[:salary]
+        @job.openings = params[:openings]
+        @job.start_date = params[:start_date]
+        @job.reporting_to = params[:reporting_to]
+        @job.status = "open"
+
+        if @job.save
+            redirect_to manager_path(@job[:id])
+        else
+            render "new"
+        end
+    end
+
     def job_manager
         @job = @jobs.find(params[:job_id])
         @candidate_pool = @candidates.where(job_id: params[:job_id])
@@ -24,7 +41,7 @@ class JobController < ApplicationController
                     @error = "Error: non-existent candidate"
                 end
 
-                @repeats[candidate[:status]] += 1
+                @repeats[candidate[:status].downcase] += 1
             end
         
             @row_count = @repeats.values.max

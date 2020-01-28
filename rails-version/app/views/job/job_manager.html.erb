@@ -15,8 +15,8 @@
             <td> <%= "$%.2f" % @job[:salary] %> </td>
         </tr>
         <tr>
-            <td>Openings: </td>
-            <td> <%= "%.0f" % @job[:openings] %> </td>
+            <td>Applications: </td>
+            <td> <%= "%.0f" % @candidate_pool.length %> </td>
             <td>Start Date: </td>
             <td> <%= @job[:start_date] %> </td>
             <td>Reporting to: </td>
@@ -44,9 +44,9 @@
             </tr>
 
             <% @candidate_pool.each do | candidate | %>
-                <% if @repeats[candidate[:status]] > 0%>
-                    <% @row_data[@repeats[candidate[:status]]-1][@columns[candidate[:status]]] = candidate %>
-                    <% @repeats[candidate[:status]] -= 1%>
+                <% if @repeats[candidate[:status].downcase] > 0%>
+                    <% @row_data[@repeats[candidate[:status].downcase]-1][@columns[candidate[:status].downcase]] = candidate %>
+                    <% @repeats[candidate[:status].downcase] -= 1%>
                 <% end %>
             <% end %>
 
@@ -54,7 +54,7 @@
                 <tr>
                     <% row.each do | candidate | %>
                         <% if candidate != "" %>
-                            <td class="taken">  <%= link_to "#{candidate[:first_name]} #{candidate[:last_name]}", candidate_path(:job_id => @job[:id], :candidate_id => candidate[:id]) %> </td>                      
+                            <td class="taken">  <%= link_to "#{candidate[:first_name]} #{candidate[:last_name]}", candidate_path(:candidate_id => candidate[:id]) %> </td>                      
                         <% else %>
                             <td> </td>
                         <% end %>
@@ -96,10 +96,9 @@
 
         <h2> <%= "Profile | #{@candidate[:first_name]} #{@candidate[:last_name]}" %> </h2>
         <div class="candidate-action-bar">
-            <div class="secondary-button">Progress</div>
-            <div class="secondary-button">Edit</div>
+            <div class="secondary-button"> <%= link_to progress_candidate_path(:candidate_id => @candidate[:id]) do %> Progress <% end %> </div>
+            <div class="secondary-button"> <%= link_to edit_candidate_path(:candidate_id => @candidate[:id], :job_id => @job[:id]) do %>  Edit <% end %> </div>
             <div class="secondary-button">Schedule Interview</div>
-            <div class="secondary-button">Offer</div>
             <div class="secondary-button">Disqualify</div>
         </div>
         <h3> Details </h3>

@@ -1,6 +1,6 @@
 <div class ="add-form">
-    <h1> Add Candidate </h1>
-    <p> Please complete all fields </p>
+    <h1> Edit Details</h1>
+    <p> Please change details below, and press save to save all changes </p>
 
     <%=form_with model:@candidate, class: "form-class" do |form| %>
         <%= label(:job_id,"Job ID")%> <br>
@@ -11,6 +11,9 @@
 
         <%= label(:last_name,"Last Name")%><br>
         <%= form.text_field :last_name %> <br><br>
+
+        <%= label(:status,"Status")%><br>
+        <%= form.select(:status, ['applied', 'contacted', 'screened', 'shortlisted', 'interview', 'offer', 'accepted', 'disqualified'] )  %><br><br>
 
         <%= label(:occupation,"Occupation")%><br>
         <%= form.text_field :occupation %> <br><br>
@@ -23,7 +26,7 @@
 
         <%= label(:address,"Address")%> <br>
         <%= form.text_field :address %> <br><br>
-        <%= form.submit "Save and Add", class: "button-class" %>
+        <%= form.submit "Save Changes", class: "button-class" %>
 
 
     <%end%>
