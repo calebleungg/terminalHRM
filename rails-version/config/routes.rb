@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   post "/new-job", to: "job#create"
 
   get "/progress-candidate", to: "candidate#progress", as: "progress_candidate"
+  get "/disqualify-candidate", to: "candidate#disqualify", as: "disqualify_candidate"
   get "/edit-candidate/:candidate_id", to: "candidate#edit", as: "edit_candidate"
 
   patch "/job-manager/:job_id/candidate/:candidate_id", to: "candidate#update"

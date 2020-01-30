@@ -1,4 +1,4 @@
-# README
+# RAILS-HRM
 
 This project is the rails version of terminal HRM- a human resources management software used for the recruitment process.
 The project will be deployed on Heroku very soon!

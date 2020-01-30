@@ -97,8 +97,8 @@
         <h2> <%= "Profile | #{@candidate[:first_name]} #{@candidate[:last_name]}" %> </h2>
         <div class="candidate-action-bar">
             <div class="secondary-button"> <%= link_to progress_candidate_path(:candidate_id => @candidate[:id]) do %> Progress <% end %> </div>
-            <div class="secondary-button">Schedule Interview</div>
-            <div class="secondary-button">Disqualify</div>
+            <div class="secondary-button"> <%= link_to disqualify_candidate_path(:candidate_id => @candidate[:id]) do %>  Disqualify <% end %> </div>
+            <div class="secondary-button"> Schedule Interview </div>
             <div class="secondary-button"> <%= link_to new_note_path(:candidate_id => @candidate[:id]) do %>  Make Note <% end %> </div>
         </div>
         <div class="details-box">

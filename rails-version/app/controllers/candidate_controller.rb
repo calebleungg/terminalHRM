@@ -25,6 +25,27 @@ class CandidateController < ApplicationController
         @candidate = Candidate.find(params[:candidate_id])
         @candidate.update(status: stage[stage.index(@candidate.status)+1])
 
+        @note = Note.new
+        @note.candidate_id = params[:candidate_id]
+        @note.note = "Progressed to #{stage[stage.index(@candidate.status)+1]}"
+        @note.save
+
+        if @candidate.save
+            redirect_to candidate_path(:job_id => @candidate[:job_id].to_i,:candidate_id => @candidate[:id])
+        else
+            render "new"
+        end
+    end
+
+    def disqualify
+        @candidate = Candidate.find(params[:candidate_id])
+        @candidate.update(status: "disqualified")
+
+        @note = Note.new
+        @note.candidate_id = params[:candidate_id]
+        @note.note = "Disqualified"
+        @note.save
+
         if @candidate.save
             redirect_to manager_path(@candidate[:job_id])
         else
@@ -48,7 +69,8 @@ class CandidateController < ApplicationController
             number: params[:candidate][:number]
         )
         if candidate.save
-            redirect_to manager_path(candidate[:job_id])
+            redirect_to candidate_path(:job_id => candidate[:job_id].to_i, :candidate_id => candidate[:id])
+            # redirect_to manager_path(candidate[:job_id])
         else
             render "edit"
         end

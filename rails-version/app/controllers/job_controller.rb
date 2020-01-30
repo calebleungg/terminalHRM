@@ -59,9 +59,6 @@ class JobController < ApplicationController
 
         if @candidate
             @notes = Note.where(candidate_id: @candidate[:id]).reverse
-            if @notes.length > 0
-                @date = "#{DateFormat.change_to(@notes[0][:created_at].in_time_zone('Australia/Brisbane'), "MEDIUM_DATE")} | #{DateFormat.change_to(@notes[0][:created_at].in_time_zone('Australia/Brisbane'), "MEDIUM_TIME")}"
-            end 
         end
 
         render layout: "job_manager"

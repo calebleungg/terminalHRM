@@ -127,8 +127,8 @@ body {
     a {
         color: #52a152;
     }
-}
 
+}
 
 .content {
     grid-area: content;
@@ -370,20 +370,35 @@ body {
     display: flex;
     width: 70vw;
 
-    .note-details {
-        display: flex;
-        flex-direction: column;
-        padding: 0 20px;
-    }
-
+    
     .main-details {
         .secondary-button {
             width: 60px;
             margin-top: 5px;
         }
+        td {
+            padding: 2px 0;
+        }
     }
+
+    h3 {
+        padding-bottom: 5px;
+        border-bottom: 5px solid $primary-color;
+        width: 100px;
+    }
+
+    .note-details {
+        display: flex;
+        flex-direction: column;
+        padding: 0 50px;
+    }
+
+    .note-box {
+        padding-bottom: 5px;
+    }
+
     .notes-display {
-        height: 150px;
+        height: 200px;
         width: 300px;
         overflow: scroll;
         .secondary-button {
