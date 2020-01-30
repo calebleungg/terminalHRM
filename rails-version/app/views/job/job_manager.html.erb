@@ -129,14 +129,16 @@
                 <div class="secondary-button"> <%= link_to edit_candidate_path(:candidate_id => @candidate[:id], :job_id => @job[:id]) do %>  Edit <% end %> </div>
             </div>
             <% if @notes.length > 0 %>
-                <div class="notes-display">
+                <div class="note-details">
                     <h3> Notes </h3>
-                    <% for note in @notes %>
-                        <p class="timestamp"> <%= note[:created_at] %> </p>
-                        <p class="note-text"> <%= note[:note] %></p>
-                        <hr>
-                        <%# <div class="secondary-button">See All Notes</div> %>
-                    <% end %>
+                    <div class="notes-display">
+                        <% for note in @notes %>
+                            <div class="note-box">
+                                <p class="timestamp"> <%= "#{DateFormat.change_to(note[:created_at].in_time_zone('Australia/Brisbane'), "MEDIUM_DATE")} | #{DateFormat.change_to(note[:created_at].in_time_zone('Australia/Brisbane'), "MEDIUM_TIME")}" %> </p>
+                                <p class="note-text"> <%= note[:note] %></p>
+                            </div>                        
+                        <% end %>
+                    </div>
                 </div>
             <% end %>
         </div>

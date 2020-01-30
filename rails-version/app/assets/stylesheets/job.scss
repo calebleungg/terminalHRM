@@ -370,22 +370,24 @@ body {
     display: flex;
     width: 70vw;
 
+    .note-details {
+        display: flex;
+        flex-direction: column;
+        padding: 0 20px;
+    }
+
     .main-details {
         .secondary-button {
             width: 60px;
+            margin-top: 5px;
         }
     }
     .notes-display {
-        margin-left: 50px;
-        height: 200px;
+        height: 150px;
         width: 300px;
         overflow: scroll;
         .secondary-button {
             width: 100px;
-        }
-        padding: 10px;
-        hr {
-            width: 80%;
         }
     }
 
