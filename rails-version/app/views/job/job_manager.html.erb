@@ -97,35 +97,50 @@
         <h2> <%= "Profile | #{@candidate[:first_name]} #{@candidate[:last_name]}" %> </h2>
         <div class="candidate-action-bar">
             <div class="secondary-button"> <%= link_to progress_candidate_path(:candidate_id => @candidate[:id]) do %> Progress <% end %> </div>
-            <div class="secondary-button"> <%= link_to edit_candidate_path(:candidate_id => @candidate[:id], :job_id => @job[:id]) do %>  Edit <% end %> </div>
             <div class="secondary-button">Schedule Interview</div>
             <div class="secondary-button">Disqualify</div>
             <div class="secondary-button"> <%= link_to new_note_path(:candidate_id => @candidate[:id]) do %>  Make Note <% end %> </div>
         </div>
-        <h3> Details </h3>
-
-        <table>
-            <tr>
-                <td>Status:</td>
-                <td> <%= @candidate[:status].capitalize %> </td>
-            </tr>
-            <tr>
-                <td>Occupation:</td>
-                <td> <%= @candidate[:occupation] %> </td>
-            </tr>
-            <tr>
-                <td>Email:</td>
-                <td> <%= @candidate[:email] %> </td>
-            </tr>
-            <tr>
-                <td>Number:</td>
-                <td> <%= @candidate[:number] %> </td>
-            </tr>
-            <tr>
-                <td>Address:</td>
-                <td> <%= @candidate[:address] %> </td>
-            </tr>
-        </table>
+        <div class="details-box">
+            <div class="main-details">
+                <h3> Details </h3>
+                <table>
+                    <tr>
+                        <td>Status:</td>
+                        <td> <%= @candidate[:status].capitalize %> </td>
+                    </tr>
+                    <tr>
+                        <td>Occupation:</td>
+                        <td> <%= @candidate[:occupation] %> </td>
+                    </tr>
+                    <tr>
+                        <td>Email:</td>
+                        <td> <%= @candidate[:email] %> </td>
+                    </tr>
+                    <tr>
+                        <td>Number:</td>
+                        <td> <%= @candidate[:number] %> </td>
+                    </tr>
+                    <tr>
+                        <td>Address:</td>
+                        <td> <%= @candidate[:address] %> </td>
+                    </tr>
+                </table>
+                <div class="secondary-button"> <%= link_to edit_candidate_path(:candidate_id => @candidate[:id], :job_id => @job[:id]) do %>  Edit <% end %> </div>
+            </div>
+            <% if @notes.length > 0 %>
+                <div class="notes-display">
+                    <h3> Notes </h3>
+                    <% for note in @notes %>
+                        <p class="timestamp"> <%= note[:created_at] %> </p>
+                        <p class="note-text"> <%= note[:note] %></p>
+                        <hr>
+                        <%# <div class="secondary-button">See All Notes</div> %>
+                    <% end %>
+                </div>
+            <% end %>
+        </div>
 
     </div>
 <% end %>
+

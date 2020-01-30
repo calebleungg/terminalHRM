@@ -1,3 +1,5 @@
+require 'date_format'
+
 class JobController < ApplicationController
     skip_before_action :verify_authenticity_token
     before_action :setup_jobs
@@ -54,6 +56,13 @@ class JobController < ApplicationController
         end
 
         @candidate = @candidates.where(id: params[:candidate_id]).first
+
+        if @candidate
+            @notes = Note.where(candidate_id: @candidate[:id]).reverse
+            if @notes.length > 0
+                @date = "#{DateFormat.change_to(@notes[0][:created_at].in_time_zone('Australia/Brisbane'), "MEDIUM_DATE")} | #{DateFormat.change_to(@notes[0][:created_at].in_time_zone('Australia/Brisbane'), "MEDIUM_TIME")}"
+            end 
+        end
 
         render layout: "job_manager"
     end

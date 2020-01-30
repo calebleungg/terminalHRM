@@ -1,0 +1,15 @@
+<div class ="add-form note-input">
+    <h1> Notes | <%= "#{@candidate[:first_name]} #{@candidate[:last_name]}" %> </h1>
+
+    <%=form_with model:@note, class: "form-class" do |form| %>
+
+        <%= label(:note,"Type note below")%> <br>
+        <%= form.text_area :note %> <br><br>
+
+        <%= form.submit "Save Note", class: "button-class" %>
+
+    <%end%>
+
+</div>
+
+

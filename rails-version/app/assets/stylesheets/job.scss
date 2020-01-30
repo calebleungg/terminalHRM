@@ -365,3 +365,32 @@ body {
         @include set-size(35vw, 100px);
     }
 }
+
+.details-box {
+    display: flex;
+    width: 70vw;
+
+    .main-details {
+        .secondary-button {
+            width: 60px;
+        }
+    }
+    .notes-display {
+        margin-left: 50px;
+        height: 200px;
+        width: 300px;
+        overflow: scroll;
+        .secondary-button {
+            width: 100px;
+        }
+        padding: 10px;
+        hr {
+            width: 80%;
+        }
+    }
+
+    .timestamp {
+        font-size: 0.8em;
+        opacity: 0.8;
+    }
+}
