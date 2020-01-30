@@ -16,4 +16,7 @@ Rails.application.routes.draw do
 
   patch "/job-manager/:job_id/candidate/:candidate_id", to: "candidate#update"
 
+  get "/new-note/candidate/:candidate_id", to: "note#new", as: "new_note"
+  post "/new-note/candidate/:candidate_id", to: "note#create"
+
 end

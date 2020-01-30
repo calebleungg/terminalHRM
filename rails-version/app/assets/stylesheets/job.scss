@@ -118,7 +118,14 @@ body {
 
     &:hover {
         background-color: #52a152;
-        color: white;
+        a {
+            color: white;
+
+        }
+    }
+
+    a {
+        color: #52a152;
     }
 }
 
@@ -317,100 +324,6 @@ body {
     
 }
 
-// overlay darken styling
-
-.overlay {
-    position: absolute;
-	top: 0;
-	bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0,0,0,0.5);
-    transition: opacity 200ms;
-    visibility: hidden;
-    opacity: 0;
-
-    // cancel feature for modal closing
-
-    .cancel {
-        position: absolute;
-        @include set-size(100%, 100%);
-        cursor: default;
-    }
-
-    // exit button feature for modal closing
-
-    .close {
-        position: absolute;
-        top: 5px;
-        right: 20px;
-        opacity: 0.8;
-        transition: all 200ms;
-        font-size: 30px;
-        font-weight: bold;
-        text-decoration: none;
-        color: #666;
-        &:hover {
-          opacity: 1;
-          color: $primary-color;
-        }
-    }
-
-    &:target {
-        visibility: visible;
-        opacity: 1;
-    }
-
-}
-
-// modal styling
-
-.modal {
-    margin: 75px auto;
-	padding: 20px;
-	background: white;
-	width: 300px;
-    position: relative;
-    max-height: 70vh;
-    overflow: scroll;
-    
-    .modal-content {
-        max-height: 400px;
-        overflow: auto;
-        margin-top: 10px;
-
-        h4 {
-            margin-top: 10px;
-        }
-
-        h5 {
-            margin-top: 10px;
-        }
-    }
-
-    img {
-        padding-top: 20px;
-        border-radius: 5px;
-    }
-
-    h3 {
-        margin-top: 10px;
-    }
-
-    i {
-        margin-left: 45%;
-        margin-top: 10px;
-        font-size: 2em;
-        color: black;
-    }
-
-    hr {
-        margin: 20px 0;
-    }
-
-
-}
-
 .add-form {
     width: 85vw;
     padding-left: 5em;
@@ -445,4 +358,10 @@ body {
         color: white;
     }
 
+}
+
+.note-input {
+    textarea {
+        @include set-size(35vw, 100px);
+    }
 }
