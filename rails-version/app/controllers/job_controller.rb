@@ -9,19 +9,14 @@ class JobController < ApplicationController
     end
 
     def new
+        @job = Job.new
     end
 
     def create
-        @job = Job.new
-        @job.title = params[:title]
-        @job.work_type = params[:work_type]
-        @job.salary = params[:salary]
-        @job.openings = params[:openings]
-        @job.start_date = params[:start_date]
-        @job.reporting_to = params[:reporting_to]
+        @job = Job.new(job_params)
         @job.status = "open"
 
-        if @job.save
+        if @job.valid? && @job.save
             redirect_to manager_path(@job[:id])
         else
             render "new"
@@ -59,7 +54,10 @@ class JobController < ApplicationController
 
         if @candidate
             @notes = Note.where(candidate_id: @candidate[:id]).reverse
+            @interviews = Interview.where(candidate_id: @candidate[:id]).reverse
         end
+
+        @prog_error = params[:prog_error]
 
         render layout: "job_manager"
     end
@@ -69,6 +67,10 @@ class JobController < ApplicationController
     def setup_jobs
         @jobs = Job.all
         @candidates = Candidate.all
+    end
+
+    def job_params
+        params.require(:job).permit(:title, :work_type, :salary, :openings, :start_date, :reporting_to, :status)
     end
 
 end

@@ -2,7 +2,7 @@
     <h1> Add Job </h1>
     <p> Please complete all fields </p>
 
-    <%=form_with model:@job, class: "form-class" do |form| %>
+    <%= form_with model: @job, url: create_job_path() do |form| %>
         <%= label(:title,"Job Title")%> <br>
         <%= form.text_field :title %> <br><br>
 
@@ -10,7 +10,7 @@
         <%= form.select(:work_type, ['Full Time', 'Part Time', 'Casual', 'Fixed Term'] )  %><br><br>
 
         <%= label(:salary,"Salary")%><br>
-        <%= form.text_field :salary %> <br><br>
+        <%= form.number_field :salary %> <br><br>
 
         <%= label(:openings,"# of Openings")%><br>
         <%= form.number_field :openings, value: 1 %> <br><br>

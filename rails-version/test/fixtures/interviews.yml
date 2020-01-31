@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2020-01-30 20:26:02
+  candidate_id: 1
+  job_id: 1
+  interviewer: MyString
+  status: MyString
+  comments: MyString
+
+two:
+  date: 2020-01-30 20:26:02
+  candidate_id: 1
+  job_id: 1
+  interviewer: MyString
+  status: MyString
+  comments: MyString

@@ -2,7 +2,7 @@
     <h1> Add Candidate </h1>
     <p> Please complete all fields </p>
 
-    <%=form_with model:@candidate, class: "form-class" do |form| %>
+    <%=form_with model:@candidate, url: create_candidate_path() do |form| %>
         <%= label(:job_id,"Job ID")%> <br>
         <%= form.text_field :job_id %> <br><br>
 

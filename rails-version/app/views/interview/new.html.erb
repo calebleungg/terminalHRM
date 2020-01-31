@@ -1,0 +1,21 @@
+<div class ="add-form">
+    <h2> Schedule Interview | <%= "#{@candidate[:first_name]} #{@candidate[:last_name]}" %> </h2>
+    <p> Please complete all fields </p>
+
+    <%=form_with model:@interview, class: "form-class" do |form| %>
+        <%= form.hidden_field :candidate_id, value: params[:candidate_id].to_i %>
+        <%= form.hidden_field :job_id, value: @candidate[:job_id] %>
+        <%= label(:date,"Date")%> <br>
+        <%= form.datetime_field :date %> <br><br>
+
+        <%= label(:interviewer,"Interviewer")%> <br>
+        <%= form.text_field :interviewer %><br><br>
+
+        <%= label(:comments,"Comments")%><br>
+        <%= form.text_area :comments %> <br><br>
+        <%= form.submit "Save and Add", class: "button-class" %>
+
+    <%end%>
+</div>
+
+

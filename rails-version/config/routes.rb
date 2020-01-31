@@ -8,8 +8,8 @@ Rails.application.routes.draw do
   get "/new-job", to: "job#new", as: "new_job"
   get "/new-candidate", to: "candidate#new", as: "new_candidate"
 
-  post "/new-candidate", to: "candidate#create"
-  post "/new-job", to: "job#create"
+  post "/new-candidate", to: "candidate#create", as: "create_candidate"
+  post "/new-job", to: "job#create", as: "create_job"
 
   get "/progress-candidate", to: "candidate#progress", as: "progress_candidate"
   get "/disqualify-candidate", to: "candidate#disqualify", as: "disqualify_candidate"
@@ -19,5 +19,8 @@ Rails.application.routes.draw do
 
   get "/new-note/candidate/:candidate_id", to: "note#new", as: "new_note"
   post "/new-note/candidate/:candidate_id", to: "note#create"
+
+  get "/new-interview/candidate/:candidate_id", to: "interview#new", as: "new_interview"
+  post "/new-interview/candidate/:candidate_id", to: "interview#create"
 
 end

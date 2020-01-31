@@ -93,12 +93,15 @@
 <% if @candidate %>
 
     <div class="candidate-display">
+        <% if @prog_error %>
+            <p class="progression-error"> <%= @prog_error %> </p>
+        <% end %>
 
         <h2> <%= "Profile | #{@candidate[:first_name]} #{@candidate[:last_name]}" %> </h2>
         <div class="candidate-action-bar">
             <div class="secondary-button"> <%= link_to progress_candidate_path(:candidate_id => @candidate[:id]) do %> Progress <% end %> </div>
             <div class="secondary-button"> <%= link_to disqualify_candidate_path(:candidate_id => @candidate[:id]) do %>  Disqualify <% end %> </div>
-            <div class="secondary-button"> Schedule Interview </div>
+            <div class="secondary-button"> <%= link_to new_interview_path(:candidate_id => @candidate[:id]) do %>  Schedule Interview <% end %> </div>
             <div class="secondary-button"> <%= link_to new_note_path(:candidate_id => @candidate[:id]) do %>  Make Note <% end %> </div>
         </div>
         <div class="details-box">
@@ -128,6 +131,19 @@
                 </table>
                 <div class="secondary-button"> <%= link_to edit_candidate_path(:candidate_id => @candidate[:id], :job_id => @job[:id]) do %>  Edit <% end %> </div>
             </div>
+            <% if @interviews.length > 0 %>
+                <div class="interviews-details">
+                    <h3> Next Interview </h3>
+                    <div class="interview-display">
+                        <div class="interview-box">
+                            <h4 class="comment-text"> <%= @interviews[0][:comments] %></h4>
+                            <p> Date: <%= "#{DateFormat.change_to(@interviews[0][:date].in_time_zone('Australia/Brisbane'), "MEDIUM_DATE")}" %> </p>
+                            <p> Time: <%= "#{DateFormat.change_to(@interviews[0][:date].in_time_zone('Australia/Brisbane'), "MEDIUM_TIME")}" %> </p>
+                            <p class="comment-text"> Status: <%= @interviews[0][:status] %></p>
+                        </div>                        
+                    </div>
+                </div>
+            <% end %>
             <% if @notes.length > 0 %>
                 <div class="note-details">
                     <h3> Notes </h3>
