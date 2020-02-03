@@ -4,7 +4,7 @@
 
     <%=form_with model:@candidate, url: create_candidate_path() do |form| %>
         <%= label(:job_id,"Job ID")%> <br>
-        <%= form.text_field :job_id %> <br><br>
+        <%= form.number_field :job_id %> <br><br>
 
         <%= label(:first_name,"First Name")%> <br>
         <%= form.text_field :first_name %><br><br>

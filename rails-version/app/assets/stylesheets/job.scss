@@ -34,6 +34,7 @@ body {
     background-color: #fafafa;
     border-radius: 0px 10px 10px 0px;
     color: $secondary-color;
+    box-shadow: 1px 1px 3px lightgrey;
     
     h1 {
         font-size: 1.5em;
@@ -118,6 +119,7 @@ body {
 
     &:hover {
         background-color: #52a152;
+        color: white;
         a {
             color: white;
 
@@ -133,7 +135,7 @@ body {
 .content {
     grid-area: content;
     height: 100vh;
-    width: 100%;
+    width: 90vw;
     color: $secondary-color;
     overflow: scroll;
 }
@@ -187,7 +189,31 @@ body {
         div {
             margin-left: 20px;
         }
+
+        #dashboard-button {
+            background-color: $primary-color;
+            border-color: $primary-color;
+            color: white;
+            &:hover {
+                background-color: white;
+                border-color: $primary-color;
+                color: $primary-color;
+            }
+        }
+        #interviews-button {
+            background-color: $secondary-color;
+            border-color: $secondary-color;
+            color: white;
+            &:hover {
+                background-color: white;
+                border-color: $secondary-color;
+                color: $secondary-color;
+            }
+        }
+
     }
+
+
 
 }
 
@@ -209,20 +235,28 @@ body {
 .progression-table {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     margin: 20px;
 
+    box-shadow: 1px 1px 3px grey;
+    padding: 10px;
+    border-radius: 10px;
+    min-height: 30vh;
+
     table {
-        width: 85vw;
         border-collapse: collapse;
         td {
             padding: 10px;
             font-size: 0.9em;
         }
-        
+
+        thead {
+            height: 100px;
+            border-bottom: 2px $primary-color solid;
+        }
+
         th {
             text-align: left;
-            background-color: lightgrey;
             width: 10vw;
             font-size: 1em;
             padding: 10px;
@@ -264,6 +298,9 @@ body {
 
 .candidate-display {
     margin-left: 20px;
+    font-size: 90%;
+    width: 70vw;
+    padding-bottom: 30px;
 
     .candidate-action-bar {
         display: flex;
@@ -374,30 +411,34 @@ body {
 
 .details-box {
     display: flex;
-    width: 70vw;
+    width: 70vw; 
+    font-size: 1em;
 
-    
     .main-details {
-        padding-right: 2em;
         .secondary-button {
-            width: 60px;
+            width: 40px;
             margin-top: 5px;
+            height: 10px;
         }
         td {
+            font-size: 0.9em;
             padding: 2px 0;
+
+            &:nth-child(even) {
+                padding-left: 30px;
+            }
         }
     }
 
     h3 {
         padding-bottom: 5px;
-        border-bottom: 5px solid $primary-color;
+        border-bottom: 2px solid $primary-color;
         width: 150px;
     }
 
     .note-details {
         display: flex;
         flex-direction: column;
-        padding: 0 2em;
     }
 
     .note-box {
@@ -405,7 +446,7 @@ body {
     }
 
     .notes-display {
-        height: 200px;
+        height: 150px;
         width: 400px;
         overflow: scroll;
         .secondary-button {
@@ -419,7 +460,55 @@ body {
     }
 
     .interviews-details {
-        padding: 0 2em;
-        width: 300px;
+        width: 200px;
+        
     }
 }
+
+.interview-log {
+    padding-left: 2em;
+    width: 85vw;
+  
+    th {
+        text-align: left;
+        font-size: 1.2em;
+        padding: 10px 0;
+        border-bottom: 1px dashed $secondary-color ;
+    }
+
+    td {
+        padding: 10px 30px 0 0;
+        &:last-child {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    }
+
+    #reschedule {
+        background-color: #e7d56d;
+        color: $secondary-color;
+        border-color: #e7d56d; 
+        font-weight: 500;
+        &:hover {
+            border-color: #d8ad36;
+            background-color: #d8ad36;
+        }
+    }
+
+    #complete {
+        background-color: #52a152;
+        color: white;
+        border-color: #52a152; 
+        font-weight: 500;
+        &:hover {
+            border-color: #0e680e;
+            background-color: #0e680e;
+        }
+        margin-right: 5px;
+    }
+
+}
+
+
+
+

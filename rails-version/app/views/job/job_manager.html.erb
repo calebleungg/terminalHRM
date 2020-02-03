@@ -6,7 +6,10 @@
             <div class="red-dot"></div>
         <% end %>
         <h2> <%= "#{@job[:title]} | ##{@job[:id]}" %> </h2>
+        <%= link_to manager_path(@job[:id]) do %> <div class="secondary-button" id="dashboard-button"> Dashboard </div> <% end %>
+        <%= link_to interview_list_path(@job[:id]) do %>  <div class="secondary-button" id="interviews-button"> Interviews </div> <% end %>
     </div>
+
     <table>
         <tr>
             <td>Type: </td>
@@ -22,8 +25,9 @@
             <td>Reporting to: </td>
             <td> <%= @job[:reporting_to] %> </td>
         </tr>
-
     </table>
+
+
 </div>
 
 <div class="dashboard-title"> <h2>Dashboard</h2> </div>
@@ -31,17 +35,18 @@
 <% if @candidate_pool != [] %>
     <div class="progression-table">
         <table>
-
-            <tr>
-                <th>Applied (<%= @repeats["applied"] %>) </th>
-                <th>Contacted (<%= @repeats["contacted"] %>) </th>
-                <th>Screened (<%= @repeats["screened"] %>) </th>
-                <th>Shortlisted (<%= @repeats["shortlisted"] %>) </th>
-                <th>Interview (<%= @repeats["interview"] %>) </th>
-                <th>Offer (<%= @repeats["offer"] %>) </th>
-                <th>Accepted (<%= @repeats["accepted"] %>) </th>
-                <th>Disqualified (<%= @repeats["disqualified"] %>) </th>
-            </tr>
+            <thead>
+                <tr>
+                    <th>Applied (<%= @repeats["applied"] %>) </th>
+                    <th>Contacted (<%= @repeats["contacted"] %>) </th>
+                    <th>Screened (<%= @repeats["screened"] %>) </th>
+                    <th>Shortlisted (<%= @repeats["shortlisted"] %>) </th>
+                    <th>Interview (<%= @repeats["interview"] %>) </th>
+                    <th>Offer (<%= @repeats["offer"] %>) </th>
+                    <th>Accepted (<%= @repeats["accepted"] %>) </th>
+                    <th>Disqualified (<%= @repeats["disqualified"] %>) </th>
+                </tr>
+            </thead>
 
             <% @candidate_pool.each do | candidate | %>
                 <% if @repeats[candidate[:status].downcase] > 0%>
@@ -69,17 +74,18 @@
 <% else %>
     <div class="progression-table">
         <table>
-
-            <tr>
-                <th>Applied (0) </th>
-                <th>Contacted (0) </th>
-                <th>Screened (0) </th>
-                <th>Shortlisted (0) </th>
-                <th>Interview (0) </th>
-                <th>Offer (0) </th>
-                <th>Accepted (0) </th>
-                <th>Disqualified (0) </th>
-            </tr>
+            <thead>
+                <tr>
+                    <th>Applied (0) </th>
+                    <th>Contacted (0) </th>
+                    <th>Screened (0) </th>
+                    <th>Shortlisted (0) </th>
+                    <th>Interview (0) </th>
+                    <th>Offer (0) </th>
+                    <th>Accepted (0) </th>
+                    <th>Disqualified (0) </th>
+                </tr>
+            </thead>
 
         </table>
 

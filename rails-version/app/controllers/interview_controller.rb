@@ -19,4 +19,9 @@ class InterviewController < ApplicationController
             render "new"
         end
     end
+
+    def show
+        @job = Job.find(params[:job_id])
+        @interviews = Interview.where(job_id: params[:job_id])
+    end
 end

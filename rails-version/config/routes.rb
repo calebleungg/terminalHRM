@@ -22,5 +22,6 @@ Rails.application.routes.draw do
 
   get "/new-interview/candidate/:candidate_id", to: "interview#new", as: "new_interview"
   post "/new-interview/candidate/:candidate_id", to: "interview#create"
+  get "job-manager/:job_id/interviews", to: "interview#show", as: "interview_list"
 
 end

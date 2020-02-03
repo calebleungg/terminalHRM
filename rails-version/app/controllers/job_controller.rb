@@ -59,7 +59,6 @@ class JobController < ApplicationController
 
         @prog_error = params[:prog_error]
 
-        render layout: "job_manager"
     end
 
     
