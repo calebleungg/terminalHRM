@@ -20,7 +20,7 @@ class CandidateController < ApplicationController
         @candidate = Candidate.find(params[:candidate_id])
 
         if @candidate[:status] == "accepted"
-            @prog_error = "Can't progress further"
+            @prog_error = "Can't progress further."
             redirect_to candidate_path(:job_id => @candidate[:job_id].to_i,:candidate_id => @candidate[:id], :prog_error => @prog_error)
         elsif @candidate[:status] == "disqualified"
             @prog_error = "#{@candidate[:first_name]} #{@candidate[:last_name]} has been disqualified."
@@ -43,19 +43,26 @@ class CandidateController < ApplicationController
     end
 
     def disqualify
+        
         @candidate = Candidate.find(params[:candidate_id])
-        @candidate.update(status: "disqualified")
-
-        @note = Note.new
-        @note.candidate_id = params[:candidate_id]
-        @note.note = "Disqualified"
-        @note.save
-
-        if @candidate.save
+        if @candidate[:status] == "disqualified"
+            @prog_error = "#{@candidate[:first_name]} #{@candidate[:last_name]} is already disqualified."
             redirect_to candidate_path(:job_id => @candidate[:job_id].to_i,:candidate_id => @candidate[:id], :prog_error => @prog_error)
         else
-            render "new"
+            @candidate.update(status: "disqualified")
+    
+            @note = Note.new
+            @note.candidate_id = params[:candidate_id]
+            @note.note = "Disqualified"
+            @note.save
+    
+            if @candidate.save
+                redirect_to candidate_path(:job_id => @candidate[:job_id].to_i,:candidate_id => @candidate[:id], :prog_error => @prog_error)
+            else
+                render "new"
+            end
         end
+
     end
 
     def edit 

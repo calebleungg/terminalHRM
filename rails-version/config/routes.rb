@@ -22,6 +22,14 @@ Rails.application.routes.draw do
 
   get "/new-interview/candidate/:candidate_id", to: "interview#new", as: "new_interview"
   post "/new-interview/candidate/:candidate_id", to: "interview#create"
-  get "job-manager/:job_id/interviews", to: "interview#show", as: "interview_list"
+
+  get "/job-manager/:job_id/interviews", to: "interview#show", as: "interview_list"
+
+  get "/complete-interview/candidate/:candidate_id", to: "interview#complete"
+  patch "/complete-interview/candidate/:candidate_id", to: "interview#complete", as: "complete_interview"
+
+  get "/reschedule-interview/candidate/:candidate_id", to: "interview#reschedule", as: "reschedule_interview"
+  patch "/reschedule-interview/candidate/:candidate_id", to: "interview#reschedule", as: "update_reschedule"
+
 
 end

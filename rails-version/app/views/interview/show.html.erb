@@ -18,7 +18,7 @@
         </tr>
         <tr>
             <td>Applications: </td>
-            <td> <%= @job[:openings]%> </td>
+            <td> <%= "%.0f" % @candidate_pool.length %> </td>
             <td>Start Date: </td>
             <td> <%= @job[:start_date] %> </td>
             <td>Reporting to: </td>
@@ -51,7 +51,10 @@
                     <td> <%= interview[:status] %></td>
                     <td> <%= interview[:comments] %></td>
                     <% if interview[:status] == "booked" %>
-                        <td> <div class="secondary-button" id="complete"> Complete </div> <div class="secondary-button" id="reschedule"> Reschedule </div></td>
+                        <td> 
+                            <%= link_to complete_interview_path(interview[:candidate_id]) do %> <div class="secondary-button" id="complete"> Complete </div> <% end %>
+                            <%= link_to reschedule_interview_path(interview[:candidate_id]) do %> <div class="secondary-button" id="reschedule"> Reschedule </div> <% end %>
+                        </td>
                     <% end %>
                 </tr>
                 

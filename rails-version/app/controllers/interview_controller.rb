@@ -23,5 +23,34 @@ class InterviewController < ApplicationController
     def show
         @job = Job.find(params[:job_id])
         @interviews = Interview.where(job_id: params[:job_id])
+        @candidate_pool = Candidate.where(job_id: params[:job_id])
+    end
+
+    def complete
+        @interview = Interview.where(candidate_id: params[:candidate_id])
+        @interview.update(status: "completed")
+        if @interview[0].valid? && @interview[0].save
+            redirect_to interview_list_path(@interview[0][:job_id])
+        else
+            render "job_manager"
+        end
+    end
+
+    def reschedule
+        @interview = Interview.where(candidate_id: params[:candidate_id]).first
+        @candidate = Candidate.find(@interview[:candidate_id])
+
+        @interview.update(date: params[:date])
+
+        if @interview.valid? && @interview.save
+            redirect_to interview_list_path(@interview[:job_id])
+        else
+            render "job_manager"
+        end
+    end
+
+    private
+    def interview_params
+        params.require(:interview).permit(:status, :date)
     end
 end

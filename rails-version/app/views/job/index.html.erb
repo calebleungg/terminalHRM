@@ -1,21 +1,26 @@
 <div class="job-list-display">
     <h1> Joblist</h1>
-    <% @jobs.each do | job | %>
-        <%= link_to manager_path(job[:id]) do %>
-            <div class="details-panel">
-                <p> <%= job[:id] %> </p>
-                <p> <%= job[:title] %> </p>
-                <p> <%= job[:work_type] %> </p>
-                <p> <%= "$%.2f" % job[:salary] %> </p>
-                <p> <%= "%.0f" % job[:openings] %> </p>
-                <p> <%= job[:start_date] %> </p>
-                <p> <%= job[:reporting_to] %> </p>
-                <% if job[:status] == "open" %>
-                    <div class="green-dot"></div>
-                <% else %>
-                    <div class="red-dot"></div>
-                <% end %>
-            </div>
+    <% if @jobs.length == 0 %>
+        <p> Start recruiting now! Hit the "Add Job" button at top right corner. <p>
+    <% else %>
+        <% @jobs.each do | job | %>
+            <%= link_to manager_path(job[:id]) do %>
+                <div class="details-panel">
+                    <p> <%= job[:id] %> </p>
+                    <p> <%= job[:title] %> </p>
+                    <p> <%= job[:work_type] %> </p>
+                    <p> <%= "$%.2f" % job[:salary] %> </p>
+                    <p> <%= "%.0f" % job[:openings] %> </p>
+                    <p> <%= job[:start_date] %> </p>
+                    <p> <%= job[:reporting_to] %> </p>
+                    <% if job[:status] == "open" %>
+                        <div class="green-dot"></div>
+                    <% else %>
+                        <div class="red-dot"></div>
+                    <% end %>
+                </div>
+            <% end %>
         <% end %>
     <% end %>
+    
 </div>
