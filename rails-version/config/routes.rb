@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   patch "/complete-interview/candidate/:candidate_id", to: "interview#complete", as: "complete_interview"
 
   get "/reschedule-interview/candidate/:candidate_id", to: "interview#reschedule", as: "reschedule_interview"
-  patch "/reschedule-interview/candidate/:candidate_id", to: "interview#reschedule", as: "update_reschedule"
+  patch "/reschedule-interview/candidate/:candidate_id", to: "interview#update", as: "update_reschedule"
 
 
 end

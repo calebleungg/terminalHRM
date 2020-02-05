@@ -39,13 +39,16 @@ class InterviewController < ApplicationController
     def reschedule
         @interview = Interview.where(candidate_id: params[:candidate_id]).first
         @candidate = Candidate.find(@interview[:candidate_id])
+    end
 
-        @interview.update(date: params[:date])
+    def update
+        @interview = Interview.where(candidate_id: params[:candidate_id]).first
+        @interview.update(date: params[:interview][:date].in_time_zone('Australia/Brisbane'))
 
         if @interview.valid? && @interview.save
             redirect_to interview_list_path(@interview[:job_id])
         else
-            render "job_manager"
+            render "reschedule"
         end
     end
 
