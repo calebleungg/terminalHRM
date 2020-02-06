@@ -1,4 +1,4 @@
-@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+// @import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700");
 
 $main-font: 'Poppins', sans-serif;
 $primary-color: #0892A5;
@@ -30,7 +30,7 @@ body {
 .sidebar {
     grid-area: sidebar;
     height: 100vh;
-    width: 200px;
+    min-width: 200px;
     background-color: #fafafa;
     border-radius: 0px 10px 10px 0px;
     color: $secondary-color;
@@ -135,7 +135,7 @@ body {
 .content {
     grid-area: content;
     height: 100vh;
-    width: 90vw;
+    width: 89vw;
     color: $secondary-color;
     overflow: scroll;
 }
